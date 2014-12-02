@@ -1,0 +1,4 @@
+planning:
+    resource: "@PlanningBundle/Resources/config/routing.yml"
+    prefix:   /
+
