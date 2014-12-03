@@ -1,7 +1,26 @@
 <?php
+
+namespace Insta\PlanningBundle\Entity;
+
+use FOS\UserBundle\Entity\Group as BaseGroup;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Created by PhpStorm.
- * User: Rodolphe
- * Date: 03/12/2014
- * Time: 14:20
- */ 
+ * @ORM\Entity
+ * @ORM\Table(name="insta_group")
+ */
+class Group extends BaseGroup
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    public function __construct($name)
+    {
+        parent::__construct($name);
+        // your own logic
+    }
+}
