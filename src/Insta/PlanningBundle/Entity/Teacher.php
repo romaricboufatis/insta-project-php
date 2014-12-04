@@ -17,16 +17,16 @@ class Teacher extends User
      * @ORM\ManyToMany(targetEntity="Course", inversedBy="teachers")
      * @ORM\JoinTable(name="teacher_course")
      **/
-    private $courses;
+    protected $courses;
     /**
      * @var integer
      */
-    protected  $id;
+    protected $id;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    protected  $groups;
+    protected $groups;
 
     /**
      * Constructor
