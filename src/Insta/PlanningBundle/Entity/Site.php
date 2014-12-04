@@ -21,7 +21,7 @@ class Site
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     // ...
     /**
@@ -35,49 +35,49 @@ class Site
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="zipCode", type="integer")
      */
-    private $zipCode;
+    protected $zipCode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="street", type="string", length=255)
      */
-    private $street;
+    protected $street;
 
     /**
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255)
      */
-    private $city;
+    protected $city;
 
     /**
      * @var string
      *
      * @ORM\Column(name="phoneNumber", type="string", length=255)
      */
-    private $phoneNumber;
+    protected $phoneNumber;
 
     /**
      * @var array
      *
      * @ORM\Column(name="subwayLines", type="array")
      */
-    private $subwayLines;
+    protected $subwayLines;
 
     /**
      * @var string
      *
      * @ORM\Column(name="subwayStop", type="string", length=255)
      */
-    private $subwayStop;
+    protected $subwayStop;
 
 
     /**

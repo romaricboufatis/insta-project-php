@@ -20,7 +20,7 @@ class Promotion
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     // ...
     /**
@@ -42,21 +42,21 @@ class Promotion
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateStart", type="datetime")
      */
-    private $dateStart;
+    protected $dateStart;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateEnd", type="datetime")
      */
-    private $dateEnd;
+    protected $dateEnd;
 
 
     /**
