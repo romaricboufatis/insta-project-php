@@ -2,8 +2,11 @@
 
 namespace Insta\PlanningBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
+
+use FOS\UserBundle\Model\GroupInterface;
 
 /**
  * User
@@ -26,6 +29,9 @@ class User extends BaseUser
     protected $id;
 
     /**
+     *
+     * @var ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="Insta\PlanningBundle\Entity\Group")
      * @ORM\JoinTable(name="insta_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
@@ -39,5 +45,50 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \Insta\PlanningBundle\Entity\Group $groups
+     * @return User
+     */
+    public function addGroup(GroupInterface $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param GroupInterface|Group $groups
+     *
+     * @return $this|void
+     */
+    public function removeGroup(GroupInterface $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }
