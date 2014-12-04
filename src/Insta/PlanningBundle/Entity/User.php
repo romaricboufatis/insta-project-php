@@ -4,6 +4,7 @@ namespace Insta\PlanningBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
+use FOS\UserBundle\Model\GroupInterface;
 
 /**
  * User
@@ -39,5 +40,48 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \Insta\PlanningBundle\Entity\Group $groups
+     * @return User
+     */
+    public function addGroup(GroupInterface $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \Insta\PlanningBundle\Entity\Group $groups
+     */
+    public function removeGroup(GroupInterface $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }
