@@ -63,14 +63,10 @@ En double cliquant sur une rubrique, on obtient une fenêtre avec plus de détai
 
 Travail demandé :
 
-- Planification et livrables
-- Élaboration du document de spécification fonctionnelle
-- Conception générale
-- Conception détaillée
+- Planification
+- Livrables
+    - [Conception générale](/Specifications.md)
+    - [Spécification fonctionnelle](/Features.md)
+    - [Conception détaillée](/Technicals.md)
 - Tests
 - Mise en ligne
-
-
-Class diagram
-----------------------------------
-![Alt text](http://image.noelshack.com/fichiers/2014/49/1417642843-class-diag.png)
