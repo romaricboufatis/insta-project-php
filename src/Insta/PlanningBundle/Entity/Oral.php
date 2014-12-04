@@ -41,22 +41,22 @@ class Oral extends Schedule
     /**
      * @var \DateTime
      */
-    private $datetime;
+    protected $datetime;
 
     /**
      * @var integer
      */
-    private $duration;
+    protected $duration;
 
     /**
      * @var \Insta\PlanningBundle\Entity\Room
      */
-    private $room;
+    protected $room;
 
     /**
      * @var \Insta\PlanningBundle\Entity\Course
      */
-    private $course;
+    protected $course;
 
     /**
      * Constructor
