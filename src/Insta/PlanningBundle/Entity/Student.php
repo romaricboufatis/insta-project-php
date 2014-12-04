@@ -144,4 +144,37 @@ class Student extends User
     {
         return $this->groups;
     }
+
+    /**
+     * Add orals
+     *
+     * @param \Insta\PlanningBundle\Entity\Oral $orals
+     * @return Student
+     */
+    public function addOral(\Insta\PlanningBundle\Entity\Oral $orals)
+    {
+        $this->orals[] = $orals;
+
+        return $this;
+    }
+
+    /**
+     * Remove orals
+     *
+     * @param \Insta\PlanningBundle\Entity\Oral $orals
+     */
+    public function removeOral(\Insta\PlanningBundle\Entity\Oral $orals)
+    {
+        $this->orals->removeElement($orals);
+    }
+
+    /**
+     * Get orals
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrals()
+    {
+        return $this->orals;
+    }
 }
