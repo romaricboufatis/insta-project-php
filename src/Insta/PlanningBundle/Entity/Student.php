@@ -32,11 +32,19 @@ class Student extends User
     protected $promotion;
 
     /**
+     *
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Oral", inversedBy="students")
+     **/
+    protected $orals;
+
+    /**
      * Set hasComputer
      *
      * @param boolean $hasComputer
      * @return Student
      */
+
     public function setHasComputer($hasComputer)
     {
         $this->hasComputer = $hasComputer;

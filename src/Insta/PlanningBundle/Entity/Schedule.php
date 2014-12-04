@@ -29,7 +29,7 @@ class Schedule
     /**
      * @var Room
      *
-     * @ORM\OneToOne(targetEntity="Room")
+     * @ORM\ManyToOne(targetEntity="Room")
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
      */
     protected $room;
@@ -37,7 +37,7 @@ class Schedule
     /**
      * @var Room
      *
-     * @ORM\OneToOne(targetEntity="Course")
+     * @ORM\ManyToOne(targetEntity="Course")
      * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
      */
     protected $course;
