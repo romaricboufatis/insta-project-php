@@ -21,6 +21,13 @@ class Promotion
      */
     private $id;
 
+    // ...
+    /**
+     * @ORM\OneToMany(targetEntity="Lesson", mappedBy="promotion")
+     *
+     **/
+    protected $lessons;
+
     /**
      * @var string
      *

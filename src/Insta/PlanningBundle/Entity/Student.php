@@ -56,12 +56,12 @@ class Student extends User
     /**
      * @var integer
      */
-    private $id;
+    protected  $id;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $groups;
+    protected $groups;
 
     /**
      * Constructor
