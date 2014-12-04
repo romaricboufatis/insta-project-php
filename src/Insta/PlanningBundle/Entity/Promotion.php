@@ -137,4 +137,44 @@ class Promotion
     {
         return $this->dateEnd;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add lessons
+     *
+     * @param \Insta\PlanningBundle\Entity\Lesson $lessons
+     * @return Promotion
+     */
+    public function addLesson(\Insta\PlanningBundle\Entity\Lesson $lessons)
+    {
+        $this->lessons[] = $lessons;
+
+        return $this;
+    }
+
+    /**
+     * Remove lessons
+     *
+     * @param \Insta\PlanningBundle\Entity\Lesson $lessons
+     */
+    public function removeLesson(\Insta\PlanningBundle\Entity\Lesson $lessons)
+    {
+        $this->lessons->removeElement($lessons);
+    }
+
+    /**
+     * Get lessons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLessons()
+    {
+        return $this->lessons;
+    }
 }
