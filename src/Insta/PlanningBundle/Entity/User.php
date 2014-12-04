@@ -8,8 +8,11 @@ use FOS\UserBundle\Entity\User as BaseUser;
 /**
  * User
  *
- * @ORM\Table(name="insta_user")
  * @ORM\Entity
+ * @ORM\Table(name="insta_user")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"user" = "User", "teacher" = "Teacher", "student" = "Student"})
  */
 class User extends BaseUser
 {
