@@ -5,4 +5,4 @@
 
 # Usercase diagram
 
-![Alt text](http://www.noelshack.com/2014-49-1417699756-cas-utilisation.png)
+![Alt text](http://image.noelshack.com/fichiers/2014/49/1417699756-cas-utilisation.png)
