@@ -23,4 +23,14 @@ class Group extends BaseGroup
         parent::__construct($name);
         // your own logic
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }
