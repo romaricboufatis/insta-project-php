@@ -31,6 +31,15 @@ class Student extends User
      */
     protected $promotion;
 
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToOne(targetEntity="Tutor", inversedBy="students")
+     * @ORM\JoinColumn(name="tutor_id", referencedColumnName="id")
+     */
+    protected $tutor;
+
     /**
      *
      * @var ArrayCollection
@@ -143,5 +152,61 @@ class Student extends User
     public function getGroups()
     {
         return $this->groups;
+    }
+
+    /**
+     * Set tutor
+     *
+     * @param \Insta\PlanningBundle\Entity\Tutor $tutor
+     * @return Student
+     */
+    public function setTutor(\Insta\PlanningBundle\Entity\Tutor $tutor = null)
+    {
+        $this->tutor = $tutor;
+
+        return $this;
+    }
+
+    /**
+     * Get tutor
+     *
+     * @return \Insta\PlanningBundle\Entity\Tutor 
+     */
+    public function getTutor()
+    {
+        return $this->tutor;
+    }
+
+    /**
+     * Add orals
+     *
+     * @param \Insta\PlanningBundle\Entity\Oral $orals
+     * @return Student
+     */
+    public function addOral(\Insta\PlanningBundle\Entity\Oral $orals)
+    {
+        $this->orals[] = $orals;
+
+        return $this;
+    }
+
+    /**
+     * Remove orals
+     *
+     * @param \Insta\PlanningBundle\Entity\Oral $orals
+     */
+    public function removeOral(\Insta\PlanningBundle\Entity\Oral $orals)
+    {
+        $this->orals->removeElement($orals);
+    }
+
+    /**
+     * Get orals
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrals()
+    {
+        return $this->orals;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Insta\PlanningBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,14 @@ class Promotion
      *
      **/
     protected $lessons;
+
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Student",mappedBy="promotion")
+     *
+     */
+    protected $students;
 
     /**
      * @var string
