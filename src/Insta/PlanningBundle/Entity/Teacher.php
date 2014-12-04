@@ -2,6 +2,7 @@
 
 namespace Insta\PlanningBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\GroupInterface;
 
@@ -12,7 +13,11 @@ use FOS\UserBundle\Model\GroupInterface;
  */
 class Teacher extends User
 {
-
+    /**
+     * @ORM\ManyToMany(targetEntity="Course", inversedBy="teachers")
+     * @ORM\JoinTable(name="teacher_course")
+     **/
+    private $courses;
     /**
      * @var integer
      */
@@ -28,7 +33,8 @@ class Teacher extends User
      */
     public function __construct()
     {
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
     /**
@@ -39,6 +45,39 @@ class Teacher extends User
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add courses
+     *
+     * @param Course $courses
+     * @return Teacher
+     */
+    public function addCourse(Course $courses)
+    {
+        $this->courses[] = $courses;
+
+        return $this;
+    }
+
+    /**
+     * Remove courses
+     *
+     * @param Course $courses
+     */
+    public function removeCourse(Course $courses)
+    {
+        $this->courses->removeElement($courses);
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCourses()
+    {
+        return $this->courses;
     }
 
     /**
@@ -57,7 +96,8 @@ class Teacher extends User
     /**
      * Remove groups
      *
-     * @param \Insta\PlanningBundle\Entity\Group $groups
+     * @param GroupInterface|Group $groups
+     * @return $this|void
      */
     public function removeGroup(GroupInterface $groups)
     {
