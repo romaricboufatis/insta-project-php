@@ -20,35 +20,35 @@ class Course
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string
      *
      * @ORM\Column(name="descriptionLink", type="string", length=255)
      */
-    private $descriptionLink;
+    protected $descriptionLink;
 
     /**
      * @var array
      *
      * @ORM\Column(name="variousLinks", type="array")
      */
-    private $variousLinks;
+    protected $variousLinks;
 
     /**
      *
