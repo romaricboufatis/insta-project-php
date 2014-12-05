@@ -1,3 +1,7 @@
 planning_homepage:
     path:     /hello/{name}
     defaults: { _controller: PlanningBundle:Default:index }
+
+planning_location:
+    resource: "@PlanningBundle/Resources/config/routing_location.yml"
+    prefix: /admin
