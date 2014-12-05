@@ -11,7 +11,11 @@
     {% endif %}
 {% endblock %}
 
-{% block additionals_nav_text_right %}<p class="navbar-text navbar-right">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</p>{% endblock %}
+{% block additionals_nav_text_right %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <p class="navbar-text navbar-right">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</p>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 
