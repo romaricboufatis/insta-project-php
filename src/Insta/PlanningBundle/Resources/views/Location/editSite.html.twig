@@ -1,7 +1,15 @@
-{% extends "::base.html.twig" %}
+{% extends "PlanningBundle::layout.html.twig" %}
 
-{% block title %}PlanningBundle:Location:editSite{% endblock %}
+{% block title %}PlanningBundle:Location:addSite{% endblock %}
 
-{% block body %}
-<h1>Welcome to the Location:editSite page</h1>
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Modification d'un site</h1>
+
+    {{ form(form) }}
+
+    <a class="btn btn-primary btn-xs" href="{{ path("delete_site",{id:site.id})  }}">Supprimer un site</a>
+
 {% endblock %}
