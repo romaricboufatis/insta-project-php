@@ -1,7 +1,27 @@
-{% extends "::base.html.twig" %}
+{% extends "PlanningBundle::layout.html.twig" %}
 
 {% block title %}PlanningBundle:Location:roomList{% endblock %}
 
-{% block body %}
+{% block content %}
 <h1>Welcome to the Location:roomList page</h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Nom salle</th>
+        <th>Nom site</th>
+        <th>Addresse</th>
+        <th>Lien</th>
+    </tr>
+    </thead>
+{% for room in rooms %}
+<td>{{ room.id }}</td>
+<td>{{ room.name }}</td>
+<td>{{ room.site.name }}</td>
+<td>{{ room.site.street~" "~room.site.zipcode~" "~room.site.city }}</td>
+<td><a href="{{ path("room",{id:room.id}) }}">Afficher la salle</a></td>
+{% endfor %}
+</table>
+
 {% endblock %}
