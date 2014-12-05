@@ -1,7 +1,24 @@
-{% extends "::base.html.twig" %}
+{% extends "PlanningBundle::layout.html.twig" %}
 
 {% block title %}PlanningBundle:Location:room{% endblock %}
 
-{% block body %}
-<h1>Welcome to the Location:room page</h1>
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Salle : {{ room.name }}</h1>
+            <p>{{ room.site.name }}</p>
+        </div>
+    </div>
 {% endblock %}
+
+{% block content %}
+
+    <dl class="dl-horizontal col-lg-5">
+        <dt>Adresse postale</dt>
+        <dd>{{ room.site.street }}, {{ room.site.zipCode }} {{ room.site.city }}</dd>
+        <dt>Numéro de téléphone</dt>
+        <dd>{{ room.site.phoneNumber }}</dd>
+        <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_room', {id : room.id}) }}">Modifier</a></dd>
+    </dl>
+{% endblock %}
+
