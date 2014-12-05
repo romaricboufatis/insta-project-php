@@ -12,15 +12,22 @@
         <th>Nom salle</th>
         <th>Nom site</th>
         <th>Addresse</th>
-        <th>Lien</th>
+        <th>Action</th>
     </tr>
     </thead>
 {% for room in rooms %}
-<td>{{ room.id }}</td>
-<td>{{ room.name }}</td>
-<td>{{ room.site.name }}</td>
-<td>{{ room.site.street~" "~room.site.zipcode~" "~room.site.city }}</td>
-<td><a href="{{ path("room",{id:room.id}) }}">Afficher la salle</a></td>
+<tr>
+    <td>{{ room.id }}</td>
+    <td>{{ room.name }}</td>
+    <td>{{ room.site.name }}</td>
+    <td>{{ room.site.street~" "~room.site.zipcode~" "~room.site.city }}</td>
+    <td>
+        <div class="btn-group" role="group" aria-label="...">
+            <a class="btn btn-primary btn-xs" href="{{ path("room",{id:room.id})  }}">Afficher une classe</a>
+            <a class="btn btn-default btn-xs" href="{{ path('edit_room', {id : room.id})  }}">Editer une classe</a>
+        </div>
+    </td>
+</tr>
 {% endfor %}
 </table>
 
