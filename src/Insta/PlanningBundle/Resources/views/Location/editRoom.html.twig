@@ -1,7 +1,15 @@
-{% extends "::base.html.twig" %}
+{% extends "PlanningBundle::layout.html.twig" %}
 
-{% block title %}PlanningBundle:Location:editRoom{% endblock %}
+{% block title %}PlanningBundle:Location:addSite{% endblock %}
 
-{% block body %}
-<h1>Welcome to the Location:editRoom page</h1>
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Ajout d'une salle</h1>
+
+    {{ form(form) }}
+
+    <a href="{{ path("delete_room",{id:room.id}) }}" class="btn btn-primary">Delete</a>
+
 {% endblock %}

@@ -20,7 +20,7 @@ class LocationController extends Controller
 
         return $this->render('PlanningBundle:Location:index.html.twig', array(
                 'sites' => $sites,
-                'rooms' => $rooms
+                'rooms' => $rooms,
             ));    }
 
     public function siteListAction()
@@ -31,8 +31,11 @@ class LocationController extends Controller
 
     public function roomListAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $rooms = $em->getRepository('PlanningBundle:Room')->findAll();
+
         return $this->render('PlanningBundle:Location:roomList.html.twig', array(
-                // ...
+                'rooms' => $rooms,
             ));    }
 
     public function siteAction(Site $id)
@@ -41,10 +44,10 @@ class LocationController extends Controller
                 'site'=> $id
             ));    }
 
-    public function roomAction($id)
+    public function roomAction(Room $id)
     {
         return $this->render('PlanningBundle:Location:room.html.twig', array(
-                // ...
+                'room'=>$id
             ));    }
 
     public function addSiteAction(Request $request)
@@ -159,10 +162,40 @@ class LocationController extends Controller
                 'form'=>$form->createView()
             ));    }
 
-    public function editRoomAction($id)
+    public function editRoomAction(Request $request, Room $id)
     {
+        $em = $this->getDoctrine()->getManager();
+
+
+        $form = $this->createFormBuilder($id)
+            ->add('name', 'text')
+            ->add('site', 'entity', array(
+                'class' => 'Insta\PlanningBundle\Entity\Site',
+                'property' => 'name',
+            ))
+            ->add('Edit', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $em->flush();
+            return $this->redirectToRoute('room', array('id'=>$id->getId()));
+
+        }
+
         return $this->render('PlanningBundle:Location:editRoom.html.twig', array(
-                // ...
+                'form'=>$form->createView(),
+                'room'=>$id
             ));    }
 
+    public function deleteRoomAction(Room $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($id);
+        $em->flush();
+        return $this->redirectToRoute('room_list');
+
+    }
 }
