@@ -20,10 +20,18 @@
         <dd>{{ site.phoneNumber }}</dd>
         <dt>Métro</dt>
         <dd>{% for line, link in site.subwayLines %}<img src="{{ link }}" alt="{{ line }}"> {% endfor %} - {{ site.subwayStop|upper }}</dd>
+        <dt>Salles</dt>
+        {% if site.rooms|length > 0 %}
+            {% for room in site.rooms %}<dd>{{ room.name }}</dd>{% endfor %}
+        {% else %}
+            <dd><i>Pas de salles</i></dd>
+        {% endif %}
+        <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_site', {id : site.id}) }}">Modifier</a></dd>
     </dl>
 
+
     <iframe
-            class="col-lg-7"
+            class="col-lg-7 col-xs-12"
             height="400"
             frameborder="0" style="box-shadow: 0 1px 10px 0 #000"
             src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyD5lwFGX1nSyK6VWscz_eVuNOyDz7L44-w
@@ -31,7 +39,6 @@
             &destination={{ site.street~", "~site.zipCode~" "~site.city|url_encode }}}">
     </iframe>
 
-    <a class="btn btn-primary" href="{{ path('edit_site', {id : site.id}) }}">Modifier</a>
 
 
 {% endblock %}

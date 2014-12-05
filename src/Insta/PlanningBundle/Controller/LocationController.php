@@ -2,6 +2,7 @@
 
 namespace Insta\PlanningBundle\Controller;
 
+use Insta\PlanningBundle\Entity\Room;
 use Insta\PlanningBundle\Entity\Site;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,10 +89,33 @@ class LocationController extends Controller
                 'form' => $form->createView()
             ));    }
 
-    public function addRoomAction()
+    public function addRoomAction(Request $request)
     {
-        return $this->render('PlanningBundle:Location:addRoom.html.twig', array(
-                // ...
+
+        $em = $this->getDoctrine()->getManager();
+
+        $newRoom = new Room();
+        $form = $this->createFormBuilder($newRoom)
+            ->add('name', 'text')
+            ->add('site', 'entity', array(
+                'class' => 'Insta\PlanningBundle\Entity\Site',
+                'property' => 'name',
+            ))
+            ->add('Add', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $em->persist($newRoom);
+            $em->flush();
+            return $this->redirectToRoute('room', array('id'=>$newRoom->getId()));
+
+        }
+
+        return $this->render('PlanningBundle:Location:addSite.html.twig', array(
+                'form' => $form->createView()
             ));    }
 
     public function editSiteAction(Request $request, Site $id)
