@@ -33,3 +33,7 @@ edit_site:
 edit_room:
     path:     /location/room-{id}/edit
     defaults: { _controller: PlanningBundle:Location:editRoom }
+
+delete_site:
+    path:     /location/site-{id}/delete
+    defaults: { _controller: PlanningBundle:Location:deleteSite }
