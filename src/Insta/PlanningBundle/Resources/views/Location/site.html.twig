@@ -6,7 +6,7 @@
     <div class="jumbotron">
         <div class="container">
             <h1>Site : {{ site.name }}</h1>
-            <p>{{ site.street }}, {{ site.city }} - {{ site.phoneNumber }}</p>
+            <p>{{ site.street }}, {{ site.city }} - <a href="tel:{{ site.phoneNumber }}">{{ site.phoneNumber }}</a></p>
         </div>
     </div>
 {% endblock %}
@@ -17,7 +17,7 @@
         <dt>Adresse postale</dt>
         <dd>{{ site.street }}, {{ site.zipCode }} {{ site.city }}</dd>
         <dt>Numéro de téléphone</dt>
-        <dd>{{ site.phoneNumber }}</dd>
+        <dd><a href="tel:{{ site.phoneNumber }}">{{ site.phoneNumber }}</a></dd>
         <dt>Métro</dt>
         <dd>{% for line, link in site.subwayLines %}<img src="{{ link }}" alt="{{ line }}"> {% endfor %} - {{ site.subwayStop|upper }}</dd>
         <dt>Salles</dt>
