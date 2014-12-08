@@ -17,7 +17,7 @@
         <dt>Adresse postale</dt>
         <dd>{{ room.site.street }}, {{ room.site.zipCode }} {{ room.site.city }}</dd>
         <dt>Numéro de téléphone</dt>
-        <dd>{{ room.site.phoneNumber }}</dd>
+        <dd><a href="tel:{{ room.site.phoneNumber }}">{{ room.site.phoneNumber }}</a></dd>
         <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_room', {id : room.id}) }}">Modifier</a></dd>
     </dl>
 {% endblock %}

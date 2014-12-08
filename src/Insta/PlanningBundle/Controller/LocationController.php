@@ -110,12 +110,19 @@ class LocationController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $newRoom = new Room();
+        $site = null;
+        if(!is_null($request->get('site'))) {
+            $site = $this->getDoctrine()->getRepository('PlanningBundle:Site')->find($request->get('site'));
+            $newRoom->setSite($site);
+        }
         $form = $this->createFormBuilder($newRoom)
             ->add('name', 'text')
             ->add('site', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Site',
                 'property' => 'name',
+                'disabled' => (is_null($site)) ? false : true
             ))
+            ->add('freeComputer', 'number')
             ->add('Add', 'submit')
             ->getForm();
 
