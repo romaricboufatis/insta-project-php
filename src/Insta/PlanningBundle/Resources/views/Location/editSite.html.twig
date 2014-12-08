@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <h1>Modification d'un site</h1>
+    <h1>Modification du site : {{ site.name }} <small><a class="btn btn-primary btn-xs" href="{{ path('add_room', {site:site.id}) }}">Ajouter une salle</a></small></h1>
 
     {{ form(form) }}
 
