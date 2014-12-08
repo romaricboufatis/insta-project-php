@@ -27,6 +27,11 @@ class StudentController extends Controller {
         ));
     }
 
+    public function addStudentAction() {
+        $response = $this->forward('PlanningBundle:User:addUser', array('type'=>'student'));
+        return $response;
+    }
+
     public function addPromoAction(Request $request)
     {
 
@@ -106,9 +111,10 @@ class StudentController extends Controller {
             'promo'=>$id
         ));
     }
+
     /**
-     * @param Request $request
      * @param Student $student
+     * @internal param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @ParamConverter("student", options={"mapping":{"id" : "usernameCanonical"}})

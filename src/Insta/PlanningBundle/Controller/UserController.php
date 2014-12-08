@@ -36,7 +36,18 @@ class UserController extends Controller {
         ));
     }
 
-    function addUserAction(Request $request) {
+    function userListAction($offset) {
+        $repo = $this->getDoctrine()->getRepository('PlanningBundle:User');
+        $nbPage = (int) floor(count($repo->findAll()) /20);
+        $users = $repo->findBy(array(),null, 20, $offset * 20);
+        return $this->render('PlanningBundle:User:user_list.html.twig', array(
+            'users'=>$users,
+            'nbPages' => $nbPage,
+            'offset' => $offset
+        ));
+    }
+
+    function addUserAction(Request $request, $type) {
         $um = $this->get('fos_user.user_manager');
 
         $form = $this->createFormBuilder()
@@ -51,7 +62,9 @@ class UserController extends Controller {
                     self::TYPE_TUTOR => 'Tuteur',
                     self::TYPE_TEACHER => 'Professeur'),
                 'expanded' => true,
-                'multiple' => false
+                'multiple' => false,
+                'data' => $type,
+                'disabled' => ($type !== 'none')
             ))
             ->add('Ajouter', 'submit')
             ->getForm()
@@ -61,9 +74,12 @@ class UserController extends Controller {
 
         if ($form->isValid()) {
 
+
             $data = $form->getData();
 
-            switch ($data['type']) {
+            $type = (isset($data['type'])) ? ($data['type']) : $type;
+
+            switch ($type) {
 
                 case self::TYPE_STUDENT:
                     $user = new Student();
