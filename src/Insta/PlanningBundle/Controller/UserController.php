@@ -104,7 +104,7 @@ class UserController extends Controller {
             $user->setUsername($data['username']);
 
             $um->updateUser($user);
-            return $this->redirectToRoute('user_group_list');
+            return $this->redirectToRoute('user_group_overview');
         }
 
 
@@ -131,7 +131,7 @@ class UserController extends Controller {
         if ($form->isValid()) {
             $gm->updateGroup($group);
 
-            return $this->redirectToRoute('user_group_list');
+            return $this->redirectToRoute('user_group_overview');
         }
 
         return $this->render('PlanningBundle:User:add_group.html.twig', array(
@@ -315,5 +315,42 @@ class UserController extends Controller {
         return $this->render('PlanningBundle:User:group_edit.html.twig', array(
             'group' => $group, 'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param Group $group
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @ParamConverter("group", options={"mapping": {"group": "nameCanonical"}})
+     */
+    function deleteGroupAction(Request $request, Group $group) {
+
+        $form = $this->createFormBuilder()
+            ->add('sure', 'checkbox')
+            ->add('remove', 'submit')
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+
+            if ($data['sure']) {
+
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($group);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('user_group_overview');
+
+        }
+
+        return $this->render('PlanningBundle:User:deleteGroup.html.twig', array(
+            'group' => $group, 'form'=>$form->createView()
+        ));
+
     }
 } 
