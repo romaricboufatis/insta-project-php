@@ -141,11 +141,10 @@ class UserController extends Controller {
 
     /**
      * @ParamConverter("user", options={"mapping": {"user": "usernameCanonical"}})
-     * @param Request $request
      * @param User $user
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    function showUserAction(Request $request, User $user) {
+    function showUserAction(User $user) {
 
         return $this->render('PlanningBundle:User:show_user.html.twig', array(
             'user' => $user
@@ -272,6 +271,7 @@ class UserController extends Controller {
             $data = $form->getData();
 
             foreach ($data['users'] as $user) {
+                /** @var User $user */
                 $user->addGroup($group);
             }
 
