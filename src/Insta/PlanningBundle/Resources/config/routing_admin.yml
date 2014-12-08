@@ -1,0 +1,7 @@
+user_group_list:
+    path:     /
+    defaults: { _controller: PlanningBundle:User:index }
+
+user_add_list:
+    path:     /user/new
+    defaults: { _controller: PlanningBundle:User:addUser }
