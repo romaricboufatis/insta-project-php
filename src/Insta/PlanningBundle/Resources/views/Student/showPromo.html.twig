@@ -34,6 +34,12 @@
                     {% else %}
                         <td>Non</td>
                     {% endif %}
+                        {% if student.hasComputer %}
+                            <td>Oui</td>
+                        {% else %}
+                            <td>Non</td>
+                        {% endif %}
+                    </td>
                     <td>
                         <div class="btn-group" role="group" aria-label="...">
                             <a class="btn btn-warning btn-xs" href="{{ path("delete_student",{id : student.usernameCanonical,promoid: student.promotion.id}) }}">Supprimer</a>

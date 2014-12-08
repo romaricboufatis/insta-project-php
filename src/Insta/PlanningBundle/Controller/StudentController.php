@@ -125,17 +125,16 @@ class StudentController extends Controller {
             'student'=>$student
         ));
     }
-
     /**
+     * @param Request $request
      * @param Student $student
-     * @internal param Request $request
-     * @internal param Promotion $promoId
+     * @param Promotion $promoId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @ParamConverter("student", options={"mapping":{"id" : "usernameCanonical"}})
      * @ParamConverter("promotion", options={"mapping":{"promoid" : "id"}})
      */
-    public function removeStudentFromPromoAction(Student $student)
+    public function removeStudentFromPromoAction(Student $student,Promotion $promotion)
     {
         $em = $this->getDoctrine()->getManager();
         $student -> setPromotion(null);
