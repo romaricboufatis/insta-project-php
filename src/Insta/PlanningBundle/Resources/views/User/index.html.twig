@@ -3,7 +3,7 @@
 {% block content %}
     <div class="col-lg-8">
         <fieldset>
-            <legend>Liste des utilisateurs <small class="pull-right"><a class="btn btn-xs btn-default">Ajouter un utilisateur</a></small></legend>
+            <legend>Liste des utilisateurs <small class="pull-right"><a href="{{ path('user_add') }}" class="btn btn-xs btn-default">Ajouter un utilisateur</a></small></legend>
             <table class="table">
                 <thead>
                 <tr>
@@ -18,11 +18,11 @@
                     <tr {% if user.locked %}class="bg-warning"{% else %}class="bg-success"{% endif %}>
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.groups|join }}</td>
+                        <td>{{ user.groupNames|join }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="...">
-                                <a class="btn btn-default btn-xs" href="">Afficher</a>
-                                <a class="btn btn-info btn-xs" href="">Editer</a>
+                                <a class="btn btn-default btn-xs" href="{{ path('user_show', {user:user.usernameCanonical}) }}">Afficher</a>
+                                <a class="btn btn-info btn-xs" href="{{ path('user_edit', {user:user.usernameCanonical}) }}">Editer</a>
                             </div>
                         </td>
                     </tr>
@@ -33,7 +33,7 @@
     </div>
     <div class="col-lg-4">
         <fieldset>
-            <legend>Liste des groupes <small class="pull-right"><a class="btn btn-xs btn-default">Ajouter un groupe</a></small></legend>
+            <legend>Liste des groupes <small class="pull-right"><a href="{{ path('group_add') }}" class="btn btn-xs btn-default">Ajouter un groupe</a></small></legend>
             <table class="table">
                 <thead>
                 <tr>
@@ -47,8 +47,8 @@
                         <td>{{ group.name }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="...">
-                                <a class="btn btn-default btn-xs" href="">Afficher</a>
-                                <a class="btn btn-info btn-xs" href="">Editer</a>
+                                <a class="btn btn-default btn-xs" href="{{ path('group_show', {group:group.nameCanonical}) }}">Afficher</a>
+                                <a class="btn btn-info btn-xs" href="{{ path('group_edit', {group:group.nameCanonical}) }}">Editer</a>
                             </div>
                         </td>
                     </tr>
