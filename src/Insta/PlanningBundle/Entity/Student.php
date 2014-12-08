@@ -26,7 +26,7 @@ class Student extends User
     /**
      * @var Promotion
      *
-     * @ORM\ManyToOne(targetEntity="Promotion")
+     * @ORM\ManyToOne(targetEntity="Promotion", inversedBy="students")
      * @ORM\JoinColumn(name="promotion_id", referencedColumnName="id")
      */
     protected $promotion;
