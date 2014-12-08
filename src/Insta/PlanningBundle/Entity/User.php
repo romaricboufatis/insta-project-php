@@ -31,7 +31,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=50)
+     * @ORM\Column(name="firstname", type="string", length=50, nullable=true)
      *
      */
     protected $firstname;
@@ -39,7 +39,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=100)
+     * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
      *
      */
     protected $lastname;
@@ -48,7 +48,7 @@ class User extends BaseUser
      *
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Insta\PlanningBundle\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="Insta\PlanningBundle\Entity\Group", inversedBy="users")
      * @ORM\JoinTable(name="insta_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
@@ -60,6 +60,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->groups = new ArrayCollection();
         // your own logic
     }
 
@@ -159,5 +160,9 @@ class User extends BaseUser
     public function getLastname()
     {
         return $this->lastname;
+    }
+
+    public function getFullname() {
+        return $this->firstname . " " . $this->lastname;
     }
 }
