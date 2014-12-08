@@ -4,9 +4,11 @@
 
 {% block content %}
 
-    <h2>Modification du groupe : {{ group.name }} <small class="pull-right"><a class="btn btn-warning btn-xs" href="{{ path('group_delete', {group: group.nameCanonical}) }}">Supprimer le groupe</a> </small> </h2>
+
+    <h1>Voulez-vous supprimer le groupe {{ group.name }} ?</h1>
 
     {{ form(form) }}
+
 
 {% endblock %}
 
