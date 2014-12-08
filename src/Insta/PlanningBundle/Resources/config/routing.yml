@@ -4,11 +4,11 @@ planning_location:
 
 planning_teacher:
     resource: "@PlanningBundle/Resources/config/routing_teacher.yml"
-    prefix: /admin/school
+    prefix: /admin/school/teacher
 
 planning_student:
     resource: "@PlanningBundle/Resources/config/routing_student.yml"
-    prefix: /admin/school
+    prefix: /admin/school/student
 
 planning_admin:
     resource: "@PlanningBundle/Resources/config/routing_admin.yml"
