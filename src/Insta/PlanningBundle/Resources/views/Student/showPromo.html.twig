@@ -5,7 +5,7 @@
 {% block jumbotron %}
     <div class="jumbotron">
         <div class="container">
-            <h1>{{ promo.name }}</h1> <a class="btn btn-primary btn-xs" href="{{ path('edit_promo', {id : promo.id}) }}">Modifier</a>
+            <h1>{{ promo.name }} <small class="pull-right" ><a class="btn btn-primary btn-xs" href="{{ path('edit_promo', {id : promo.id}) }}">Modifier</a></small></h1>
         </div>
     </div>
 {% endblock %}
@@ -29,6 +29,11 @@
             {% for student in promo.students %}
                 <tr>
                     <td>{{ student.firstname ~ " " ~ student.lastname|upper}}</td>
+                    {% if student.hasComputer %}
+                        <td>Oui</td>
+                    {% else %}
+                        <td>Non</td>
+                    {% endif %}
                         {% if student.hasComputer %}
                             <td>Oui</td>
                         {% else %}
