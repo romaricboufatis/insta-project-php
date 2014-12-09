@@ -1,0 +1,15 @@
+{% extends "PlanningBundle::layout.html.twig" %}
+
+{% block title %}PlanningBundle:Teacher:editTeacher{% endblock %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Modification d'un professeur</h1>
+
+    {{ form(form) }}
+
+    <a href="{{ path("delete_teacher",{name:teacher.usernameCanonical}) }}" class="btn btn-primary">Delete</a>
+
+{% endblock %}
