@@ -12,3 +12,5 @@
 /composer.phar
 /composer.lock
 .idea/
+/web/css
+/web/js
