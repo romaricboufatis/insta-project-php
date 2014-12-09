@@ -39,7 +39,7 @@ class Course
     /**
      * @var string
      *
-     * @ORM\Column(name="descriptionLink", type="string", length=255)
+     * @ORM\Column(name="descriptionLink", type="string", length=255, nullable=true)
      */
     protected $descriptionLink;
 
@@ -164,6 +164,7 @@ class Course
     public function __construct()
     {
         $this->teachers = new ArrayCollection();
+        $this->variousLinks = array();
     }
 
     /**
@@ -196,5 +197,15 @@ class Course
     public function getTeachers()
     {
         return $this->teachers;
+    }
+
+    public function  getTeacherNames()
+    {
+        $teachernames=array();
+        foreach($this->teachers as $teacher)
+        {
+            $teachernames[]=$teacher->getFullname();
+        }
+        return $teachernames;
     }
 }
