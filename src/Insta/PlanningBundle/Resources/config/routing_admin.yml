@@ -51,3 +51,7 @@ group_edit:
 group_delete:
     path:     /group/{group}/delete
     defaults: { _controller: PlanningBundle:User:deleteGroup }
+
+manage_holidays:
+    path:     /holidays
+    defaults: { _controller: PlanningBundle:Schedule:holidays }
