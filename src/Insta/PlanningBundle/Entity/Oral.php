@@ -13,19 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Oral extends Schedule
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
     /**
      *
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Student", mappedBy="orals")
+     * @ORM\ManyToMany(targetEntity="Student", inversedBy="orals")
      **/
     protected $students;
 
@@ -190,4 +182,10 @@ class Oral extends Schedule
     {
         return $this->course;
     }
+    /**
+     * @var integer
+     */
+    protected $id;
+
+
 }
