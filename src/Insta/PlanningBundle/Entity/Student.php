@@ -43,7 +43,7 @@ class Student extends User
     /**
      *
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Oral", inversedBy="students")
+     * @ORM\ManyToMany(targetEntity="Oral", mappedBy="students")
      **/
     protected $orals;
 
