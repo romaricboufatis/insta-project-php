@@ -2,8 +2,8 @@
 
 {% block body %}
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -39,11 +39,19 @@
                                     <li><a href="{{ path('index_location') }}">Emplacements</a></li>
                                     <li><a href="{{ path('user_group_overview') }}">Utilisateurs & Groupes</a></li>
                                     <li><a href="{{ path('student_promo_list') }}">Etudiants & Promotions</a></li>
+                                    <li><a href="{{ path('index_teacher') }}">Professeurs & Disciplines</a></li>
                                     <li role="presentation" class="divider"></li>
                                     <li><a href="{{ path('manage_holidays') }}">Jours fériés</a></li>
                                 </ul>
                             </li>
+                        {% endif %}
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
 
+                                </ul>
+                            </li>
                         {% endif %}
                     {% endif %}
                     {% block additionals_nav_left %}{% endblock %}
@@ -53,14 +61,13 @@
                             {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                         </a>
                 {% else %}
-                    <a class="navbar-right btn btn-info navbar-btn" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    <a class="nav navbar-right btn btn-info navbar-btn" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <p class="visible-lg navbar-text navbar-right">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} </p>
                 {% endif %}
             </div><!--/.nav-collapse -->
-        </div>
-    </nav>
+        </nav>
+    </div>
 
     {% block jumbotron %}{% endblock %}
 
@@ -78,17 +85,11 @@
             padding-top: 50px;
         }
     </style>
-{% stylesheets
-    '@PlanningBundle/Resources/bootstrap/css/bootstrap.min.css'
-    '@PlanningBundle/Resources/bootstrap/united.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/planning/bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/planning/bootstrap/united.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
-{% javascripts
-    '@PlanningBundle/Resources/js/jquery-2.1.1.min.js'
-    '@PlanningBundle/Resources/bootstrap/js/bootstrap.min.js' output="js/compiled/main.js" %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/planning/bootstrap/js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/planning/js/jquery-2.1.1.min.js') }}"></script>
 {% endblock %}

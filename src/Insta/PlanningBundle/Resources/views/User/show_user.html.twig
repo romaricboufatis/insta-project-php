@@ -4,6 +4,13 @@
     <div class="jumbotron">
         <div class="container">
             <h1>Utilisateur : {{ user.username }} <small class="pull-right"><a class="btn btn-info" href="{{ path('user_edit', {user:user.usernameCanonical}) }}">Editer</a></small></h1>
+            <p>
+                {% if user.promotion is defined %}Elève
+                {% elseif user.students is defined %}Tuteur
+                {% elseif user.courses is defined %}Professeur
+                {% else %}Staff
+                {% endif %}
+            </p>
         </div>
     </div>
 {% endblock %}
