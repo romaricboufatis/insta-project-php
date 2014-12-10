@@ -170,4 +170,13 @@ class Teacher extends User
     {
         return $this->lastname;
     }
+
+    public function removeCourses()
+    {
+        foreach ($this->courses->toArray() as $course) {
+            $this->courses->removeElement($course);
+        }
+
+        return $this;
+    }
 }

@@ -268,4 +268,13 @@ class Student extends User
     {
         return $this->lastname;
     }
+
+    public function removeOrals() {
+
+        foreach ($this->orals->toArray() as $userOral) {
+            $this->orals->removeElement($userOral);
+        }
+
+        return $this;
+    }
 }

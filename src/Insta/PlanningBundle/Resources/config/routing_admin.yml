@@ -55,3 +55,7 @@ group_delete:
 manage_holidays:
     path:     /holidays
     defaults: { _controller: PlanningBundle:Schedule:holidays }
+
+switch_user_type:
+    path:     /switch-user-type
+    defaults: { _controller: PlanningBundle:User:switchUserType }

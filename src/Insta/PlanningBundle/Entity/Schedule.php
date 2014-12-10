@@ -48,14 +48,6 @@ class Schedule
     protected $room;
 
     /**
-     * @var Room
-     *
-     * @ORM\ManyToOne(targetEntity="Course")
-     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
-     */
-    protected $course;
-
-    /**
      * Set datetime
      *
      * @param \DateTime $datetime
@@ -125,29 +117,6 @@ class Schedule
     }
 
     /**
-     * Set course
-     *
-     * @param Course $course
-     * @return Schedule
-     */
-    public function setCourse(Course $course = null)
-    {
-        $this->course = $course;
-
-        return $this;
-    }
-
-    /**
-     * Get course
-     *
-     * @return Course
-     */
-    public function getCourse()
-    {
-        return $this->course;
-    }
-
-    /**
      * Get id
      *
      * @return integer 
@@ -156,4 +125,5 @@ class Schedule
     {
         return $this->id;
     }
+
 }
