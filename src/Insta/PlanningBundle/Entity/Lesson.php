@@ -45,7 +45,10 @@ class Lesson extends Schedule
     protected $room;
 
     /**
-     * @var \Insta\PlanningBundle\Entity\Course
+     * @var Course
+     *
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="lessons")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
      */
     protected $course;
 

@@ -46,7 +46,10 @@ class Oral extends Schedule
     protected $room;
 
     /**
-     * @var \Insta\PlanningBundle\Entity\Course
+     * @var Course
+     *
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="orals")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
      */
     protected $course;
 
