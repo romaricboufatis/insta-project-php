@@ -1,0 +1,17 @@
+{% extends "PlanningBundle:Location:_layout_location.html.twig" %}
+
+{% block title %}PlanningBundle:Location:addSite{% endblock %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block main %}
+
+    <h1>Modification d'une salle
+        <small class="pull-right">
+            <a class="btn btn-warning btn-xs" href="{{ path("delete_room",{id:room.id})  }}">Supprimer la salle</a>
+        </small>
+    </h1>
+
+    {{ form(form) }}
+
+{% endblock %}
