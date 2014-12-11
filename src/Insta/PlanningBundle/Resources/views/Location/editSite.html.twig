@@ -6,10 +6,7 @@
 
 {% block content %}
 
-    <h1>Modification du site : {{ site.name }} <small><a class="btn btn-primary btn-xs" href="{{ path('add_room', {site:site.id}) }}">Ajouter une salle</a></small></h1>
+    <h2>Modification du site : {{ site.name }}  <small class="pull-right"><div class="btn-group" role="group" aria-label="..."><a class="btn btn-primary btn-xs" href="{{ path('add_room', {site:site.id}) }}">Ajouter une salle</a><a class="btn btn-warning btn-xs" href="{{ path("delete_site",{id:site.id})  }}">Supprimer un site</a></div></small></h2>
 
     {{ form(form) }}
-
-    <a class="btn btn-primary btn-xs" href="{{ path("delete_site",{id:site.id})  }}">Supprimer un site</a>
-
 {% endblock %}
