@@ -1,4 +1,4 @@
-{% extends 'PlanningBundle::layout.html.twig' %}
+{% extends 'PlanningBundle:Teacher:_layout_teacher.html.twig' %}
 
 {% block jumbotron %}
 
@@ -16,7 +16,39 @@
 
 {% endblock %}
 
-{% block content %}
 
+{% block main %}
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Professeur
+                <div class="btn-group btn-group-xs pull-right">
+                    <a href="{{ path('teacher_list') }}" class="btn btn-xs btn-primary">Liste complète</a>
+                    <a href="{{ path('add_teacher') }}" class="btn btn-xs btn-info">Ajouter un professeur</a>
+                </div>
+            </legend>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>Nombre de professeur/dt>
+                    <dd>{{ teachers|length }}</dd>
+                </dl>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Cours <small class="pull-right"><a href="{{ path('add_course') }}" class="btn btn-xs btn-default">Ajouter un cours</a></small></legend>
+            <dl class="dl-horizontal">
+                {% for course in courses %}
+                    <dt>{{ course.name }}</dt>
+                    <dd>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <a class="btn btn-default btn-xs" href="{{ path("course",{id : course.id}) }}">Afficher</a>
+                            <a class="btn btn-info btn-xs" href="{{ path("edit_course",{id : course.id}) }}">Editer</a>
+                        </div>
+                    </dd>
+                    <dd>{{ course.teachers|length }} cours</dd>
+                {% endfor %}
+            </dl>
+        </fieldset>
+    </div>
 {% endblock %}
-
