@@ -18,7 +18,7 @@ class LocationController extends Controller
         $rooms = $em->getRepository('PlanningBundle:Room')->findAll();
 
 
-        return $this->render('PlanningBundle:Location:index.html.twig', array(
+        return $this->render('PlanningBundle:Location:_index.html.twig', array(
                 'sites' => $sites,
                 'rooms' => $rooms,
             ));    }
@@ -27,7 +27,7 @@ class LocationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $sites = $em -> getRepository('PlanningBundle:Site')->findAll();
-        return $this->render('PlanningBundle:Location:siteList.html.twig', array(
+        return $this->render('PlanningBundle:Location:site_list.html.twig', array(
                 'sites' => $sites
             ));
     }
@@ -37,19 +37,19 @@ class LocationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $rooms = $em->getRepository('PlanningBundle:Room')->findAll();
 
-        return $this->render('PlanningBundle:Location:roomList.html.twig', array(
+        return $this->render('PlanningBundle:Location:room_list.html.twig', array(
                 'rooms' => $rooms,
             ));    }
 
     public function siteAction(Site $id)
     {
-        return $this->render('PlanningBundle:Location:site.html.twig', array(
+        return $this->render('PlanningBundle:Location:site_show.html.twig', array(
                 'site'=> $id
             ));    }
 
     public function roomAction(Room $id)
     {
-        return $this->render('PlanningBundle:Location:room.html.twig', array(
+        return $this->render('PlanningBundle:Location:room_show.html.twig', array(
                 'room'=>$id
             ));    }
 
@@ -91,7 +91,7 @@ class LocationController extends Controller
 
         }
 
-        return $this->render('PlanningBundle:Location:addSite.html.twig', array(
+        return $this->render('PlanningBundle:Location:site_add.html.twig', array(
                 'form' => $form->createView()
             ));
     }
@@ -136,7 +136,7 @@ class LocationController extends Controller
 
         }
 
-        return $this->render('PlanningBundle:Location:addSite.html.twig', array(
+        return $this->render('PlanningBundle:Location:room_add.html.twig', array(
                 'form' => $form->createView()
             ));    }
 
@@ -177,7 +177,7 @@ class LocationController extends Controller
         }
 
 
-        return $this->render('PlanningBundle:Location:editSite.html.twig', array(
+        return $this->render('PlanningBundle:Location:site_edit.html.twig', array(
                 'form'=>$form->createView(),
                 'site'=>$id
             ));    }
@@ -205,7 +205,7 @@ class LocationController extends Controller
 
         }
 
-        return $this->render('PlanningBundle:Location:editRoom.html.twig', array(
+        return $this->render('PlanningBundle:Location:room_edit.html.twig', array(
                 'form'=>$form->createView(),
                 'room'=>$id
             ));    }

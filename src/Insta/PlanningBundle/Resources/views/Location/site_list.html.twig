@@ -1,9 +1,9 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Location:_layout_location.html.twig" %}
 
 {% block title %} Liste des sites {% endblock %}
 
-{% block content %}
-    <h1>Liste des sites <small> <a class="btn btn-primary" href="{{ path("add_site")  }}">Ajouter un site</a></small></h1>
+{% block main %}
+    <h1>Liste des sites <small class="pull-right"> <a class="btn btn-primary btn-xs" href="{{ path("add_site")  }}">Ajouter un site</a></small></h1>
     <table class="table">
         <thead>
             <tr>

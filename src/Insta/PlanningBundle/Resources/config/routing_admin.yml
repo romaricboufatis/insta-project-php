@@ -28,6 +28,10 @@ user_show:
     path:     /user/{user}
     defaults: { _controller: PlanningBundle:User:showUser }
 
+delete_user:
+    path:     /user/{user}/delete
+    defaults: { _controller: PlanningBundle:User:deleteUser }
+
 group_show:
     path:     /group/{group}
     defaults: { _controller: PlanningBundle:User:showGroup }
