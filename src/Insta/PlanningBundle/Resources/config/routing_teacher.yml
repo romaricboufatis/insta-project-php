@@ -1,0 +1,46 @@
+index_teacher:
+    path:     /teacher-overview
+    defaults: { _controller: PlanningBundle:Teacher:index }
+
+add_teacher:
+   path:       /teacher/new
+   defaults: { _controller: PlanningBundle:Teacher:addTeacher }
+
+teacher:
+    path:     /teacher/{name}
+    defaults: { _controller: PlanningBundle:Teacher:teacher }
+
+teacher_list:
+   path:       /teachers
+   defaults: { _controller: PlanningBundle:Teacher:teacherList }
+
+
+edit_teacher:
+   path:        /teacher/{name}/edit
+   defaults: { _controller: PlanningBundle:Teacher:editTeacher }
+
+delete_teacher:
+    path:       /teacher/{name}/delete
+    defaults: { _controller: PlanningBundle:Teacher:deleteTeacher }
+
+add_course:
+   path:       /course/new
+   defaults: { _controller: PlanningBundle:Teacher:addCourse }
+
+course:
+  path:       /course/{id}
+  defaults: { _controller: PlanningBundle:Teacher:course }
+
+course_list:
+   path:       /courses
+   defaults: { _controller: PlanningBundle:Teacher:courseList }
+
+edit_course:
+   path:        /course/{id}/edit
+   defaults: { _controller: PlanningBundle:Teacher:editCourse }
+
+delete_course:
+    path:       /course/{id}/delete
+    defaults: { _controller: PlanningBundle:Teacher:deleteCourse }
+
+

@@ -43,7 +43,7 @@ class Student extends User
     /**
      *
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Oral", inversedBy="students")
+     * @ORM\ManyToMany(targetEntity="Oral", mappedBy="students")
      **/
     protected $orals;
 
@@ -267,5 +267,14 @@ class Student extends User
     public function getLastname()
     {
         return $this->lastname;
+    }
+
+    public function removeOrals() {
+
+        foreach ($this->orals->toArray() as $userOral) {
+            $this->orals->removeElement($userOral);
+        }
+
+        return $this;
     }
 }

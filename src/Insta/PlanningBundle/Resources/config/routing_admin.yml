@@ -47,3 +47,15 @@ group_add_user:
 group_edit:
     path:     /group/{group}/edit
     defaults: { _controller: PlanningBundle:User:editGroup }
+
+group_delete:
+    path:     /group/{group}/delete
+    defaults: { _controller: PlanningBundle:User:deleteGroup }
+
+manage_holidays:
+    path:     /holidays
+    defaults: { _controller: PlanningBundle:Schedule:holidays }
+
+switch_user_type:
+    path:     /switch-user-type
+    defaults: { _controller: PlanningBundle:User:switchUserType }
