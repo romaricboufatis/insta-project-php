@@ -1,0 +1,22 @@
+{% extends 'PlanningBundle::layout.html.twig' %}
+
+{% block jumbotron %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{ teachers|length }} professeur(s) et {{ courses|length }} cour(s)</h1>
+            <dl class="dl-horizontal">
+                {% for teacher in teachers %}
+                    <dt>{{ teacher.fullname }}</dt>
+                    <dd>{{ teacher.courses|length }} cour(s)</dd>
+                {% endfor %}
+            </dl>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+

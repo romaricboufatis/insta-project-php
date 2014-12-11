@@ -12,15 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Lesson extends Schedule
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     // ...
     /**
      * @ORM\ManyToOne(targetEntity="Promotion", inversedBy="lessons")
@@ -54,7 +45,10 @@ class Lesson extends Schedule
     protected $room;
 
     /**
-     * @var \Insta\PlanningBundle\Entity\Course
+     * @var Course
+     *
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="lessons")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
      */
     protected $course;
 
@@ -173,4 +167,10 @@ class Lesson extends Schedule
     {
         return $this->course;
     }
+    /**
+     * @var integer
+     */
+    protected $id;
+
+
 }
