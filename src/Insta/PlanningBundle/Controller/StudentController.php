@@ -39,10 +39,10 @@ class StudentController extends Controller {
 
         $newPromo = new Promotion();
         $form = $this->createFormBuilder($newPromo)
-            ->add('name', 'text')
-            ->add('dateStart', 'date')
-            ->add('dateEnd', 'date')
-            ->add('Add', 'submit')
+            ->add('name', 'text',array('label' => 'promo.name'))
+            ->add('dateStart', 'date',array('label' => 'promo.dateStart'))
+            ->add('dateEnd', 'date',array('label' => 'promo.dateEnd'))
+            ->add('form.add', 'submit')
             ->getForm();
 
         $form->handleRequest($request);
@@ -69,14 +69,15 @@ class StudentController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createFormBuilder($student)
-            ->add('firstname', 'text')
-            ->add('lastname', 'text')
-            ->add('hascomputer', 'checkbox',array('required' => false))
+            ->add('firstname', 'text',array('label' => 'student.firstname'))
+            ->add('lastname', 'text',array('label' => 'student.lastname'))
+            ->add('hascomputer', 'checkbox',array('label' => "student.hascomputer",'required' => false))
             ->add('promotion', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Promotion',
                 'property' => 'name',
+                'label' => 'student.promotion'
             ))
-            ->add('Edit', 'submit')
+            ->add('form.edit', 'submit')
             ->getForm();
 
         $form->handleRequest($request);
@@ -96,10 +97,10 @@ class StudentController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createFormBuilder($id)
-            ->add('name', 'text')
-            ->add('dateStart', 'date')
-            ->add('dateEnd', 'date')
-            ->add('Edit', 'submit')
+            ->add('name', 'text',array('label' => 'promo.name'))
+            ->add('dateStart', 'date',array('label' => 'promo.dateStart'))
+            ->add('dateEnd', 'date',array('label' => 'promo.dateEnd'))
+            ->add('form.edit', 'submit')
             ->getForm();
         $form->handleRequest($request);
         if ($form->isValid()) {
