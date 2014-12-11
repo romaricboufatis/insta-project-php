@@ -104,7 +104,7 @@ class UserController extends Controller {
             $user->setUsername($data['username']);
 
             $um->updateUser($user);
-            return $this->redirectToRoute('user_group_list');
+            return $this->redirectToRoute('user_group_overview');
         }
 
 
@@ -131,7 +131,7 @@ class UserController extends Controller {
         if ($form->isValid()) {
             $gm->updateGroup($group);
 
-            return $this->redirectToRoute('user_group_list');
+            return $this->redirectToRoute('user_group_overview');
         }
 
         return $this->render('PlanningBundle:User:add_group.html.twig', array(
