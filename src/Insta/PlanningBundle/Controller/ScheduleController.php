@@ -8,8 +8,10 @@
 
 namespace Insta\PlanningBundle\Controller;
 
+use Insta\PlanningBundle\Entity\Course;
 use Insta\PlanningBundle\Entity\Lesson;
 use Insta\PlanningBundle\Entity\Oral;
+use Insta\PlanningBundle\Form\CourseType;
 use Insta\PlanningBundle\Form\LessonType;
 use Insta\PlanningBundle\Form\OralType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -64,6 +66,24 @@ class ScheduleController extends Controller {
         }
 
         return $this->render('PlanningBundle:Schedule:create_schedule.html.twig', array( 'form'=>$form->createView() ));
+
+    }
+
+    function manageCourseAction(Request $request, Course $course) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(new CourseType(), $course);
+        $form->remove('name')->remove('teachers')->add('edit', 'submit', array('label'=>'form.edit'));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('manage_course', array('course'=>$course->getId()));
+        }
+
+        return $this->render('PlanningBundle:Schedule:manage_course.html.twig', array('form'=>$form->createView(), 'course'=>$course));
 
     }
 
