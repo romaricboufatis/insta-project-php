@@ -29,12 +29,12 @@
                             {% elseif is_granted("ROLE_TEACHER") %}
                                 Planning de mes cours ()
                             {% elseif is_granted("ROLE_ADMIN") %}
-                                Planning général
+                                <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Planning général
                             {% endif %}
                         </a></li>
                         {% if is_granted("ROLE_ADMIN") %}
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administration <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Administration <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{ path('index_location') }}">Emplacements</a></li>
                                     <li><a href="{{ path('user_group_overview') }}">Utilisateurs & Groupes</a></li>
