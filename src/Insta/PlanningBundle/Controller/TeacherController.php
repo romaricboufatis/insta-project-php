@@ -120,7 +120,7 @@ class TeacherController extends Controller
                 'multiple'=>true,
                 'expanded'=>true,
             ))
-            ->add('Edit', 'submit')
+            ->add('Modifier', 'submit')
             ->getForm();
 
         $form->handleRequest($request);
@@ -189,7 +189,7 @@ class TeacherController extends Controller
                 'property' => 'fullname',
                 'multiple'=> true, 'expanded'=>true
             ))
-            ->add('Edit', 'submit')
+            ->add('Modifier', 'submit')
             ->getForm();
 
         $form->handleRequest($request);
