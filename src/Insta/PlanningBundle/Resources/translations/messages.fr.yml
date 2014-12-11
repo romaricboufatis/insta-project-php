@@ -1,7 +1,3 @@
-name:      Nom
-dateStart:       Date début
-dateEnd:          Date fin
-
 December: Décembre
 November: Novembre
 October: Octobre
@@ -14,3 +10,64 @@ March: Mars
 February : Février
 January : Janvier
 
+location:
+    name : Nom
+    street : Adresse
+    zipCode : Code postal
+    city : Ville
+    phoneNumber : N° de téléphone
+    subwayStop : Arrêt de métro
+    subwayLines : Lignes de métro
+
+room:
+    site : Location
+    name : Nom
+    freeComputer : Nombre d'ordinateur
+
+student:
+    firstname : Prénom
+    lastname : Nom
+    hascomputer : Dispose d'un ordinateur
+    promotion : Promotion
+
+promo:
+    name : Nom
+    dateStart : Date de début
+    dateEnd : Date de fin
+
+teacher:
+    course : Cour
+
+course:
+    name : Nom
+    description : Description
+    descriptionLink : Lien de la description
+    teacher : Professeur
+
+user:
+    firstname : Prénom
+    lastname : Nom
+    username : Nom d'utilisateur
+    type : Type
+    email : Adresse email
+    user : Utilisateur
+
+schedule:
+    course: Cours
+    room: Salle
+    promotion: Promotion
+    students: Elèves
+    datetime: Horaire
+    duration: Durée (H)
+    periodicity: Répétion hebdomadaire ?
+    periodicity_end: Date de fin de répétition (exclus)
+
+
+form:
+    add: Ajouter
+    edit: Editer
+    remove: Retirer
+    sure: Êtes-vous sûr(e) ?
+
+course:
+    add_link: Ajouter un lien
