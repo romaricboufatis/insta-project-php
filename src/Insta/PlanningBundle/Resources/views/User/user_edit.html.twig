@@ -1,0 +1,12 @@
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block main %}
+
+    <h1>Utilisateur : {{ user.fullname }} <small class="pull-right"><a class="btn btn-warning btn-xs" href="{{ path('delete_user', {user: user.usernameCanonical}) }}">Supprimer l'utilisateur</a> </small></h1>
+
+    {{ form(form) }}
+
+{% endblock %}
+

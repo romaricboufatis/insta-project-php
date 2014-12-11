@@ -1,19 +1,12 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Location:_layout_location.html.twig" %}
 
 {% block title %}PlanningBundle:Location:site{% endblock %}
 
-{% block jumbotron %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Site : {{ site.name }}</h1>
-            <p>{{ site.street }}, {{ site.city }} - <a href="tel:{{ site.phoneNumber }}">{{ site.phoneNumber }}</a></p>
-        </div>
-    </div>
-{% endblock %}
-
-{% block content %}
+{% block main %}
 
     <dl class="dl-horizontal col-lg-5">
+        <dt>Nom</dt>
+        <dd>{{ site.name }}</dd>
         <dt>Adresse postale</dt>
         <dd>{{ site.street }}, {{ site.zipCode }} {{ site.city }}</dd>
         <dt>Numéro de téléphone</dt>
