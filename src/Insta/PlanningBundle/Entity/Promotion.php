@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Promotion
 {
@@ -22,7 +23,14 @@ class Promotion
      */
     protected $id;
 
-    // ...
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color", type="string", length=7)
+     */
+    protected $color;
+
+
     /**
      * @ORM\OneToMany(targetEntity="Lesson", mappedBy="promotion")
      *
@@ -176,5 +184,74 @@ class Promotion
     public function getLessons()
     {
         return $this->lessons;
+    }
+
+    /**
+     * Add students
+     *
+     * @param \Insta\PlanningBundle\Entity\Student $students
+     * @return Promotion
+     */
+    public function addStudent(\Insta\PlanningBundle\Entity\Student $students)
+    {
+        $this->students[] = $students;
+
+        return $this;
+    }
+
+    /**
+     * Remove students
+     *
+     * @param \Insta\PlanningBundle\Entity\Student $students
+     */
+    public function removeStudent(\Insta\PlanningBundle\Entity\Student $students)
+    {
+        $this->students->removeElement($students);
+    }
+
+    /**
+     * Get students
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getStudents()
+    {
+        return $this->students;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updateColor() {
+        $checksum = md5($this->name . time());
+        $this->color = "#" .
+            hexdec(substr($checksum, 0, 2)).
+            hexdec(substr($checksum, 2, 2)).
+            hexdec(substr($checksum, 4, 2));
+
+    }
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     * @return Promotion
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string 
+     */
+    public function getColor()
+    {
+        return $this->color;
     }
 }

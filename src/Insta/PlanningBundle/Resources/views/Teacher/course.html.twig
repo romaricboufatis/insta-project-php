@@ -1,0 +1,22 @@
+{% extends "PlanningBundle:Teacher:_layout_teacher.html.twig" %}
+
+{% block title %}Affichage d'un cour{% endblock %}
+
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{ course.name }}</h1>
+            <p>{{ course.description }}</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <dl class="dl-horizontal col-lg-5">
+        <dt>Lien URL</dt>
+        <dd><a href="{{ course.descriptionLink}}">{{ course.descriptionLink}}</a></dd>
+        <dt>Professeur</dt>
+        <dd>{{ course.teacherNames|join }}</dd>
+        <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_course', {id : course.id}) }}">Modifier</a></dd>
+    </dl>
+{% endblock %}

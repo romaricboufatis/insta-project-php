@@ -1,0 +1,13 @@
+{% extends "PlanningBundle:Teacher:_layout_teacher.html.twig" %}
+
+{% block title %}PlanningBundle:Location:addCourse{% endblock %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block content %}
+
+    <h2>Modification du cours : {{ course.name }}<small class="pull-right"><a href="{{ path("delete_course",{id:course.id}) }}" class="btn btn-warning btn-xs">Supprimer</a></small></h2>
+
+    {{ form(form) }}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+planning_homepage:
+    path:     /
+    defaults: { _controller: PlanningBundle:Public:index }
+
+planning_month:
+    path:     /planning/{month}/{year}
+    defaults: { _controller: PlanningBundle:Public:planning }
+    requirements:
+        month: \d+
+        year: \d+
+

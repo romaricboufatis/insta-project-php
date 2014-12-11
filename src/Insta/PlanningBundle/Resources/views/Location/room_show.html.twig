@@ -1,0 +1,19 @@
+{% extends "PlanningBundle:Location:_layout_location.html.twig" %}
+
+{% block title %}PlanningBundle:Location:room{% endblock %}
+
+{% block main %}
+
+    <dl class="dl-horizontal col-lg-5">
+        <dt>Nom</dt>
+        <dd>{{ room.name }}</dd>
+        <dt>Site</dt>
+        <dd>{{ room.site.name }}</dd>
+        <dt>Adresse postale</dt>
+        <dd>{{ room.site.street }}, {{ room.site.zipCode }} {{ room.site.city }}</dd>
+        <dt>Numéro de téléphone</dt>
+        <dd><a href="tel:{{ room.site.phoneNumber }}">{{ room.site.phoneNumber }}</a></dd>
+        <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_room', {id : room.name}) }}">Modifier</a></dd>
+    </dl>
+{% endblock %}
+

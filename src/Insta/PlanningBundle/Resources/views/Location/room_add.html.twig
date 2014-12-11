@@ -1,0 +1,13 @@
+{% extends "PlanningBundle:Location:_layout_location.html.twig" %}
+
+{% block title %}PlanningBundle:Location:addRoom{% endblock %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block main %}
+
+    <h1>Ajout d'une salle</h1>
+
+    {{ form(form) }}
+
+{% endblock %}

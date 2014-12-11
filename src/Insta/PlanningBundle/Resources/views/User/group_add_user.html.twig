@@ -1,0 +1,13 @@
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block main %}
+
+    <h2>Ajouter un utilisateur au groupe {{ group.name }}</h2>
+
+    {{ form(form) }}
+
+
+{% endblock %}
+

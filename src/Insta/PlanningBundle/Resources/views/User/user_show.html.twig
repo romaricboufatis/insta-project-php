@@ -1,0 +1,34 @@
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
+
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Utilisateur : {{ user.username }} <small class="pull-right"><a class="btn btn-info" href="{{ path('user_edit', {user:user.usernameCanonical}) }}">Editer</a></small></h1>
+            <p>
+                {% if user.promotion is defined %}Elève
+                {% elseif user.students is defined %}Tuteur
+                {% elseif user.courses is defined %}Professeur
+                {% else %}Staff
+                {% endif %}
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+
+    <dl class="dl-horizontal">
+        <dt>Nom d'utilisateur</dt>
+        <dd>{{ user.username }}</dd>
+        <dt>Nom complet</dt>
+        <dd>{{ user.fullname }}</dd>
+        <dt>Email</dt>
+        <dd><a href="mailto:{{ user.email }}">{{ user.email }}</a></dd>
+        <dt>Dernière connexion</dt>
+        <dd>{{ user.lastLogin|date }}</dd>
+        <dt>Groupes</dt>
+        <dd>{{ user.groupNames|join|default('<i>Aucun groupe assigné</i>')|raw }}</dd>
+    </dl>
+
+{% endblock %}
+

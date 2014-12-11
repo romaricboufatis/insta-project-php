@@ -24,16 +24,16 @@ class Student extends User
     protected $hasComputer;
 
     /**
-     * @var ArrayCollection
+     * @var Promotion
      *
-     * @ORM\ManyToOne(targetEntity="Promotion")
+     * @ORM\ManyToOne(targetEntity="Promotion", inversedBy="students")
      * @ORM\JoinColumn(name="promotion_id", referencedColumnName="id")
      */
     protected $promotion;
 
 
     /**
-     * @var ArrayCollection
+     * @var Tutor
      *
      * @ORM\ManyToOne(targetEntity="Tutor", inversedBy="students")
      * @ORM\JoinColumn(name="tutor_id", referencedColumnName="id")
@@ -43,7 +43,7 @@ class Student extends User
     /**
      *
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Oral", inversedBy="students")
+     * @ORM\ManyToMany(targetEntity="Oral", mappedBy="students")
      **/
     protected $orals;
 
@@ -85,7 +85,10 @@ class Student extends User
      */
     public function __construct()
     {
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        parent::__construct();
+        $this->setHasComputer(true);
+        $this->orals = new ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
     /**
@@ -208,5 +211,70 @@ class Student extends User
     public function getOrals()
     {
         return $this->orals;
+    }
+    /**
+     * @var string
+     */
+    protected $firstname;
+
+    /**
+     * @var string
+     */
+    protected $lastname;
+
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     * @return Student
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string 
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     * @return Student
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string 
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function removeOrals() {
+
+        foreach ($this->orals->toArray() as $userOral) {
+            $this->orals->removeElement($userOral);
+        }
+
+        return $this;
     }
 }

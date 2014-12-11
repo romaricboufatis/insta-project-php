@@ -1,0 +1,34 @@
+{% extends "PlanningBundle:Teacher:_layout_teacher.html.twig" %}
+
+{% block title %} Liste des professeurs {% endblock %}
+
+{% block main %}
+    <h1>Liste des professeurs <small> <a class="btn btn-primary" href="{{ path("add_teacher")  }}">Ajouter un professeur</a></small></h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Nom complet</th>
+            <th>Email</th>
+            <th>Cours</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for teacher in teachers %}
+            <tr>
+                <th>{{ teacher.id }}</th>
+                <td>{{ teacher.firstname~" "~teacher.lastname }}</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a class="btn btn-primary btn-xs" href="{{ path("teacher",{name:teacher.usernameCanonical})  }}">Afficher</a>
+                        <a class="btn btn-info btn-xs" href="{{ path("edit_teacher",{name:teacher.username})  }}">Editer</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+{% endblock %}
