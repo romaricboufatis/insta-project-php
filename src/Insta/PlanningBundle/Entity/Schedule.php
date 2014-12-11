@@ -7,10 +7,23 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Schedule
  *
- * @ORM\MappedSuperclass
+ * @ORM\Entity
+ * @ORM\Table(name="schedules")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"lesson" = "Lesson", "oral" = "Oral"})
  */
 class Schedule
 {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
     /**
      * @var \DateTime
@@ -33,14 +46,6 @@ class Schedule
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
      */
     protected $room;
-
-    /**
-     * @var Room
-     *
-     * @ORM\ManyToOne(targetEntity="Course")
-     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
-     */
-    protected $course;
 
     /**
      * Set datetime
@@ -112,25 +117,13 @@ class Schedule
     }
 
     /**
-     * Set course
+     * Get id
      *
-     * @param Course $course
-     * @return Schedule
+     * @return integer 
      */
-    public function setCourse(Course $course = null)
+    public function getId()
     {
-        $this->course = $course;
-
-        return $this;
+        return $this->id;
     }
 
-    /**
-     * Get course
-     *
-     * @return Course
-     */
-    public function getCourse()
-    {
-        return $this->course;
-    }
 }

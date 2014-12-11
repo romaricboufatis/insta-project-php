@@ -15,7 +15,7 @@ edit_student:
     defaults : {_controller: PlanningBundle:Student:editStudent}
 
 delete_student:
-    path: /promo/{promoid}/remove/{id}
+    path: /promo/remove/{id}
     defaults : {_controller: PlanningBundle:Student:removeStudentFromPromo}
 
 add_promo:

@@ -1,0 +1,133 @@
+{% extends 'PlanningBundle::layout.html.twig' %}
+
+{% block content %}
+
+    <div>
+        {% set previousmonth = time %}
+        {% set nextmonth = time %}
+        {% set previousmonth = previousmonth|date_modify("-1 month") %}
+        {% set nextmonth = nextmonth|date_modify("+1 month") %}
+
+
+    </div>
+
+    <div>
+        <table class="table table-bordered" style="width: 100%">
+            <thead>
+            <tr>
+                <th class="center">
+                <span class="pull-left">
+                    <a class="btn btn-default btn-xs" href="{{ path('planning_month', {
+                    month : previousmonth|date('m'), year: previousmonth|date('Y')
+                    }) }}">&lsaquo; Mois précédent</a>
+                </span>
+                </th>
+                <th colspan="5">{{ time|date('F')|trans }} {{ time|date('Y') }}</th>
+                <th>
+                <span class="pull-right">
+                    <a class="btn btn-default btn-xs" href="{{ path('planning_month', {
+                    month : nextmonth|date('m'), year: nextmonth|date('Y')
+                    }) }}">Mois suivant &rsaquo;</a>
+                </span>
+                </th>
+            </tr>
+            <tr>
+                <th>Dimanche</th>
+                <th>Lundi</th>
+                <th>Mardi</th>
+                <th>Mercredi</th>
+                <th>Jeudi</th>
+                <th>Vendredi</th>
+                <th>Samedi</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% set daysInMonth = time|date('t') %}
+                {% set startDow = time|date('F 1\\s\\t Y')|date('w') %}
+                {% set dow = startDow %}
+                {% for day in range(1,daysInMonth) %}
+                {% if loop.first and startDow != 0 %}
+                    <td colspan="{{ startDow }}"></td>
+                {% endif %}
+                <td {% if service.holidayOn(day, time|date('m'), time|date('Y')) is not null %}class="bg-info" {% endif %}>
+                    <div>
+                        <div>
+                            {{ day }}
+                            {% if service.holidayOn(day, time|date('m'), time|date('Y')) is not null %}
+                                - <i>{{ service.holidayOn(day, time|date('m'), time|date('Y')).name }}</i>
+                            {% endif %}
+
+                            <div class="btn-group btn-group-xs">
+                                {% if schedules[ time|date('Y-m-') ~ day ] is defined %}
+                                    {% for schedule in schedules[ time|date('Y-m-') ~ day ] %}
+
+                                        <a class="btn btn-default btn-xs schedule" style="background-color: {% if schedule.promotion is defined %}{{ schedule.promotion.color }}{% endif %}" href="#schedule-{{ schedule.id }}">
+                                            <span class="glyphicon glyphicon-resize-full"></span>
+                                        </a>
+
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </td>
+                {% if loop.last and dow != 6 %}
+                    <td colspan="{{ 6 - dow }}">&nbsp;</td>
+                {% endif %}
+                {% if dow == 6 %}
+                {% set dow = 0 %}
+            </tr>
+            <tr>
+                {% else %}
+                    {% set dow = dow + 1 %}
+                {% endif %}
+                {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+
+        {% for schedule_one_day in schedules %}
+            {% for schedule in schedule_one_day %}
+
+            <div class="schedule-info jumbotron" id="schedule-{{ schedule.id }}">
+                <h1>{% if schedule.promotion is defined %}C'est un cours{% elseif schedule.students %}C'est un oral{% endif %}</h1>
+
+                <dl>
+                    <dt>Date</dt> <dd>{{ schedule.datetime|date }}</dd>
+                    <dt>Room</dt> <dd>{{ schedule.room.name }}</dd>
+                    <dt>Course</dt> <dd>{{ schedule.course.name }}</dd>
+                </dl>
+
+            </div>
+
+        {% endfor %}
+        {% endfor %}
+
+
+    </div>
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        div.schedule-info {
+            display: none;
+            transition: all 500ms;
+            -webkit-transition: all 500ms;
+            -moz-transition: all 500ms;
+            -o-transition: all 500ms;
+        }
+        div.schedule-info:target {
+            display: block !important;
+        }
+    </style>
+
+{% endblock %}

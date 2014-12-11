@@ -32,14 +32,14 @@ class Course
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     protected $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="descriptionLink", type="string", length=255)
+     * @ORM\Column(name="descriptionLink", type="string", length=255, nullable=true)
      */
     protected $descriptionLink;
 
@@ -56,6 +56,20 @@ class Course
      * @ORM\ManyToMany(targetEntity="Teacher", mappedBy="courses")
      **/
     protected  $teachers;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Lesson", mappedBy="course")
+     */
+    protected $lessons;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Oral", mappedBy="course")
+     */
+    protected $orals;
+
+
 
     /**
      * Get id
@@ -164,6 +178,7 @@ class Course
     public function __construct()
     {
         $this->teachers = new ArrayCollection();
+        $this->variousLinks = array();
     }
 
     /**
@@ -196,5 +211,81 @@ class Course
     public function getTeachers()
     {
         return $this->teachers;
+    }
+
+    public function  getTeacherNames()
+    {
+        $teachernames=array();
+        foreach($this->teachers as $teacher)
+        {
+            $teachernames[]=$teacher->getFullname();
+        }
+        return $teachernames;
+    }
+
+    /**
+     * Add lessons
+     *
+     * @param \Insta\PlanningBundle\Entity\Lesson $lessons
+     * @return Course
+     */
+    public function addLesson(\Insta\PlanningBundle\Entity\Lesson $lessons)
+    {
+        $this->lessons[] = $lessons;
+
+        return $this;
+    }
+
+    /**
+     * Remove lessons
+     *
+     * @param \Insta\PlanningBundle\Entity\Lesson $lessons
+     */
+    public function removeLesson(\Insta\PlanningBundle\Entity\Lesson $lessons)
+    {
+        $this->lessons->removeElement($lessons);
+    }
+
+    /**
+     * Get lessons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLessons()
+    {
+        return $this->lessons;
+    }
+
+    /**
+     * Add orals
+     *
+     * @param \Insta\PlanningBundle\Entity\Oral $orals
+     * @return Course
+     */
+    public function addOral(\Insta\PlanningBundle\Entity\Oral $orals)
+    {
+        $this->orals[] = $orals;
+
+        return $this;
+    }
+
+    /**
+     * Remove orals
+     *
+     * @param \Insta\PlanningBundle\Entity\Oral $orals
+     */
+    public function removeOral(\Insta\PlanningBundle\Entity\Oral $orals)
+    {
+        $this->orals->removeElement($orals);
+    }
+
+    /**
+     * Get orals
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrals()
+    {
+        return $this->orals;
     }
 }
