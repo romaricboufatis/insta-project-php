@@ -5,3 +5,7 @@ new_lesson:
 new_oral:
     path: /oral/new
     defaults: { _controller: PlanningBundle:Schedule:createOral }
+
+manage_course:
+    path: /course/{course}/edit
+    defaults: { _controller: PlanningBundle:Schedule:manageCourse }
