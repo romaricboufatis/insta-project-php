@@ -7,6 +7,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>Type</th>
                 <th>Identifiant</th>
                 <th>Email</th>
                 <th>Groupes</th>
@@ -15,7 +16,16 @@
             </thead>
             <tbody>
             {% for user in users %}
-                <tr {% if user.locked %}class="bg-warning"{% else %}class="bg-success"{% endif %}>
+                <tr {% if user.locked %} class="bg-warning" {% else %} class="bg-success" {% endif %}>
+                    <td>
+
+                        {% if user.promotion is defined %}Elève
+                        {% elseif user.students is defined %}Tuteur
+                        {% elseif user.courses is defined %}Professeur
+                        {% else %}Staff
+                        {% endif %}
+
+                    </td>
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.groupNames|join }}</td>

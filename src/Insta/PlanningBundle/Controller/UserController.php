@@ -9,6 +9,7 @@
 namespace Insta\PlanningBundle\Controller;
 
 
+use Doctrine\DBAL\Connection;
 use Insta\PlanningBundle\Entity\Group;
 use Insta\PlanningBundle\Entity\Student;
 use Insta\PlanningBundle\Entity\Teacher;
@@ -141,11 +142,10 @@ class UserController extends Controller {
 
     /**
      * @ParamConverter("user", options={"mapping": {"user": "usernameCanonical"}})
-     * @param Request $request
      * @param User $user
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    function showUserAction(Request $request, User $user) {
+    function showUserAction(User $user) {
 
         return $this->render('PlanningBundle:User:show_user.html.twig', array(
             'user' => $user
@@ -272,6 +272,7 @@ class UserController extends Controller {
             $data = $form->getData();
 
             foreach ($data['users'] as $user) {
+                /** @var User $user */
                 $user->addGroup($group);
             }
 
@@ -315,5 +316,111 @@ class UserController extends Controller {
         return $this->render('PlanningBundle:User:group_edit.html.twig', array(
             'group' => $group, 'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @param Request $request
+     * @param Group $group
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @ParamConverter("group", options={"mapping": {"group": "nameCanonical"}})
+     */
+    function deleteGroupAction(Request $request, Group $group) {
+
+        $form = $this->createFormBuilder()
+            ->add('sure', 'checkbox')
+            ->add('remove', 'submit')
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+
+            if ($data['sure']) {
+
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($group);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('user_group_overview');
+
+        }
+
+        return $this->render('PlanningBundle:User:deleteGroup.html.twig', array(
+            'group' => $group, 'form'=>$form->createView()
+        ));
+    }
+
+    function switchUserTypeAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createFormBuilder()
+            ->add('user', 'entity', array(
+                'class' => 'Insta\PlanningBundle\Entity\User',
+                'property' => 'fullname',
+                'group_by' => 'type'
+            ))
+            ->add('type', 'choice', array(
+                'choices' => array(
+                    self::TYPE_USER => 'Aucun type spécifique / Administration',
+                    self::TYPE_STUDENT => 'Elève',
+                    self::TYPE_TUTOR => 'Tuteur',
+                    self::TYPE_TEACHER => 'Professeur'),
+                'expanded' => true,
+                'multiple' => false
+            ))
+            ->add('edit', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            /** @var User $user */
+            $user = $form->get('user')->getData();
+
+            $type = $form->get('type')->getData();
+
+            $user->setRoles(array());
+            if ($user instanceof Student) {
+                /** @var Student $user */
+                $user->setTutor(null)->setHasComputer(null)->removeOrals()->setPromotion(null);
+
+            } elseif ($user instanceof Tutor) {
+                /** @var Tutor $user */
+                $user->removeStudents();
+            } elseif ($user instanceof Teacher ) {
+                /** @var Teacher $user */
+                $user->removeCourses();
+            }
+
+            $em->flush();
+
+            /** @var Connection $conn */
+            $conn = $this->getDoctrine()->getConnection();
+            $qb = $conn->createQueryBuilder();
+
+            $query = $qb->update('insta_user', 'u')
+                ->set('u.discr', ':type')
+                ->where('u.id = :id')
+                ->setParameter('id', $user->getId())
+                ->setParameter('type', $type);
+
+
+            $query->execute();
+
+            return $this->redirectToRoute('user_show', array('user'=> $user->getUsernameCanonical()));
+
+        }
+
+
+        return $this->render('PlanningBundle:User:switch_type.html.twig', array(
+            'form'=> $form->createView()
+        ));
+
     }
 } 
