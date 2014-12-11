@@ -1,6 +1,6 @@
-{% extends 'PlanningBundle::layout.html.twig' %}
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
 
-{% block content %}
+{% block main %}
 
     <fieldset>
         <legend>Liste des utilisateurs <small class="pull-right"><a href="{{ path('user_add') }}" class="btn btn-xs btn-default">Ajouter un utilisateur</a></small></legend>
@@ -50,10 +50,6 @@
 
 
     </fieldset>
-
-{% endblock %}
-
-{% block jumbotron %}
 
 {% endblock %}
 

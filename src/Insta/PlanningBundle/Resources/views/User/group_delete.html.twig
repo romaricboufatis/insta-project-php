@@ -1,18 +1,14 @@
-{% extends 'PlanningBundle::layout.html.twig' %}
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block content %}
+{% block main %}
 
 
     <h1>Voulez-vous supprimer le groupe {{ group.name }} ?</h1>
 
     {{ form(form) }}
 
-
-{% endblock %}
-
-{% block jumbotron %}
 
 {% endblock %}
 
