@@ -6,10 +6,10 @@
 
 {% block content %}
 
-    <h1>Modification d'un professeur</h1>
+    <h2>Modification du professeur : {{teacher.firstname~" "~teacher.lastname}}  <small class="pull-right"><a href="{{ path("delete_teacher",{name:teacher.usernameCanonical}) }}" class="btn btn-warning btn-xs">Supprimer</a></small></h2>
 
     {{ form(form) }}
 
-    <a href="{{ path("delete_teacher",{name:teacher.usernameCanonical}) }}" class="btn btn-primary">Delete</a>
+
 
 {% endblock %}
