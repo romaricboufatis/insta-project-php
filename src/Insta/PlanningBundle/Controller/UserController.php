@@ -63,11 +63,12 @@ class UserController extends Controller {
         $um = $this->get('fos_user.user_manager');
 
         $form = $this->createFormBuilder()
-            ->add('firstname', 'text')
-            ->add('lastname', 'text')
-            ->add('username', 'text')
-            ->add('email', 'email')
+            ->add('firstname', 'text', array('label'=>'user.firstname'))
+            ->add('lastname', 'text', array('label'=>'user.lastname'))
+            ->add('username', 'text', array('label'=>'user.username'))
+            ->add('email', 'email', array('label'=>'user.email'))
             ->add('type', 'choice', array(
+                'label'=>'user.type',
                 'choices' => array(
                     self::TYPE_USER => 'Aucun type spécifique / Administration',
                     self::TYPE_STUDENT => 'Elève',
@@ -78,7 +79,7 @@ class UserController extends Controller {
                 'data' => $type,
                 'disabled' => ($type !== 'none')
             ))
-            ->add('Ajouter', 'submit')
+            ->add('add', 'submit', array('label'=>'form.add'))
             ->getForm()
         ;
 
@@ -136,7 +137,7 @@ class UserController extends Controller {
         $group = $gm->createGroup('');
 
         $form = $this->createForm('fos_user_group', $group)
-            ->add('Ajouter', 'submit');
+            ->add('add', 'submit', array('form.add'));
 
         $form->handleRequest($request);
 
@@ -175,18 +176,19 @@ class UserController extends Controller {
         $um = $this->get('fos_user.user_manager');
 
         $form = $this->createFormBuilder($user)
-            ->add('username', 'text')
-            ->add('firstname', 'text')
-            ->add('lastname', 'text')
-            ->add('email', 'email')
+            ->add('username', 'text', array('label'=>'user.username'))
+            ->add('firstname', 'text', array('label'=>'user.firstname'))
+            ->add('lastname', 'text', array('label'=>'user.lastname'))
+            ->add('email', 'email', array('label'=>'user.email'))
             ->add('groups', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Group',
                 'property' => 'name',
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
+                'label' => 'user.groups'
             ))
-            ->add('locked', 'checkbox', array('required'=>false))
-            ->add('Editer', 'submit')
+            ->add('locked', 'checkbox', array('required'=>false, 'label'=>'user.locked'))
+            ->add('edit', 'submit', array('label'=>'form.edit'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -230,8 +232,8 @@ class UserController extends Controller {
     function removeUserFromGroupAction(Request $request, Group $group, User $user) {
 
         $form = $this->createFormBuilder()
-            ->add('sure', 'checkbox')
-            ->add('remove', 'submit')
+            ->add('sure', 'checkbox', array('label'=>'form.sure'))
+            ->add('remove', 'submit', array('label'=>'form.remove'))
             ->getForm()
             ;
 
@@ -272,9 +274,10 @@ class UserController extends Controller {
                 'class'=>'Insta\PlanningBundle\Entity\User',
                 'property' => 'fullname',
                 'multiple' => true,
-                'expanded' => false
+                'expanded' => false,
+                'label' => 'group.users'
             ))
-            ->add('add', 'submit')
+            ->add('add', 'submit', array('form.add'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -312,7 +315,7 @@ class UserController extends Controller {
     {
         $gm = $this->get('fos_user.group_manager');
         $form = $this->createForm('fos_user_group', $group)
-            ->add('add', 'submit');
+            ->add('add', 'submit', array('label'=>'form.add'));
 
         $form->handleRequest($request);
 
@@ -339,8 +342,8 @@ class UserController extends Controller {
     function deleteGroupAction(Request $request, Group $group) {
 
         $form = $this->createFormBuilder()
-            ->add('sure', 'checkbox')
-            ->add('remove', 'submit')
+            ->add('sure', 'checkbox', array('label'=>'form.sure'))
+            ->add('remove', 'submit', array('label'=>'form.remove'))
             ->getForm()
         ;
 
@@ -375,8 +378,8 @@ class UserController extends Controller {
     function deleteUserAction(Request $request, User $user) {
 
         $form = $this->createFormBuilder()
-            ->add('sure', 'checkbox')
-            ->add('remove', 'submit')
+            ->add('sure', 'checkbox', array('label'=>'form.sure'))
+            ->add('remove', 'submit', array('label'=>'form.remove'))
             ->getForm()
         ;
 
@@ -409,7 +412,8 @@ class UserController extends Controller {
             ->add('user', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\User',
                 'property' => 'fullname',
-                'group_by' => 'type'
+                'group_by' => 'type',
+                'label'=>'user.user'
             ))
             ->add('type', 'choice', array(
                 'choices' => array(
@@ -418,9 +422,10 @@ class UserController extends Controller {
                     self::TYPE_TUTOR => 'Tuteur',
                     self::TYPE_TEACHER => 'Professeur'),
                 'expanded' => true,
-                'multiple' => false
+                'multiple' => false,
+                'label'=>'user.type'
             ))
-            ->add('edit', 'submit')
+            ->add('edit', 'submit', array('label'=>'form.edit'))
             ->getForm();
 
         $form->handleRequest($request);
