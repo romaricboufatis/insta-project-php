@@ -3,7 +3,13 @@
 {% block content %}
     <div class="col-lg-8">
         <fieldset>
-            <legend>Liste des utilisateurs <small class="pull-right"><a href="{{ path('user_add') }}" class="btn btn-xs btn-default">Ajouter un utilisateur</a></small></legend>
+            <legend>Liste des utilisateurs <small>Max: 20</small>
+                    <div class="btn-group btn-group-xs pull-right">
+                        <a href="{{ path('user_list') }}" class="btn btn-xs btn-primary">Liste complète</a>
+                        <a href="{{ path('user_add') }}" class="btn btn-xs btn-info">Ajouter un utilisateur</a>
+
+                    </div>
+                </legend>
             <table class="table table-condensed table-bordered table-striped">
                 <thead>
                 <tr>
