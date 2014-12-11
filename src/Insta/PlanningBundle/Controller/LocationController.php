@@ -12,6 +12,7 @@ class LocationController extends Controller
     public function indexAction()
     {
 
+
         $em = $this->getDoctrine()->getManager();
 
         $sites = $em->getRepository('PlanningBundle:Site')->findAll();
@@ -60,14 +61,14 @@ class LocationController extends Controller
 
         $newSite = new Site();
         $form = $this->createFormBuilder($newSite)
-            ->add('name', 'text')
-            ->add('street', 'text')
-            ->add('zipCode', 'integer')
-            ->add('city', 'text')
-            ->add('phoneNumber', 'text', array('max_length'=>12))
-            ->add('subwayStop', 'text')
-            ->add('subwayLines', 'text')
-            ->add('Add', 'submit')
+            ->add('name', 'text',array('label' => "location.name"))
+            ->add('street', 'text',array('label' => "location.street"))
+            ->add('zipCode', 'integer',array('label' => "location.zipCode"))
+            ->add('city', 'text',array('label' => "location.city"))
+            ->add('phoneNumber', 'text', array('max_length'=>12,'label' => "location.phoneNumber"))
+            ->add('subwayStop', 'text',array('label' => "location.subwayStop"))
+            ->add('subwayLines', 'text',array('label' => "location.subwayLines"))
+            ->add('add', 'submit',array('label' => "form.add"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -116,14 +117,15 @@ class LocationController extends Controller
             $newRoom->setSite($site);
         }
         $form = $this->createFormBuilder($newRoom)
-            ->add('name', 'text')
+            ->add('name', 'text',array('label' => 'room.name'))
             ->add('site', 'entity', array(
+                'label' => 'room.site',
                 'class' => 'Insta\PlanningBundle\Entity\Site',
                 'property' => 'name',
                 'disabled' => (is_null($site)) ? false : true
             ))
-            ->add('freeComputer', 'number')
-            ->add('Add', 'submit')
+            ->add('freeComputer', 'number',array('label' => "room.freeComputer"))
+            ->add('add', 'submit',array('label' => "form.add"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -146,14 +148,14 @@ class LocationController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createFormBuilder($id)
-            ->add('name', 'text')
-            ->add('street', 'text')
-            ->add('zipCode', 'integer')
-            ->add('city', 'text')
-            ->add('phoneNumber', 'text', array('max_length'=>12))
-            ->add('subwayStop', 'text')
-            ->add('subwayLines', 'text')
-            ->add('Edit', 'submit')
+            ->add('name', 'text',array('label' => "location.name"))
+            ->add('street', 'text',array('label' => "location.street"))
+            ->add('zipCode', 'integer',array('label' => "location.zipCode"))
+            ->add('city', 'text',array('label' => "location.city"))
+            ->add('phoneNumber', 'text', array('max_length'=>12,'label' => "location.phoneNumber"))
+            ->add('subwayStop', 'text',array('label' => "location.subwayStop"))
+            ->add('subwayLines', 'text',array('label' => "location.subwayLines"))
+            ->add('edit', 'submit',array('label' => "form.edit"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -185,24 +187,22 @@ class LocationController extends Controller
     public function editRoomAction(Request $request, Room $id)
     {
         $em = $this->getDoctrine()->getManager();
-
-
         $form = $this->createFormBuilder($id)
-            ->add('name', 'text')
+
+            ->add('name', 'text',array('label' => "room.name"))
             ->add('site', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Site',
                 'property' => 'name',
+                'label' => "room.site"
             ))
-            ->add('Edit', 'submit')
+            ->add('edit', 'submit',array('label' => "form.edit"))
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
             $em->flush();
             return $this->redirectToRoute('room', array('id'=>$id->getId()));
-
         }
 
         return $this->render('PlanningBundle:Location:room_edit.html.twig', array(
