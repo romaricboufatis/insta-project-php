@@ -124,7 +124,7 @@ class LocationController extends Controller
                 'disabled' => (is_null($site)) ? false : true
             ))
             ->add('freeComputer', 'number',array('label' => "room.freeComputer"))
-            ->add('form.add', 'submit')
+            ->add('add', 'submit',array('label' => "form.add"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -154,7 +154,7 @@ class LocationController extends Controller
             ->add('phoneNumber', 'text', array('max_length'=>12,'label' => "location.phoneNumber"))
             ->add('subwayStop', 'text',array('label' => "location.subwayStop"))
             ->add('subwayLines', 'text',array('label' => "location.subwayLines"))
-            ->add('Modifier', 'submit')
+            ->add('edit', 'submit',array('label' => "form.edit"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -188,13 +188,13 @@ class LocationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $form = $this->createFormBuilder($id)
 
-            ->add('name', 'text',array('label' => "room.nom"))
+            ->add('name', 'text',array('label' => "room.name"))
             ->add('site', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Site',
                 'property' => 'name',
                 'label' => "room.site"
             ))
-            ->add('form.edit', 'submit')
+            ->add('edit', 'submit',array('label' => "form.edit"))
             ->getForm();
 
         $form->handleRequest($request);
