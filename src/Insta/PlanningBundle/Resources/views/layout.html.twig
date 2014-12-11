@@ -23,7 +23,7 @@
                             year: "now"|date('Y')
                             }) }}">
                             {% if is_granted("ROLE_STUDENT") %}
-                                Mon planning ({{ app.user.promotion.name }})
+                                Mon planning ({{ app.user.promotion.name|default('') }})
                             {% elseif is_granted("ROLE_TUTOR") %}
                                 Planning de l'étudiant
                             {% elseif is_granted("ROLE_TEACHER") %}
