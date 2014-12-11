@@ -31,7 +31,7 @@ class UserController extends Controller {
         $um = $this->get('fos_user.user_manager');
         $gm = $this->get('fos_user.group_manager');
 
-        return $this->render('PlanningBundle:User:index.html.twig', array(
+        return $this->render('PlanningBundle:User:_index.html.twig', array(
             'users'=>$um->findUsers(),
             'groups'=>$gm->findGroups()
         ));
@@ -43,6 +43,17 @@ class UserController extends Controller {
         $users = $repo->findBy(array(),null, 20, $offset * 20);
         return $this->render('PlanningBundle:User:user_list.html.twig', array(
             'users'=>$users,
+            'nbPages' => $nbPage,
+            'offset' => $offset
+        ));
+    }
+
+    function groupListAction($offset) {
+        $repo = $this->getDoctrine()->getRepository('PlanningBundle:Group');
+        $nbPage = (int) floor(count($repo->findAll()) /20);
+        $groups = $repo->findBy(array(),null, 20, $offset * 20);
+        return $this->render('PlanningBundle:User:group_list.html.twig', array(
+            'groups'=>$groups,
             'nbPages' => $nbPage,
             'offset' => $offset
         ));
@@ -109,7 +120,7 @@ class UserController extends Controller {
         }
 
 
-        return $this->render('PlanningBundle:User:add_user.html.twig', array(
+        return $this->render('PlanningBundle:User:user_add.html.twig', array(
             'form' => $form->createView()
         ));
 
@@ -135,7 +146,7 @@ class UserController extends Controller {
             return $this->redirectToRoute('user_group_overview');
         }
 
-        return $this->render('PlanningBundle:User:add_group.html.twig', array(
+        return $this->render('PlanningBundle:User:group_add.html.twig', array(
             'form' => $form->createView()
         ));
     }
@@ -147,7 +158,7 @@ class UserController extends Controller {
      */
     function showUserAction(User $user) {
 
-        return $this->render('PlanningBundle:User:show_user.html.twig', array(
+        return $this->render('PlanningBundle:User:user_show.html.twig', array(
             'user' => $user
         ));
 
@@ -186,7 +197,7 @@ class UserController extends Controller {
             return $this->redirectToRoute('user_show', array('user'=>$user->getUsernameCanonical()));
         }
 
-        return $this->render('PlanningBundle:User:edit_user.html.twig', array(
+        return $this->render('PlanningBundle:User:user_edit.html.twig', array(
             'user' => $user,
             'form' => $form->createView()
         ));
@@ -201,7 +212,7 @@ class UserController extends Controller {
      */
     function showGroupAction(Group $group) {
 
-        return $this->render('PlanningBundle:User:show_group.html.twig', array(
+        return $this->render('PlanningBundle:User:group_show.html.twig', array(
             'group' => $group
         ));
 
@@ -349,8 +360,44 @@ class UserController extends Controller {
 
         }
 
-        return $this->render('PlanningBundle:User:deleteGroup.html.twig', array(
+        return $this->render('PlanningBundle:User:group_delete.html.twig', array(
             'group' => $group, 'form'=>$form->createView()
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @ParamConverter("user", options={"mapping": {"user": "usernameCanonical"}})
+     */
+    function deleteUserAction(Request $request, User $user) {
+
+        $form = $this->createFormBuilder()
+            ->add('sure', 'checkbox')
+            ->add('remove', 'submit')
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+
+            if ($data['sure']) {
+
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($user);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('user_group_overview');
+
+        }
+
+        return $this->render('PlanningBundle:User:user_delete.html.twig', array(
+            'user' => $user, 'form'=>$form->createView()
         ));
     }
 
@@ -418,7 +465,7 @@ class UserController extends Controller {
         }
 
 
-        return $this->render('PlanningBundle:User:switch_type.html.twig', array(
+        return $this->render('PlanningBundle:User:user_switch_type.html.twig', array(
             'form'=> $form->createView()
         ));
 
