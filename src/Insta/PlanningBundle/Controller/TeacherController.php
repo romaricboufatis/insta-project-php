@@ -119,8 +119,9 @@ class TeacherController extends Controller
                 'property' => 'name',
                 'multiple'=>true,
                 'expanded'=>true,
+                'label' => 'teacher.course'
             ))
-            ->add('Modifier', 'submit')
+            ->add('edit', 'submit',array('label' => "form.edit"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -144,14 +145,15 @@ class TeacherController extends Controller
 
         $newCourse = new Course();
         $form = $this->createFormBuilder($newCourse)
-            ->add('name', 'text')
-            ->add('description', 'textarea')
+            ->add('name', 'text',array('label' => 'course.name'))
+            ->add('description', 'textarea',array('label' => 'course.description'))
             ->add('teachers', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Teacher',
                 'property' => 'fullname',
-                'multiple'=> true, 'expanded'=>true
+                'multiple'=> true, 'expanded'=>true,
+                'label' => 'course.teacher'
             ))
-            ->add('Add', 'submit')
+            ->add('add', 'submit',array('label' => "form.add"))
             ->getForm();
 
         $form->handleRequest($request);
@@ -180,16 +182,17 @@ class TeacherController extends Controller
 
 
         $form = $this->createFormBuilder($course)
-            ->add('name','text')
-            ->add('description','textarea')
-            ->add('descriptionLink', 'url', array('required'=>false))
+            ->add('name','text',array('label' => 'course.name'))
+            ->add('description','textarea',array('label' => 'course.description'))
+            ->add('descriptionLink', 'url', array('required'=>false,'label' => 'course.descriptionLink'))
             //->add('variousLinks', 'choice', array('required'=>false))
             ->add('teachers','entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Teacher',
                 'property' => 'fullname',
-                'multiple'=> true, 'expanded'=>true
+                'multiple'=> true, 'expanded'=>true,
+                'label' => 'course.teacher'
             ))
-            ->add('Modifier', 'submit')
+            ->add('edit', 'submit',array('label' => "form.edit"))
             ->getForm();
 
         $form->handleRequest($request);
