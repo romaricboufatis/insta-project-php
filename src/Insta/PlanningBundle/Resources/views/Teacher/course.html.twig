@@ -1,4 +1,4 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Teacher:_layout_teacher.html.twig" %}
 
 {% block title %}Affichage d'un cour{% endblock %}
 
@@ -11,7 +11,7 @@
     </div>
 {% endblock %}
 
-{% block content %}
+{% block main %}
     <dl class="dl-horizontal col-lg-5">
         <dt>Lien URL</dt>
         <dd><a href="{{ course.descriptionLink}}">{{ course.descriptionLink}}</a></dd>
