@@ -1,4 +1,4 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Teacher:_layout_teacher.html.twig" %}
 
 {% block title %}Affichage d'un professeur{% endblock %}
 {% block jumbotron %}
@@ -8,7 +8,7 @@
         </div>
     </div>
 {% endblock %}
-{% block content %}
+{% block main %}
     <dl class="dl-horizontal col-lg-5">
         <dt>Email</dt>
         <dd>{{ teacher.email}}</dd>

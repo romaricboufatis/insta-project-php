@@ -1,4 +1,4 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Student:_layout_student.html.twig" %}
 
 {% block title %}Affichage d'un étudiant{% endblock %}
 
@@ -10,7 +10,7 @@
     </div>
 {% endblock %}
 
-{% block content %}
+{% block main %}
     <dl class="dl-horizontal col-lg-5">
         <dt>Promotion</dt>
         <dd>{{ student.promotion.name|default("<i>Pas de promotion</i>")|raw }}</dd>

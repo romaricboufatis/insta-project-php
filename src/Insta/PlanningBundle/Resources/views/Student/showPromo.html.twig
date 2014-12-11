@@ -1,4 +1,4 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Student:_layout_student.html.twig" %}
 
 {% block title %}Affichage d'une promotion{% endblock %}
 
@@ -10,7 +10,7 @@
     </div>
 {% endblock %}
 
-{% block content %}
+{% block main %}
     <dl class="dl-horizontal">
         <dt>Nombre d'éléve(s) :</dt>
         <dd>{{ promo.students|length }}</dd>

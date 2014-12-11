@@ -1,8 +1,8 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Teacher:_layout_teacher.html.twig" %}
 
 {% block title %} Liste des professeurs {% endblock %}
 
-{% block content %}
+{% block main %}
     <h1>Liste des professeurs <small> <a class="btn btn-primary" href="{{ path("add_teacher")  }}">Ajouter un professeur</a></small></h1>
     <table class="table">
         <thead>
