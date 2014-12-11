@@ -140,4 +140,13 @@ class Tutor extends User
     {
         return $this->lastname;
     }
+
+    public function removeStudents()
+    {
+        foreach ($this->students->toArray() as $student) {
+            $this->students->removeElement($student);
+        }
+
+        return $this;
+    }
 }
