@@ -1,0 +1,56 @@
+{% extends "PlanningBundle:Location:_layout_location.html.twig" %}
+
+{% block title %}Gestion des localisations (sites et salles){% endblock %}
+
+{% block main %}
+
+
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Sites
+                <div class="btn-group btn-group-xs pull-right">
+                    <a href="{{ path('site_list') }}" class="btn btn-xs btn-primary">Liste complète</a>
+                    <a href="{{ path('add_site') }}" class="btn btn-xs btn-info">Ajouter un site</a>
+                </div>
+            </legend>
+            <div>
+                <dl class="dl-horizontal">
+                    {% for site in sites %}
+                        <dt>{{ site.name }}</dt>
+                            <dd>
+                                <div class="btn-group btn-group-xs pull-right">
+                                    <a href="{{ path('site', {id : site.id}) }}" class="btn btn-xs btn-primary">Afficher</a>
+                                    <a href="{{ path('edit_site', {id: site.id}) }}" class="btn btn-xs btn-info">Editer</a>
+                                </div>
+                            </dd>
+                    {% endfor %}
+                </dl>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Salles
+                <div class="btn-group btn-group-xs pull-right">
+                    <a href="{{ path('room_list') }}" class="btn btn-xs btn-primary">Liste complète</a>
+                    <a href="{{ path('add_room') }}" class="btn btn-xs btn-info">Ajouter une salle</a>
+                </div>
+            </legend>
+            <dl class="dl-horizontal">
+
+                {% for site in sites %}
+                    <dt>Site : {{ site.name }}</dt>
+                    {% for room in site.rooms %}
+                    <dd>{{ room.name }}
+                        <div class="btn-group btn-group-xs pull-right">
+                            <a href="{{ path('room', {id : room.id}) }}" class="btn btn-xs btn-primary">Afficher</a>
+                            <a href="{{ path('edit_room', {id: room.id}) }}" class="btn btn-xs btn-info">Editer</a>
+                        </div>
+                    </dd>
+                    {% endfor %}
+                {% endfor %}
+            </dl>
+        </fieldset>
+    </div>
+
+{% endblock %}
