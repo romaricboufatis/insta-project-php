@@ -1,0 +1,21 @@
+{% extends "PlanningBundle::layout.html.twig" %}
+
+{% block title %}Affichage d'un professeur{% endblock %}
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{ teacher.firstname ~ " " ~ teacher.lastname|upper() }}</h1>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <dl class="dl-horizontal col-lg-5">
+        <dt>Email</dt>
+        <dd>{{ teacher.email}}</dd>
+        <dt>Cours</dt>
+        {% for course in teacher.courses %}
+        <dd>{{ course.name }}</dd>
+        {% endfor %}
+        <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_teacher', {name:teacher.usernameCanonical}) }}">Modifier</a></dd>
+    </dl>
+{% endblock %}
