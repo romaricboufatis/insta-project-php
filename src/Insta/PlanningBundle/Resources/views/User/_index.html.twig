@@ -1,0 +1,37 @@
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
+
+{% block main %}
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Utilisateurs
+                    <div class="btn-group btn-group-xs pull-right">
+                        <a href="{{ path('user_list') }}" class="btn btn-xs btn-primary">Liste complète</a>
+                        <a href="{{ path('user_add') }}" class="btn btn-xs btn-info">Ajouter un utilisateur</a>
+                    </div>
+            </legend>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>Nombre d'utilisateurs</dt>
+                    <dd>{{ users|length }}</dd>
+                </dl>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Groupes <small class="pull-right"><a href="{{ path('group_add') }}" class="btn btn-xs btn-default">Ajouter un groupe</a></small></legend>
+            <dl class="dl-horizontal">
+                {% for group in groups %}
+                    <dt>{{ group.name }}</dt>
+                    <dd>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <a class="btn btn-default btn-xs" href="{{ path('group_show', {group:group.nameCanonical}) }}">Afficher</a>
+                            <a class="btn btn-info btn-xs" href="{{ path('group_edit', {group:group.nameCanonical}) }}">Editer</a>
+                        </div>
+                    </dd>
+                    <dd>{{ group.users|length }} membres</dd>
+                {% endfor %}
+            </dl>
+        </fieldset>
+    </div>
+{% endblock %}

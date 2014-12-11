@@ -1,9 +1,9 @@
-{% extends "PlanningBundle::layout.html.twig" %}
+{% extends "PlanningBundle:Location:_layout_location.html.twig" %}
 
 {% block title %}PlanningBundle:Location:roomList{% endblock %}
 
-{% block content %}
-<h1>Welcome to the Location:roomList page</h1>
+{% block main %}
+    <h1>Liste des salles <small class="pull-right"> <a class="btn btn-primary btn-xs" href="{{ path("add_room")  }}">Ajouter une salle</a></small></h1>
 
 <table class="table table-striped">
     <thead>

@@ -1,16 +1,12 @@
-{% extends 'PlanningBundle::layout.html.twig' %}
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block content %}
+{% block main %}
 
-    <h2>Modification du groupe : {{ group.name }} <small class="pull-right"><a class="btn btn-warning btn-xs" href="{{ path('group_delete', {group: group.nameCanonical}) }}">Supprimer le groupe</a> </small> </h2>
+    <h2>Groupe : {{ group.name }} <small class="pull-right"><a class="btn btn-warning btn-xs" href="{{ path('group_delete', {group: group.nameCanonical}) }}">Supprimer le groupe</a> </small> </h2>
 
     {{ form(form) }}
-
-{% endblock %}
-
-{% block jumbotron %}
 
 {% endblock %}
 

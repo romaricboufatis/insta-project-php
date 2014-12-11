@@ -1,6 +1,6 @@
-{% extends 'PlanningBundle::layout.html.twig' %}
+{% extends 'PlanningBundle:User:_layout_user.html.twig' %}
 
-{% block content %}
+{% block main %}
     <h2>Liste des utilisateurs <small class="pull-right"><a href="{{ path('group_add_user', {group:group.nameCanonical}) }}" class="btn btn-info btn-xs">Ajouter un utilisateur</a></small></h2>
     <table class="table table-condensed">
         <thead>
