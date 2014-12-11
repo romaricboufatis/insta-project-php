@@ -43,3 +43,31 @@ course:
     description : Description
     descriptionLink : Lien de la description
     teacher : Professeur
+
+user:
+    firstname : Prénom
+    lastname : Nom
+    username : Nom d'utilisateur
+    type : Type
+    email : Adresse email
+    user : Utilisateur
+
+schedule:
+    course: Cours
+    room: Salle
+    promotion: Promotion
+    students: Elèves
+    datetime: Horaire
+    duration: Durée (H)
+    periodicity: Répétion hebdomadaire ?
+    periodicity_end: Date de fin de répétition (exclus)
+
+
+form:
+    add: Ajouter
+    edit: Editer
+    remove: Retirer
+    sure: Êtes-vous sûr(e) ?
+
+course:
+    add_link: Ajouter un lien

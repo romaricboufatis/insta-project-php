@@ -17,21 +17,24 @@ class OralType extends AbstractType
         $builder
             ->add('course', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Course' ,
-                'property'=>'name'
+                'property'=>'name',
+                'label' => 'schedule.course'
+
             ))
             ->add('students', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Student',
                 'property' => 'fullname',
                 'multiple'=> true,
-                'group_by' => 'promotion.name'
+                'label' => 'schedule.students'
             ))
             ->add('room', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Room' ,
-                'property'=>'name'
+                'property'=>'name',
+                'label' => 'schedule.room'
             ))
-            ->add('datetime', 'datetime')
-            ->add('duration', 'integer')
-            ->add('add', 'submit')
+            ->add('datetime', 'datetime', array('label' => 'schedule.datetime'))
+            ->add('duration', 'integer', array('label' => 'schedule.duration'))
+            ->add('add', 'submit', array('label' => 'form.add'))
         ;
     }
     
