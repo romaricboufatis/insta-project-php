@@ -12,6 +12,7 @@ class LocationController extends Controller
     public function indexAction()
     {
 
+
         $em = $this->getDoctrine()->getManager();
 
         $sites = $em->getRepository('PlanningBundle:Site')->findAll();
