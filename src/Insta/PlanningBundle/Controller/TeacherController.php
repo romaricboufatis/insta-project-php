@@ -203,7 +203,7 @@ class TeacherController extends Controller
                 /** @var Teacher $teacher */
                 $teacher->addCourse($course);
             }
-            
+
             $cm->flush();
 
             return $this->redirectToRoute('course', array('id'=>$course->getId()));

@@ -15,7 +15,11 @@ class Teacher extends User
 {
     /**
      * @ORM\ManyToMany(targetEntity="Course", inversedBy="teachers")
-     * @ORM\JoinTable(name="teacher_course")
+     * @ORM\JoinTable(name="teacher_course",
+     *      joinColumns={@ORM\JoinColumn(name="teacher_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")}
+     *
+     *      )
      **/
     protected $courses;
     /**
