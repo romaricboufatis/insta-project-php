@@ -79,9 +79,13 @@ class UserController extends Controller {
                 'data' => $type,
                 'disabled' => ($type !== 'none')
             ))
+            ->add('password', 'text', array('label'=>'user.password', 'read_only'=>true))
             ->add('add', 'submit', array('label'=>'form.add'))
+
             ->getForm()
         ;
+
+        $form->get('password')->setData(uniqid());
 
         $form->handleRequest($request);
 
@@ -111,7 +115,7 @@ class UserController extends Controller {
 
             /** @var User $user */
             $user->setFirstname($data['firstname']);
-            $user->setPassword(uniqid());
+            $user->setPassword($data['password']);
             $user->setLastname($data['lastname']);
             $user->setEmail($data['email']);
             $user->setUsername($data['username']);
