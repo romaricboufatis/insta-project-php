@@ -43,6 +43,7 @@ course:
     description : Description
     descriptionLink : Lien de la description
     teacher : Professeur
+    add_link: Ajouter un lien
 
 user:
     firstname : Prénom
