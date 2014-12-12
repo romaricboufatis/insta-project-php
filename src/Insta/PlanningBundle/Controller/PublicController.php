@@ -25,10 +25,15 @@ class PublicController extends Controller
             $schedules = $doctrine->getRepository('PlanningBundle:Schedule')->findAll();
 
         } elseif ($user instanceof Student) {
-            $schedules = array_merge(
-                $user->getPromotion()->getLessons()->toArray() ,
-                $user->getOrals()->toArray()
-            );
+            if (!is_null($user->getPromotion())) {
+                $schedules = array_merge(
+                    $user->getPromotion()->getLessons()->toArray() ,
+                    $user->getOrals()->toArray()
+                );
+            } else {
+                $schedules = $user->getOrals()->toArray();
+            }
+
         } elseif ($user instanceof Teacher) {
             $schedules = array();
             foreach ($user->getCourses() as $course) {
@@ -39,7 +44,13 @@ class PublicController extends Controller
             $schedules = array();
             foreach ($user->getStudents() as $student) {
                 /** @var Student $student */
-                $schedules = array_merge($schedules, $student->getPromotion()->getLessons()->toArray(), $student->getOrals()->toArray() );
+
+                if (!is_null($student->getPromotion())) {
+                    $schedules = array_merge($schedules, $student->getPromotion()->getLessons()->toArray(), $student->getOrals()->toArray() );
+                } else {
+                    $schedules = $student->getOrals()->toArray();
+                }
+
             }
         } else {
 
