@@ -49,7 +49,7 @@ class Oral extends Schedule
      * @var Course
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="orals")
-     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $course;
 
