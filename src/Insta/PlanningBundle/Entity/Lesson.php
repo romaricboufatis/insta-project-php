@@ -48,7 +48,7 @@ class Lesson extends Schedule
      * @var Course
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="lessons")
-     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $course;
 

@@ -199,7 +199,11 @@ class TeacherController extends Controller
 
         if ($form->isValid()) {
 
-            $cm->persist($course);
+            foreach ($course->getTeachers() as $teacher) {
+                /** @var Teacher $teacher */
+                $teacher->addCourse($course);
+            }
+
             $cm->flush();
 
             return $this->redirectToRoute('course', array('id'=>$course->getId()));

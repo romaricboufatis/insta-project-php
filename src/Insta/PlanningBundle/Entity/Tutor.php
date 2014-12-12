@@ -149,4 +149,8 @@ class Tutor extends User
 
         return $this;
     }
+
+    public function getRoles(){
+        return array_merge(parent::getRoles(), array('ROLE_TUTOR'));
+    }
 }
