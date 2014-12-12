@@ -254,4 +254,23 @@ class Promotion
     {
         return $this->color;
     }
+
+    /**
+     * @param \DateTime $date
+     * @return Schedule[]
+     */
+    public function getScheduleFor(\DateTime $date) {
+        $schedules = array();
+        foreach ($this->lessons as $schedule) {
+            /** @var Lesson $schedule */
+            if ($schedule->getDatetime()->format('Y-m-d') == $date->format('Y-m-d')  ) {
+                $schedules[$schedule->getDatetime()->getTimestamp()] = $schedule;
+            }
+        }
+
+        ksort($schedules);
+
+        return $schedules;
+
+    }
 }
