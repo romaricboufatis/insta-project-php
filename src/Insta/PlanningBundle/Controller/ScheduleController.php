@@ -8,6 +8,7 @@
 
 namespace Insta\PlanningBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Insta\PlanningBundle\Entity\Course;
 use Insta\PlanningBundle\Entity\Lesson;
 use Insta\PlanningBundle\Entity\Oral;
@@ -15,13 +16,15 @@ use Insta\PlanningBundle\Form\CourseType;
 use Insta\PlanningBundle\Form\LessonType;
 use Insta\PlanningBundle\Form\OralType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 class ScheduleController extends Controller {
 
     function createLessonAction(Request $request) {
-
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
+        $scheduleRepo = $em->getRepository('PlanningBundle:Schedule');
 
         $lesson = new Lesson();
         $form = $this->createForm(new LessonType(), $lesson);
@@ -30,14 +33,51 @@ class ScheduleController extends Controller {
 
         if ($form->isValid()) {
 
-//            if ($form->get('periodicity')->getData()) {
-//
-//                $dateEnd = $form->get('dateEnd')->getData();
-//
-//            }
-//              TODO : add assert on empty room, etc.
-            $em->persist($lesson);
-            $em->flush();
+            if ($scheduleRepo->isRoomUsed($lesson)) {
+
+                $freeRooms = $scheduleRepo->getEmptyRooms($lesson);
+
+                $strInfo = '';
+                if (count($freeRooms) > 0) {
+                    $first = true;
+                    foreach ($freeRooms as $room) {
+                        $strInfo = ($first) ? $strInfo . $room->getName() :$strInfo .', '. $room->getName();
+                        $first = false;
+                    }
+                    $strInfo = 'Salle(s) libre(s) : ' .$strInfo;
+                } else {
+                    $strInfo = 'Pas de salle disponible pour ce créneau.';
+                }
+
+                $form->get('room')->addError(new FormError('La salle est déjà utilisée pour ce créneau. ' .$strInfo));
+            }
+
+            if (!$lesson->getPromotion()->isFreeFor($lesson)) {
+                $form->get('promotion')->addError(new FormError('La promotion participe déjà à un autre évènement.'));
+            }
+
+            if ($form->getErrors(true)->count() == 0) {
+
+                if ($form->get('periodicity')->getData()) {
+
+                    for ($i = 0 ; $i < $form->get('nb_repetition')->getData() ; $i++) {
+
+                        $periodLesson = clone $lesson;
+                        $periodDate   = clone $lesson->getDatetime();
+                        $periodDate->modify("+$i weeks");
+                        $periodLesson->setDatetime( $periodDate );
+
+                        $em->persist($periodLesson);
+
+                    }
+
+                    $em->flush();
+
+                } else {
+                    $em->persist($lesson);
+                    $em->flush();
+                }
+            }
 
 
         }
@@ -48,7 +88,9 @@ class ScheduleController extends Controller {
 
     function createOralAction(Request $request) {
 
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
+        $scheduleRepo = $em->getRepository('PlanningBundle:Schedule');
 
         $oral = new Oral();
         $form = $this->createForm(new OralType(), $oral);
@@ -57,10 +99,39 @@ class ScheduleController extends Controller {
 
         if ($form->isValid()) {
 
-//            var_dump($oral);die;
+            if ($scheduleRepo->isRoomUsed($oral)) {
 
-            $em->persist($oral);
-            $em->flush();
+                $freeRooms = $scheduleRepo->getEmptyRooms($oral);
+
+                $strInfo = '';
+                if (count($freeRooms) > 0) {
+                    $first = true;
+                    foreach ($freeRooms as $room) {
+                        $strInfo = ($first) ? $strInfo . $room->getName() :$strInfo .', '. $room->getName();
+                        $first = false;
+                    }
+                    $strInfo = 'Salle(s) libre(s) : ' .$strInfo;
+                } else {
+                    $strInfo = 'Pas de salle disponible pour ce créneau.';
+                }
+
+                $form->get('room')->addError(new FormError('La salle est déjà utilisée pour ce créneau. ' .$strInfo));
+            }
+
+            foreach ($oral->getStudents() as $student) {
+
+                if (!$student->getPromotion()->isFreeFor($oral)) {
+                    $form->get('students')->addError(new FormError('L\'élève '.$student->getFullname().' participe déjà à un autre évènement.'));
+                }
+
+            }
+
+            if ($form->getErrors(true)->count() == 0){
+
+                $em->persist($oral);
+                $em->flush();
+            }
+
 
 
         }
