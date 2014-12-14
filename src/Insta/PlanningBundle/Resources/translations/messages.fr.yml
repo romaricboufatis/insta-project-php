@@ -59,9 +59,9 @@ schedule:
     promotion: Promotion
     students: Elèves
     datetime: Horaire
-    duration: Durée (H)
+    duration: Durée (min)
     periodicity: Répétion hebdomadaire ?
-    periodicity_end: Date de fin de répétition (exclus)
+    nb_repetition: Nombre de répétition
 
 
 form:
