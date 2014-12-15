@@ -268,9 +268,42 @@ class Promotion
             }
         }
 
+        foreach ($this->students as $student) {
+            /** @var Student $student */
+            foreach ($student->getOrals() as $schedule) {
+                /** @var Oral $schedule */
+                if ($schedule->getDatetime()->format('Y-m-d') == $date->format('Y-m-d')  ) {
+                    $schedules[$schedule->getDatetime()->getTimestamp()] = $schedule;
+                }
+            }
+        }
+
         ksort($schedules);
 
         return $schedules;
+
+    }
+
+    /**
+     * @param Schedule $inputSchedule
+     * @return bool
+     */
+    public function isFreeFor(Schedule $inputSchedule) {
+        /** @var Schedule[] $schedules */
+        $schedules = $this->getLessons()->toArray();
+        foreach ($this->students as $student) {
+            /** @var Student $student */
+            $schedules = array_merge($schedules, $student->getOrals()->toArray());
+        }
+
+        foreach ($schedules as $schedule) {
+            if ( $schedule->getEndDatetime() > $inputSchedule->getDatetime() &&
+            $schedule->getDatetime() < $inputSchedule->getEndDatetime() ) {
+                return false;
+            }
+        }
+
+        return true;
 
     }
 }

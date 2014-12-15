@@ -190,5 +190,16 @@ class Oral extends Schedule
      */
     protected $id;
 
+    public function getStudentNames() {
+
+        $names = array();
+
+        foreach ($this->students as $student)
+            $names[] = $student->getFullname();
+
+        return $names;
+
+    }
+
 
 }
