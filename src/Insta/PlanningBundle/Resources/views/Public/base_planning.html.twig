@@ -17,7 +17,7 @@
                 <span class="pull-left">
                     <a class="btn btn-default btn-xs" href="{{ path('planning_month', {
                     month : previousmonth|date('m'), year: previousmonth|date('Y')
-                    }) }}">&lsaquo; Mois précédent</a>
+                    }) }}"><span class="glyphicon glyphicon-chevron-left"></span> Mois précédent</a>
                 </span>
                 </th>
                 <th colspan="5">{{ time|date('F')|trans }} {{ time|date('Y') }}</th>
@@ -25,7 +25,7 @@
                 <span class="pull-right">
                     <a class="btn btn-default btn-xs" href="{{ path('planning_month', {
                     month : nextmonth|date('m'), year: nextmonth|date('Y')
-                    }) }}">Mois suivant &rsaquo;</a>
+                    }) }}">Mois suivant <span class="glyphicon glyphicon-chevron-right"></span></a>
                 </span>
                 </th>
             </tr>
@@ -63,14 +63,29 @@
 
 
                                         {% if schedule.promotion is defined and schedule.promotion.id not in promoOn %}
-                                            <a class="btn btn-default btn-xs schedule" style="background-color: {% if schedule.promotion is defined %}{{ schedule.promotion.color }}{% endif %}" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">
+
+                                            {# c'est un cours #}
+
+                                            <a class="btn btn-default btn-xs schedule" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">
                                                 <span class="glyphicon glyphicon-resize-full"></span>
                                             </a>
                                             {% set promoOn = promoOn|merge([schedule.promotion.id]) %}
                                         {% elseif schedule.students is defined %}
-                                            <a class="btn btn-default btn-xs schedule"  href="#schedule-{{ schedule.id }}">
-                                                <span class="glyphicon glyphicon-resize-full"></span>
-                                            </a>
+
+                                            {# c'est un soutenance #}
+
+                                            {% for student in schedule.students %}
+                                                {% if student.promotion is not null and student.promotion.id not in promoOn %}
+                                                    <a class="btn btn-default btn-xs schedule"  href="#promo-{{ student.promotion.id }}-{{ schedule.datetime|date('d') }}">
+                                                        <span class="glyphicon glyphicon-resize-full"></span>
+                                                    </a>
+
+                                                    {% set promoOn = promoOn|merge([student.promotion.id]) %}
+
+                                                {% endif %}
+                                            {% endfor %}
+
+
                                         {% endif %}
 
 
@@ -104,126 +119,35 @@
             {% for schedule in schedule_one_day %}
                 {% if schedule.promotion is defined and schedule.promotion.id not in promoOn %}
 
-                    <div class="schedule-info" id="promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">
-                        <div class="well">
-
-
-                            <h1>
-                                {{ schedule.datetime|date('d/m/Y') }} : {{ schedule.promotion.name }}
-                                <a href="#" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
-                            </h1>
-
-                            {% set time_9 = schedule.datetime %}
-                            {% set time_9 = time_9|date_modify('08:30') %}
-                            {% set time_18 = schedule.datetime %}
-                            {% set time_18 = time_18|date_modify('18:30') %}
-
-
-                            {% set planning = schedule.promotion.scheduleFor(schedule.datetime) %}
-                            {% set planning_simple = [] %}
-                            {% for time, schedule_day in planning %}
-                                {% if loop.first %}
-                                    {% set planning_simple = planning_simple|merge( [  { 'start':time_9.timestamp, 'end': time }  ] ) %}
-                                {% endif %}
-                                {% set planning_simple = planning_simple|merge([{ 'start':time, 'end':time+schedule_day.duration*60, 'schedule':schedule_day } ]) %}
-
-
-
-                                {% if loop.last %}
-                                    {% set planning_simple = planning_simple|merge( [  { 'start':time+schedule_day.duration*60, 'end': time_18.timestamp }  ] ) %}
-                                {% else %}
-                                    {% set planning_simple = planning_simple|merge( [  { 'start':time+schedule_day.duration*60, 'end': planning[ planning|keys[loop.index0 +1] ].datetime.timestamp }  ] ) %}
-                                {% endif %}
-                            {% endfor %}
-
-                            <div class="progress-group">
-
-                            <div class="progress">
-                                {% set nb_schedule = 0 %}
-                                {% for planning in planning_simple %}
-                                    {% if planning.schedule is defined %}
-                                        {% set nb_schedule = nb_schedule +1 %}
-                                    {% endif %}
-                                    {% if (planning.end - planning.start) > 0 %}
-                                        <div class="progress-bar progress-bar-transparent {% if planning.schedule is defined %}progress-time{% endif %}" role="progressbar"
-                                             style="width: {{ (planning.end - planning.start) * (100/ (time_18|date('U')-time_9|date('U')) ) }}%;"
-                                                >
-                                            {% if planning.schedule is defined %}
-                                                <span class="pull-left text-muted hidden-xs">
-                                            &nbsp;{{ planning.schedule.datetime|date('H:i') }}
-                                        </span>
-                                                <span style="color: #000000">
-                                                    {% if (planning.schedule.duration // 60) > 0  %}
-                                                        {{ (planning.schedule.duration // 60) }} h
-                                                    {% endif %}
-                                                    {% if (planning.schedule.duration % 60) > 0  %}
-                                                        {{ (planning.schedule.duration % 60) }} minutes
-                                                    {% endif %}
-                                                </span>
-
-                                                <span class="pull-right text-muted hidden-xs">
-                                            {{ planning.schedule.datetime|date_modify('+'~planning.schedule.duration*60~" seconds")|date('H:i') }}&nbsp;
-                                        </span>
-
-                                            {% endif %}
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-
-                            <div class="progress">
-                                {% set nb_schedule = 0 %}
-                                {% for planning in planning_simple %}
-                                    {% if planning.schedule is defined %}
-                                        {% set nb_schedule = nb_schedule +1 %}
-                                    {% endif %}
-                                    {% if (planning.end - planning.start) > 0 %}
-                                <div class="progress-bar {% if planning.schedule is not defined %} progress-bar-transparent {% elseif nb_schedule % 2 == 0 %} progress-bar-info {% endif %}" role="progressbar"
-                                     style="width: {{ (planning.end - planning.start) * (100/ (time_18|date('U')-time_9|date('U')) ) }}%;"
-                                >
-                                    {% if planning.schedule is defined %}
-                                        {#<span class="pull-left text-muted hidden-xs">#}
-                                            {#&nbsp;{{ planning.schedule.datetime|date('H:i') }}#}
-                                        {#</span>#}
-                                        <a class="btn btn-xs btn-default" href="#schedule-{{ planning.schedule.id }}">{{ planning.schedule.course.name }}</a>
-
-                                        {#<span class="pull-right text-muted hidden-xs">#}
-                                            {#{{ planning.schedule.datetime|date_modify('+'~planning.schedule.duration*60~" seconds")|date('H:i') }}&nbsp;#}
-                                        {#</span>#}
-
-                                    {% endif %}
-                                </div>
-                                        {% endif %}
-                                {% endfor %}
-                            </div>
-
-                            </div>
-
-
-
-                        </div>
-                    </div>
+                    {% include 'PlanningBundle:Public:div_promotion.html.twig' with { promotion : schedule.promotion, schedule : schedule } %}
 
                     {% set promoOn = promoOn|merge([schedule.promotion.id]) %}
+
+                {% elseif schedule.students is defined %}
+
+                    {# c'est un soutenance #}
+
+                    {% for student in schedule.students %}
+                        {% if student.promotion is not null and student.promotion.id not in promoOn %}
+
+                            {% include 'PlanningBundle:Public:div_promotion.html.twig' with { promotion : student.promotion, schedule : schedule } %}
+
+                            {% set promoOn = promoOn|merge([student.promotion.id]) %}
+
+                        {% endif %}
+                    {% endfor %}
+
 
                 {% endif %}
 
 
-                <div class="schedule-info" id="schedule-{{ schedule.id }}">
-                    <div class="well">
-                        <h1>
-                            {% if schedule.promotion is defined %}C'est un cours <a class="btn btn-info btn-xs" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">Retour au planning du jour</a> {% elseif schedule.students %}C'est un oral{% endif %}
-                            <a href="#" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
-                        </h1>
+                {% if schedule.promotion is defined %}
+                    {% include 'PlanningBundle:Public:div_lesson.html.twig' with { schedule : schedule} %}
+                {% elseif schedule.students %}
+                    {% include 'PlanningBundle:Public:div_oral.html.twig' with { schedule : schedule} %}
+                {% endif %}
 
-                        <dl>
-                            <dt>Date</dt> <dd>{{ schedule.datetime|date }}</dd>
-                            <dt>Room</dt> <dd>{{ schedule.room.name }}</dd>
-                            <dt>Course</dt> <dd>{{ schedule.course.name }}</dd>
-                        </dl>
 
-                    </div>
-                </div>
         {% endfor %}
         {% endfor %}
 
@@ -264,20 +188,6 @@
             border-bottom-right-radius: 4px;
         }
 
-        div.progress > div.progress-time:first-child {
-            border-left: none;
-            border-right: solid 1px #e5e5e5;
-        }
-
-        div.progress > div.progress-time:last-child {
-            border-left: solid 1px #e5e5e5;
-            border-right: none;
-        }
-
-        div.progress-time {
-            border-left: solid 1px #e5e5e5;
-            border-right: solid 1px #e5e5e5;
-        }
 
         div.progress-bar.progress-bar-transparent {
             background: #ffffff !important;
