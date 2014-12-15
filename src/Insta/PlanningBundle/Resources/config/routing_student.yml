@@ -6,6 +6,12 @@ add_student:
     path:  /student/new
     defaults : { _controller: PlanningBundle:Student:addStudent }
 
+student_list:
+    path : /students/{offset}
+    defaults : { _controller: PlanningBundle:Student:studentList, offset: 0 }
+    requirements:
+         offset: \d+
+
 show_student:
     path: /student/{id}
     defaults: {_controller: PlanningBundle:Student:showStudent}
