@@ -6,7 +6,7 @@
         <h3>{{ schedule.course.name }} - {{ schedule.room.site.name }}, {{ schedule.room.name }}
             <small>{{ schedule.datetime|date('H\\hi') }} &rarr; {{ schedule.endDatetime|date('H\\hi') }}</small>
         </h3>
-        <h4>{{ schedule.promotion.name }} <small> - Intervenant : {{ schedule.course.teachers[0].fullname }}</small>
+        <h4>{{ schedule.promotion.name }} <small> - Intervenant : {{ schedule.course.teachers[0].fullname|default("") }}</small>
             <a class="pull-right btn btn-xs btn-info" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">Voir le planning de la promotion </a>
         </h4>
         <div class="row">
