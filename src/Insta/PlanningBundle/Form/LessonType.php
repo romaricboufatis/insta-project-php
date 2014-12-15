@@ -33,7 +33,7 @@ class LessonType extends AbstractType
             ->add('datetime', 'datetime', array('label'=>'schedule.datetime'))
             ->add('duration', 'integer', array('label'=>'schedule.duration'))
             ->add('periodicity', 'checkbox', array('mapped'=>false, 'required'=>false, 'label'=>'schedule.periodicity'))
-            ->add('dateEnd', 'date', array('mapped'=>false, 'label'=>'schedule.periodicity_end'))
+            ->add('nb_repetition', 'integer', array('mapped'=>false, 'label'=>'schedule.nb_repetition', 'required'=>false))
             ->add('add', 'submit', array('label'=>'form.add'))
         ;
     }

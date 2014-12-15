@@ -44,7 +44,7 @@ class Holidays {
             // Dates variables
             "Lundi de Pâques" => \DateTime::createFromFormat('Y-n-j H:i:s', "$year-$easterMonth-" . ($easterDay+1) ." 00:00:00"),
             "Jeudi de l'Ascension" => \DateTime::createFromFormat('Y-n-j H:i:s', "$year-$easterMonth-" . ($easterDay+39) ." 00:00:00"),
-            "Lundi de Pentecôte" =>\DateTime::createFromFormat('Y-n-j H:i:s', "$year-$easterMonth-" . ($easterDay+50) ." 00:00:00"),
+            "Lundi de Pentecôte" =>\DateTime::createFromFormat('Y-n-j H:i:s', "$year-$easterMonth-" . ($easterDay+51) ." 00:00:00"),
         );
 
 //        sort($holidays);
