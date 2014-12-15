@@ -1,0 +1,68 @@
+{% extends 'PlanningBundle::layout.html.twig' %}
+
+{% block content %}
+
+    {% if schedule.promotion is defined %}
+
+
+        <div class="schedule-info" id="schedule-{{ schedule.id }}" >
+            <div class="well well-lg">
+
+                <h2>{{ schedule.course.name }} - {{ schedule.room.site.name }}, {{ schedule.room.name }}
+                    <small>{{ schedule.datetime|date('H\\hi') }} &rarr; {{ schedule.endDatetime|date('H\\hi') }}</small>
+                </h2>
+                <h4>{{ schedule.promotion.name }} <small> - Intervenant : {{ schedule.course.teachers[0].fullname|default("") }}</small></h4>
+                <div class="row">
+                    <dl class="dl-horizontal col-sm-6">
+                        <dt>Description</dt>
+                        <dd>{{ schedule.course.description }}</dd>
+                        <dd>{{ 'Plus d\'infos : '~ schedule.course.descriptionLink|default('Non défini')|raw }}</dd>
+                    </dl>
+
+                    <dl class="dl-horizontal col-sm-6">
+                        <dt>Liens supplémentaires</dt>
+                        {% for link in schedule.course.variousLinks|default(['<i>Aucun lien</i>']) %}
+                            <dd>{{ link|raw }}</dd>
+                        {% endfor %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+
+    {% elseif schedule.students is defined %}
+
+
+        <div class="schedule-info" id="schedule-{{ schedule.id }}" >
+            <div class="well well-lg">
+
+                <h2>Soutenance {{ schedule.course.name }} - {{ schedule.room.site.name }}, {{ schedule.room.name }}
+                    <small>{{ schedule.datetime|date('H\\hi') }} &rarr; {{ schedule.endDatetime|date('H\\hi') }}</small>
+                </h2>
+
+                <h4>
+                    Participants : {{ schedule.studentNames|join }}
+                </h4>
+
+                <div class="row">
+                    <dl class="dl-horizontal col-sm-6">
+                        <dt>Description</dt>
+                        <dd>{{ schedule.course.description }}</dd>
+                        <dd>{{ 'Plus d\'infos : '~ schedule.course.descriptionLink|default('Non défini')|raw }}</dd>
+                    </dl>
+
+                    <dl class="dl-horizontal col-sm-6">
+                        <dt>Liens supplémentaires</dt>
+                        {% for link in schedule.course.variousLinks|default(['<i>Aucun lien</i>']) %}
+                            <dd>{{ link|raw }}</dd>
+                        {% endfor %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+
+    {% endif %}
+
+{% endblock %}
+

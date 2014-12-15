@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Schedule
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ScheduleRepository")
  * @ORM\Table(name="schedules")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
@@ -124,6 +124,17 @@ class Schedule
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEndDatetime() {
+
+        $endDate = clone $this->datetime;
+        $endDate->modify('+' . $this->duration . ' minutes');
+        return $endDate;
+
     }
 
 }

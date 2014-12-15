@@ -1,0 +1,16 @@
+<div class="schedule-info" id="schedule-{{ schedule.id }}" >
+    <div class="well well-sm">
+
+        <a href="#" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+
+        <h3>Soutenance {{ schedule.course.name }} - {{ schedule.room.site.name }}, {{ schedule.room.name }}
+            <small>{{ schedule.datetime|date('H\\hi') }} &rarr; {{ schedule.endDatetime|date('H\\hi') }}</small>
+        </h3>
+
+        <h4>
+            {{ schedule.studentNames|join }}
+            <a class="pull-right btn btn-xs btn-info" href="#promo-{{ schedule.students[0].promotion.id }}-{{ schedule.datetime|date('d') }}">Voir le planning de la promotion </a>
+        </h4>
+
+    </div>
+</div>
