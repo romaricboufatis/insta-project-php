@@ -55,28 +55,43 @@ class ScheduleController extends Controller {
             if (!$lesson->getPromotion()->isFreeFor($lesson)) {
                 $form->get('promotion')->addError(new FormError('La promotion participe déjà à un autre évènement.'));
             }
+            /** @var Lesson[] $toPersist */
+            $toPersist = array();
 
-            if ($form->getErrors(true)->count() == 0) {
+            if ($form->get('periodicity')->getData()) {
 
-                if ($form->get('periodicity')->getData()) {
+                for ($i = 0 ; $i < $form->get('nb_repetition')->getData() ; $i++) {
 
-                    for ($i = 0 ; $i < $form->get('nb_repetition')->getData() ; $i++) {
+                    $periodLesson = clone $lesson;
+                    $periodDate   = clone $lesson->getDatetime();
+                    $periodDate->modify("+$i weeks");
+                    $periodLesson->setDatetime( $periodDate );
 
-                        $periodLesson = clone $lesson;
-                        $periodDate   = clone $lesson->getDatetime();
-                        $periodDate->modify("+$i weeks");
-                        $periodLesson->setDatetime( $periodDate );
-
-                        $em->persist($periodLesson);
-
+                    if ($scheduleRepo->isRoomUsed($periodLesson)) {
+                        $form->get('room')->addError(new FormError('La salle est déjà utilisée pour ce créneau le : ' . $periodDate->format('d/m/Y')));
                     }
 
-                    $em->flush();
+                    if (!$periodLesson->getPromotion()->isFreeFor($periodLesson)) {
+                        $form->get('promotion')->addError(new FormError('La promotion participe déjà à un autre évènement le : ' . $periodDate->format('d/m/Y')));
+                    }
 
-                } else {
-                    $em->persist($lesson);
-                    $em->flush();
+                    $toPersist[] = ($periodLesson);
+
                 }
+
+            } else {
+                $toPersist[] = ($lesson);
+            }
+
+
+            if ($form->getErrors(true)->count() == 0) {
+                foreach($toPersist as $entity) {
+                    $em->persist($entity);
+                }
+                $em->flush();
+
+                return $this->redirectToRoute('show_schedule', array('id'=>$toPersist[0]->getId()));
+
             }
 
 
@@ -120,7 +135,9 @@ class ScheduleController extends Controller {
 
             foreach ($oral->getStudents() as $student) {
 
-                if (!$student->getPromotion()->isFreeFor($oral)) {
+                if (is_null($student->getPromotion())) {
+                    $form->get('students')->addError(new FormError( $student->getFullname() . ' ne fait pas partie d\'une promotion.' ));
+                } elseif (!$student->getPromotion()->isFreeFor($oral)) {
                     $form->get('students')->addError(new FormError('L\'élève '.$student->getFullname().' participe déjà à un autre évènement.'));
                 }
 
@@ -130,6 +147,8 @@ class ScheduleController extends Controller {
 
                 $em->persist($oral);
                 $em->flush();
+
+                return $this->redirectToRoute('show_schedule', array('id'=>$oral->getId()));
             }
 
 

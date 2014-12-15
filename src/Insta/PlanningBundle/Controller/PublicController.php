@@ -8,6 +8,7 @@ use Insta\PlanningBundle\Entity\Student;
 use Insta\PlanningBundle\Entity\Teacher;
 use Insta\PlanningBundle\Entity\Tutor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class PublicController extends Controller
 {
@@ -74,6 +75,18 @@ class PublicController extends Controller
             'time' => \DateTime::createFromFormat('m-Y', $month."-".$year)->format('U')
 
         ));
+
+    }
+
+    /**
+     * @param Schedule $schedule
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("schedule", options={"mapping":{"id" : "id"}})
+     */
+    public function showScheduleAction(Schedule $schedule) {
+
+        return $this->render('PlanningBundle:Public:showSchedule.html.twig', array('schedule'=>$schedule));
 
     }
 }
