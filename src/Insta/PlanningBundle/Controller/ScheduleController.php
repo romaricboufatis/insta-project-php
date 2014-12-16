@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Insta\PlanningBundle\Entity\Course;
 use Insta\PlanningBundle\Entity\Lesson;
 use Insta\PlanningBundle\Entity\Oral;
+use Insta\PlanningBundle\Entity\Teacher;
 use Insta\PlanningBundle\Form\CourseType;
 use Insta\PlanningBundle\Form\LessonType;
 use Insta\PlanningBundle\Form\OralType;
@@ -55,6 +56,19 @@ class ScheduleController extends Controller {
             if (!$lesson->getPromotion()->isFreeFor($lesson)) {
                 $form->get('promotion')->addError(new FormError('La promotion participe déjà à un autre évènement.'));
             }
+
+            $teacherFree = false;
+            foreach ($lesson->getCourse()->getTeachers() as $teacher) {
+                /** @var Teacher $teacher */
+                if ($teacher->isFreeFor($lesson)) {
+                    $teacherFree = true;
+                }
+            }
+
+            if (!$teacherFree) {
+                $form->get('course')->addError(new FormError('Le professeur participe déjà à un autre évènement.'));
+            }
+
             /** @var Lesson[] $toPersist */
             $toPersist = array();
 
@@ -133,6 +147,18 @@ class ScheduleController extends Controller {
                 $form->get('room')->addError(new FormError('La salle est déjà utilisée pour ce créneau. ' .$strInfo));
             }
 
+            $teacherFree = false;
+            foreach ($oral->getCourse()->getTeachers() as $teacher) {
+                /** @var Teacher $teacher */
+                if ($teacher->isFreeFor($oral)) {
+                    $teacherFree = true;
+                }
+            }
+
+            if (!$teacherFree) {
+                $form->get('course')->addError(new FormError('Le professeur participe déjà à un autre évènement.'));
+            }
+
             foreach ($oral->getStudents() as $student) {
 
                 if (is_null($student->getPromotion())) {
@@ -150,8 +176,6 @@ class ScheduleController extends Controller {
 
                 return $this->redirectToRoute('show_schedule', array('id'=>$oral->getId()));
             }
-
-
 
         }
 
