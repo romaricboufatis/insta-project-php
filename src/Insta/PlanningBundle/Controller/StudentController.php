@@ -119,18 +119,6 @@ class StudentController extends Controller {
         ));
     }
 
-    function userListAction($offset) {
-        $repo = $this->getDoctrine()->getRepository('PlanningBundle:User');
-        $nbPage = (int) floor(count($repo->findAll()) /20);
-        $users = $repo->findBy(array(),null, 20, $offset * 20);
-        return $this->render('PlanningBundle:User:user_list.html.twig', array(
-            'users'=>$users,
-            'nbPages' => $nbPage,
-            'offset' => $offset
-        ));
-    }
-
-
     public function editPromoAction(Request $request, Promotion $id)
     {
         $em = $this->getDoctrine()->getManager();
