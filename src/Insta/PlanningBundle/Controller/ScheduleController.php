@@ -19,7 +19,6 @@ use Insta\PlanningBundle\Form\OralType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-
 class ScheduleController extends Controller {
 
     function createLessonAction(Request $request) {
@@ -29,11 +28,23 @@ class ScheduleController extends Controller {
 
         $lesson = new Lesson();
         $form = $this->createForm(new LessonType(), $lesson);
+        $defaultDate = new \DateTime('2001-01-01');
+        $defaultDate -> setTime(0,01,0);
+        $form->get('duration')->setData($defaultDate);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
+            // Convert to hours to minute
+            $t = explode(":", $form->get('duration')->getData()->format('H:i'));
+            $h = $t[0];
+            if (isset($t[1])) {
+                $m = $t[1];
+            } else {
+                $m = "00";
+            }
+            $mm = ($h * 60) +  $m;
+            $lesson->setDuration($mm);
             if ($scheduleRepo->isRoomUsed($lesson)) {
 
                 $freeRooms = $scheduleRepo->getEmptyRooms($lesson);
@@ -98,6 +109,7 @@ class ScheduleController extends Controller {
             }
 
 
+
             if ($form->getErrors(true)->count() == 0) {
                 foreach($toPersist as $entity) {
                     $em->persist($entity);
@@ -123,11 +135,23 @@ class ScheduleController extends Controller {
 
         $oral = new Oral();
         $form = $this->createForm(new OralType(), $oral);
+        $defaultDate = new \DateTime('2001-01-01');
+        $defaultDate -> setTime(0,01,0);
+        $form->get('duration')->setData($defaultDate);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
+            // Convert to hours to minute
+            $t = explode(":", $form->get('duration')->getData()->format('H:i'));
+            $h = $t[0];
+            if (isset($t[1])) {
+                $m = $t[1];
+            } else {
+                $m = "00";
+            }
+            $mm = ($h * 60) +  $m;
+            $oral->setDuration($mm);
             if ($scheduleRepo->isRoomUsed($oral)) {
 
                 $freeRooms = $scheduleRepo->getEmptyRooms($oral);
