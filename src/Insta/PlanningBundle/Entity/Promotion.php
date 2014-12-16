@@ -24,6 +24,12 @@ class Promotion
     protected $id;
 
     /**
+     * @var Grade
+     * @ORM\ManyToOne(targetEntity="Grade")
+     */
+    protected $grade;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="color", type="string", length=7)
@@ -46,9 +52,9 @@ class Promotion
     protected $students;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="integer")
      */
     protected $name;
 
@@ -305,5 +311,28 @@ class Promotion
 
         return true;
 
+    }
+
+    /**
+     * Set grade
+     *
+     * @param Grade $grade
+     * @return Promotion
+     */
+    public function setGrade(Grade $grade = null)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return Grade
+     */
+    public function getGrade()
+    {
+        return $this->grade;
     }
 }
