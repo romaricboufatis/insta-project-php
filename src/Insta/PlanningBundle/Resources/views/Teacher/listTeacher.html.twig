@@ -12,13 +12,17 @@
             <th>Nom complet</th>
             <th>Email</th>
             <th>Cours</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         {% for teacher in teachers %}
             <tr>
                 <th>{{ teacher.id }}</th>
+                <th>{{ teacher.usernameCanonical }}</th>
                 <td>{{ teacher.firstname~" "~teacher.lastname }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.courseNames|join(', ') }}</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="...">
                         <a class="btn btn-primary btn-xs" href="{{ path("teacher",{name:teacher.usernameCanonical})  }}">Afficher</a>
