@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Promotion
  *
- * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Table
+ * @ORM\Entity(repositoryClass="PromotionRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Promotion
@@ -54,7 +54,7 @@ class Promotion
     /**
      * @var integer
      *
-     * @ORM\Column(name="name", type="integer")
+     * @ORM\Column(name="name", type="integer", unique=true)
      */
     protected $name;
 

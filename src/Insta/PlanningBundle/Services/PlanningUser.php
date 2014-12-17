@@ -11,6 +11,7 @@ namespace Insta\PlanningBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Connection;
+use FOS\UserBundle\Doctrine\UserManager;
 use FOS\UserBundle\Entity\User;
 use Insta\PlanningBundle\Entity\Student;
 use Insta\PlanningBundle\Entity\Teacher;

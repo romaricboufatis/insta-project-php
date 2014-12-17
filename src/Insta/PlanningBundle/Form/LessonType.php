@@ -32,11 +32,9 @@ class LessonType extends AbstractType
             ))
             ->add('datetime', 'datetime', array('label'=>'schedule.datetime',
                 'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd H:m',
+                'format' => 'dd/MM/yyyy HH:mm',
                 'attr' => array('class' => 'input-append date form_datetime')))
-            ->add('duration', 'datetime', array('label'=>'schedule.duration',
-                'widget' => 'single_text',
-                'format' => 'H:m',
+            ->add('duration', 'text', array('label'=>'schedule.duration',
                 'attr' => array('class' => 'input-append bootstrap-timepicker')))
 
             ->add('periodicity', 'checkbox', array('mapped'=>false, 'required'=>false, 'label'=>'schedule.periodicity'))

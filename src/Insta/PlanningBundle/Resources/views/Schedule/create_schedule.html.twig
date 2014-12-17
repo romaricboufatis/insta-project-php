@@ -17,16 +17,19 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            $('.bootstrap-timepicker').val('01:00');
+
             $('.form_datetime').datetimepicker({
                 language:  'fr',
-                format: "yyyy-mm-dd hh:ii"
+                format: "dd/mm/yyyy HH:ii"
                 //format: 'yyyy-mm-dd H:m'
             });
             $('.bootstrap-timepicker').timepicker({
                 minuteStep: 5,
                 showInputs: false,
                 showMeridian: false,
-                defaultTime: '0:00'
+                defaultTime: '01:00'
             });
         });
     </script>
