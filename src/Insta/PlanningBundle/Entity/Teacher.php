@@ -9,7 +9,7 @@ use FOS\UserBundle\Model\GroupInterface;
 /**
  * Teacher
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass = "TeacherRepository")
  */
 class Teacher extends User
 {
@@ -186,6 +186,17 @@ class Teacher extends User
 
     public function getRoles(){
         return array_merge(parent::getRoles(), array('ROLE_TEACHER'));
+    }
+
+    public function getCourseNames()
+    {
+        $names=array();
+        $courses=$this->getCourses();
+        foreach($courses as $course)
+        {
+            $names[]=$course->getName();
+        }
+        return $names;
     }
 
     public function isFreeFor(Schedule $inputSchedule) {
