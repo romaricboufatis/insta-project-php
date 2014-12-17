@@ -28,22 +28,21 @@ class ScheduleController extends Controller {
 
         $lesson = new Lesson();
         $form = $this->createForm(new LessonType(), $lesson);
-        $defaultDate = new \DateTime('2001-01-01');
-        $defaultDate -> setTime(0,01,0);
-        $form->get('duration')->setData($defaultDate);
+        $form->get('duration')->setData('01:00');
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             // Convert to hours to minute
-            $t = explode(":", $form->get('duration')->getData()->format('H:i'));
-            $h = $t[0];
+            $t = explode(":", $form->get('duration')->getData());
+            $h = (int) $t[0];
             if (isset($t[1])) {
-                $m = $t[1];
+                $m = (int) $t[1];
             } else {
-                $m = "00";
+                $m = (int) "00";
             }
             $mm = ($h * 60) +  $m;
+
             $lesson->setDuration($mm);
             if ($scheduleRepo->isRoomUsed($lesson)) {
 
@@ -135,20 +134,18 @@ class ScheduleController extends Controller {
 
         $oral = new Oral();
         $form = $this->createForm(new OralType(), $oral);
-        $defaultDate = new \DateTime('2001-01-01');
-        $defaultDate -> setTime(0,01,0);
-        $form->get('duration')->setData($defaultDate);
+        $form->get('duration')->setData('01:00');
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             // Convert to hours to minute
-            $t = explode(":", $form->get('duration')->getData()->format('H:i'));
-            $h = $t[0];
+            $t = explode(":", $form->get('duration')->getData());
+            $h = (int) $t[0];
             if (isset($t[1])) {
-                $m = $t[1];
+                $m =  (int) $t[1];
             } else {
-                $m = "00";
+                $m = (int) "00";
             }
             $mm = ($h * 60) +  $m;
             $oral->setDuration($mm);

@@ -9,7 +9,7 @@
 
         <h4>
             {{ schedule.studentNames|join }}
-            <a class="pull-right btn btn-xs btn-info" href="#promo-{{ schedule.students[0].promotion.id }}-{{ schedule.datetime|date('d') }}">Voir le planning de la promotion </a>
+            <a class="pull-right btn btn-xs btn-info" href="#promo-{{ schedule.students[0].promotion.id|default('') }}-{{ schedule.datetime|date('d') }}">Voir le planning de la promotion </a>
         </h4>
 
     </div>
