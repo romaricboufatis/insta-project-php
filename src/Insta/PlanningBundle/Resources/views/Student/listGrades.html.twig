@@ -6,7 +6,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>#</th>
             <th>Nom</th>
             <th>Nom court</th>
             <th>Actions</th>
@@ -15,12 +14,11 @@
         <tbody>
         {% for grade in grades %}
             <tr>
-                <th>{{ grade.id }}</th>
                 <td>{{ grade.name }}</td>
                 <td>{{ grade.shortcut }}</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="...">
-                        <a class="btn btn-primary btn-xs" href="{{ path("edit_grade",{ id : grade.id })  }}">Editer</a>
+                        <a class="btn btn-primary btn-xs" href="{{ path("edit_grade",{ shortcut : grade.shortcut })  }}">Editer</a>
                     </div>
                 </td>
             </tr>

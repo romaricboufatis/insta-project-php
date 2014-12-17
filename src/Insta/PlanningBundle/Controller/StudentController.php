@@ -194,10 +194,10 @@ class StudentController extends Controller {
 
     }
 
-    public function editGradeAction(Request $request, $id) {
+    public function editGradeAction(Request $request, $shortcut) {
 
         $em = $this->getDoctrine()->getManager();
-        $grade = $em->getRepository('PlanningBundle:Grade')->find($id);
+        $grade = $em->getRepository('PlanningBundle:Grade')->find($shortcut);
 
         if (is_null($grade)) {
             return $this->createNotFoundException('Formation non trouvée.');
