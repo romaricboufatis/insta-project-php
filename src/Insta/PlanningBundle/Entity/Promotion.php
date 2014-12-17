@@ -26,6 +26,7 @@ class Promotion
     /**
      * @var Grade
      * @ORM\ManyToOne(targetEntity="Grade")
+     * @ORM\JoinColumn(name="grade_short", referencedColumnName="shortcut", nullable=true)
      */
     protected $grade;
 
