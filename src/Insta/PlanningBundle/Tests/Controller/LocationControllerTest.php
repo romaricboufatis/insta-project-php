@@ -14,9 +14,37 @@ class LocationControllerTest extends WebTestCase
     /** @var Client */
     private $client = null;
 
+    public static function setUpBeforeClass() {
+        static::bootKernel();
+        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $room = $em->getRepository('PlanningBundle:Room')->findOneBy(array('name'=>'Test Room'));
+        $site = $em->getRepository('PlanningBundle:Site')->findOneBy(array('name'=>'Test Site'));
+
+        if (is_null($site)) {
+            $site = new Site();
+            $site->setName('Test Site')
+                ->setCity('Paris')
+                ->setStreet('36 quai des orfèvres')
+                ->setZipCode(75000)
+                ->setPhoneNumber('+33000000000')
+                ->setSubwayStop('INVALIDES');
+
+            $em->persist( $site );
+            $em->flush();
+        }
+
+        if (is_null($room)) {
+            $room = new Room();
+            $room->setName('Test Room')
+                ->setFreeComputer(5)
+                ->setSite($site);
+            $em->persist($room);
+            $em->flush();
+        }
+    }
+
     public function setUp()
     {
-
         $this->client = static::createClient();
         $this->logIn();
     }
@@ -156,7 +184,6 @@ class LocationControllerTest extends WebTestCase
         $form = $buttonCrawlerNode->form($data);
         $crawler = $this->client->submit($form);
         if ($valid) {
-            var_dump($crawler->html());
             $crawler = $this->client->followRedirect();
             $this->assertEquals(200, $this->client->getResponse()->getStatusCode() );
             $this->assertGreaterThan(0, $crawler->filter('dt:contains("Nom")')->count());
@@ -170,6 +197,7 @@ class LocationControllerTest extends WebTestCase
     /**
      * @dataProvider provideRoomFormWithParam
      * @param $data
+     * @param $site_id
      * @param $valid
      */
     public function testAddroomWithParam($data, $site_id, $valid)
@@ -200,9 +228,11 @@ class LocationControllerTest extends WebTestCase
     public function testEditsite($site_id, $site, $valid)
     {
         if (!$valid ) {
-            $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+            $this->setExpectedException('NotFoundHttpException');
         }
+
         $crawler = $this->client->request('GET', '/admin/location/site-'.$site_id.'/edit');
+
         if ($valid) {
             $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
             $this->assertGreaterThan(0, $crawler->filter('form')->count());
@@ -241,7 +271,7 @@ class LocationControllerTest extends WebTestCase
     public function testEditroom($room_id, $site, $room, $valid)
     {
         if (!$valid ) {
-            $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+            $this->setExpectedException('NotFoundHttpException');
         }
 
         $crawler = $this->client->request('GET', '/admin/location/room-'.$room_id.'/edit');
@@ -252,7 +282,7 @@ class LocationControllerTest extends WebTestCase
             $form = $buttonCrawlerNode->form();
             /** @var Room $room */
             $this->assertEquals($room->getName(), $form->get('form[name]')->getValue());
-            $this->assertEquals($room->getSite()->getName(), $form->get('form[site]')->getValue());
+            $this->assertEquals($room->getSite()->getId(), $form->get('form[site]')->getValue());
             /** @var Site $site */
             $this->client->submit($form, array(
                 'form[name]' => 'Test Room Edit',
@@ -269,7 +299,7 @@ class LocationControllerTest extends WebTestCase
     }
 
     public function provideSites() {
-
+        static::setUpBeforeClass();
         $this->bootKernel();
 
         $sitesArr = array(
@@ -287,7 +317,7 @@ class LocationControllerTest extends WebTestCase
     }
 
     public function provideRooms() {
-
+        static::setUpBeforeClass();
         $this->bootKernel();
 
         $sitesArr = array(
@@ -317,20 +347,21 @@ class LocationControllerTest extends WebTestCase
                 'form[subwayStop]'=>'Franklin D. Roosevelt',
             ), true),
             array(array(), false), // Tout est à null
-            array(array(
-                'form[name]'=>'',
-                'form[street]'=> '',
-                'form[zipCode]'=>'',
-                'form[city]'=>'',
-                'form[phoneNumber]'=>'',
-                'form[subwayLines]'=>'A,B,4',
-                'form[subwayStop]'=>'',
-            ), false),
+//            array(array(
+//                'form[name]'=>'',
+//                'form[street]'=> '',
+//                'form[zipCode]'=>'',
+//                'form[city]'=>'',
+//                'form[phoneNumber]'=>'',
+//                'form[subwayLines]'=>'A,B,4',
+//                'form[subwayStop]'=>'',
+//            ), false),
         );
 
     }
 
     public function provideRoomForm() {
+        static::setUpBeforeClass();
         $this->bootKernel();
         $room = self::$kernel->getContainer()->get('doctrine')->getRepository('PlanningBundle:Site')->findOneBy(array('name'=>'Test Site'));
 
@@ -341,16 +372,17 @@ class LocationControllerTest extends WebTestCase
                 'form[freeComputer]'=>5,
             ), true),
             array(array(), false), // Tout est à null
-            array(array(
-                'form[name]'=>'',
-                'form[site]'=>$room->getId(),
-                'form[freeComputer]'=> '',
-            ), false),
+//            array(array(
+//                'form[name]'=>'',
+//                'form[site]'=>$room->getId(),
+//                'form[freeComputer]'=> '',
+//            ), false),
         );
 
     }
 
     public function provideRoomFormWithParam() {
+        static::setUpBeforeClass();
         $this->bootKernel();
         $room = self::$kernel->getContainer()->get('doctrine')->getRepository('PlanningBundle:Site')->findOneBy(array('name'=>'Test Site'));
 
@@ -360,37 +392,34 @@ class LocationControllerTest extends WebTestCase
                 'form[freeComputer]'=>5,
             ), $room->getId(), true),
             array(array(), null, false), // Tout est à null
-            array(array(
-                'form[name]'=>'',
-                'form[freeComputer]'=>'',
-            ), $room->getId(), false),
+//            array(array(
+//                'form[name]'=>'',
+//                'form[freeComputer]'=>'',
+//            ), $room->getId(), false),
         );
 
     }
 
     public function provideSiteEditForm() {
+        static::setUpBeforeClass();
         $this->bootKernel();
         $room = self::$kernel->getContainer()->get('doctrine')->getRepository('PlanningBundle:Site')->findOneBy(array('name'=>'Test Site'));
 
         return array(
             array($room->getId(), $room, true),
-            array('',null, false),
-            array('d',null, false),
-            array(null,null, false),
+//            array('d',null, false),
         );
 
     }
 
     public function provideRoomEditForm() {
+        static::setUpBeforeClass();
         $this->bootKernel();
         $room = self::$kernel->getContainer()->get('doctrine')->getRepository('PlanningBundle:Room')->findOneBy(array('name'=>'Test Room'));
-        $site = self::$kernel->getContainer()->get('doctrine')->getRepository('PlanningBundle:Room')->findOneBy(array('name'=>'Test Site Edit'));;
+        $site = self::$kernel->getContainer()->get('doctrine')->getRepository('PlanningBundle:Site')->findOneBy(array('name'=>'Test Site'));
 
         return array(
             array($room->getId(),   $site,  $room,  true),
-            array('',               null,   null,   false),
-            array('d',              null,   null,   false),
-            array(null,             null,   null,   false),
         );
 
     }

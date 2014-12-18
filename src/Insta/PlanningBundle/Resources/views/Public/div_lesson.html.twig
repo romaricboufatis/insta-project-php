@@ -4,9 +4,9 @@
         <a href="#" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
 
         <h3>{{ schedule.course.name }} - {{ schedule.room.site.name }}, {{ schedule.room.name }}
-            <small>{{ schedule.datetime|date('H\\hi') }} &rarr; {{ schedule.endDatetime|date('H\\hi') }}</small>
+            <small>{{ schedule.datetime|date('d/m/Y H\\hi') }} &rarr; {{ schedule.endDatetime|date('H\\hi') }}</small>
         </h3>
-        <h4>{{ schedule.promotion.name }} <small> - Intervenant : {{ schedule.course.teachers[0].fullname|default("") }}</small>
+        <h4>Promo {{ schedule.promotion.name }} <small> - Intervenant : {{ schedule.course.teachers[0].fullname|default("") }}</small>
             <a class="pull-right btn btn-xs btn-info" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">Voir le planning de la promotion </a>
         </h4>
         <div class="row">

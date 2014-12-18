@@ -21,28 +21,37 @@
                         <li><a href="{{ path('planning_month', {
                             month: "now"|date('m'),
                             year: "now"|date('Y')
-                            }) }}">
-                            {% if is_granted("ROLE_STUDENT") %}
-                                Mon planning ({{ app.user.promotion.name|default('') }})
+                            }) }}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            {% if is_granted("ROLE_ADMIN") %}
+                                Planning général
                             {% elseif is_granted("ROLE_TUTOR") %}
                                 Planning de l'étudiant
                             {% elseif is_granted("ROLE_TEACHER") %}
                                 Planning de mes cours ()
-                            {% elseif is_granted("ROLE_ADMIN") %}
-                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Planning général
+                            {% elseif is_granted("ROLE_STUDENT") %}
+                                Mon planning ({{ app.user.promotion.name|default('') }})
                             {% endif %}
                         </a></li>
                         {% if is_granted("ROLE_ADMIN") %}
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Administration <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ path('index_location') }}">Emplacements</a></li>
+                                    <li><a href="{{ path('index_location') }}">Sites & Salles</a></li>
                                     <li><a href="{{ path('user_group_overview') }}">Utilisateurs & Groupes</a></li>
                                     <li><a href="{{ path('student_promo_list') }}">Etudiants & Promotions</a></li>
                                     <li><a href="{{ path('index_teacher') }}">Professeurs & Disciplines</a></li>
-                                    <li role="presentation" class="divider"></li>
-                                    <li><a href="{{ path('new_lesson') }}">Programmer un cours</a></li>
-                                    <li><a href="{{ path('new_oral') }}">Programmer une soutenance</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        {% if is_granted("ROLE_TEACHER") %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Gestion des cours <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{ path('new_lesson') }}">Programmer un cours</a></li>
+                                        <li><a href="{{ path('new_oral') }}">Programmer une soutenance</a></li>
+                                    {% endif %}
+                                    <li><a href="{{ path('list_course') }}">Liste des cours</a></li>
                                 </ul>
                             </li>
                         {% endif %}
@@ -87,7 +96,7 @@
         }
     </style>
     <link rel="stylesheet" href="{{ asset('bundles/planning/bootstrap/css/bootstrap.min.css') }}" />
-    {#<link rel="stylesheet" href="{{ asset('bundles/planning/bootstrap//.css') }}" />#}
+    <link rel="stylesheet" href="{{ asset('bundles/planning/bootstrap/united.css') }}" />
 {% endblock %}
 
 {% block javascripts %}

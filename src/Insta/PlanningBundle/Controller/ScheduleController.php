@@ -222,4 +222,18 @@ class ScheduleController extends Controller {
 
     }
 
+    function listCourseAction() {
+        $authUser = $this->getUser();
+        if ($authUser instanceof Teacher) {
+            $courses = $authUser->getCourses()->toArray();
+        } elseif ($this->isGranted('ROLE_ADMIN')) {
+            $courses = $this->getDoctrine()->getRepository('PlanningBundle:Course')->findAll();
+        } else {
+            return $this->redirectToRoute('planning_homepage');
+        }
+
+        return $this->render('PlanningBundle:Schedule:course_list.html.twig', array('courses'=>$courses));
+
+    }
+
 } 

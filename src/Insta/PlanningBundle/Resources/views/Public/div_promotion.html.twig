@@ -6,7 +6,7 @@
         <a href="#" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
 
         <h3>
-            {{ schedule.datetime|date('d/m/Y') }} : {{ promotion.name }}
+            {{ schedule.datetime|date('d/m/Y') }} : Promo {{ promotion.name }}
         </h3>
 
         {% set time_9 = schedule.datetime %}

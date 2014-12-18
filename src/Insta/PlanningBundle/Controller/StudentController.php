@@ -41,7 +41,7 @@ class StudentController extends Controller {
 
         $newPromo = new Promotion();
         $form = $this->createFormBuilder($newPromo)
-            ->add('name', 'text',array('label' => 'promo.name'))
+            ->add('name', 'integer',array('label' => 'promo.name'))
             ->add('grade', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Grade',
                 'property' => 'name',
@@ -123,7 +123,7 @@ class StudentController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createFormBuilder($id)
-            ->add('name', 'text',array('label' => 'promo.name'))
+            ->add('name', 'integer',array('label' => 'promo.name'))
             ->add('grade', 'entity', array(
                 'class' => 'Insta\PlanningBundle\Entity\Grade',
                 'property' => 'name',

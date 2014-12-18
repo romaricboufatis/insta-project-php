@@ -66,7 +66,7 @@
 
                                             {# c'est un cours #}
 
-                                            <a class="btn btn-default btn-xs schedule" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">
+                                            <a data-toggle="tooltip" data-placement="left" title="Promo {{ schedule.promotion.name }}" class="btn btn-default btn-xs schedule" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">
                                                 <span class="glyphicon glyphicon-resize-full"></span>
                                             </a>
                                             {% set promoOn = promoOn|merge([schedule.promotion.id]) %}
@@ -76,7 +76,7 @@
 
                                             {% for student in schedule.students %}
                                                 {% if student.promotion is not null and student.promotion.id not in promoOn %}
-                                                    <a class="btn btn-default btn-xs schedule"  href="#promo-{{ student.promotion.id }}-{{ schedule.datetime|date('d') }}">
+                                                    <a data-toggle="tooltip" data-placement="left" title="Promo {{ student.promotion.name }}" class="btn btn-default btn-xs schedule"  href="#promo-{{ student.promotion.id }}-{{ schedule.datetime|date('d') }}">
                                                         <span class="glyphicon glyphicon-resize-full"></span>
                                                     </a>
 
@@ -213,4 +213,13 @@
 
     </style>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 {% endblock %}

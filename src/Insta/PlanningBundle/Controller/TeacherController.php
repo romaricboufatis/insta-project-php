@@ -49,10 +49,10 @@ class TeacherController extends Controller
             'teacher'=> $teacher
         ));    }
 
-    public function courseAction(Course $course)
+    public function courseAction(Course $id)
     {
         return $this->render('PlanningBundle:Teacher:course.html.twig', array(
-            'course'=> $course
+            'course'=> $id
         ));    }
 
 

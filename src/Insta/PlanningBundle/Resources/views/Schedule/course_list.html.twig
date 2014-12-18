@@ -1,0 +1,33 @@
+{% extends 'PlanningBundle::layout.html.twig' %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Professeurs</th>
+            <th>Nombre de séances programmées</th>
+            <th>Nombre de soutenances</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for course in courses %}
+            <tr>
+                <td>{{ course.name }}</td>
+                <td>{{ course.teacherNames|join(', ') }}</td>
+                <td>{{ course.lessons|length }}</td>
+                <td>{{ course.orals|length }}</td>
+                <td>{{ course.description }}</td>
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <a href="{{ path('manage_course', {course: course.id}) }}" class="btn btn-default">Editer</a>
+                        <a href="{{ path('course', {id: course.id}) }}" class="btn btn-info">Voir</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
