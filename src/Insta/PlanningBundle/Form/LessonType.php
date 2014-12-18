@@ -30,10 +30,15 @@ class LessonType extends AbstractType
                 'property'=>'name',
                 'label'=>'schedule.promotion'
             ))
-            ->add('datetime', 'datetime', array('label'=>'schedule.datetime'))
-            ->add('duration', 'integer', array('label'=>'schedule.duration'))
+            ->add('datetime', 'datetime', array('label'=>'schedule.datetime',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy HH:mm',
+                'attr' => array('class' => 'input-append date form_datetime')))
+            ->add('duration', 'text', array('label'=>'schedule.duration',
+                'attr' => array('class' => 'input-append bootstrap-timepicker')))
+
             ->add('periodicity', 'checkbox', array('mapped'=>false, 'required'=>false, 'label'=>'schedule.periodicity'))
-            ->add('dateEnd', 'date', array('mapped'=>false, 'label'=>'schedule.periodicity_end'))
+            ->add('nb_repetition', 'integer', array('mapped'=>false, 'label'=>'schedule.nb_repetition', 'required'=>false))
             ->add('add', 'submit', array('label'=>'form.add'))
         ;
     }

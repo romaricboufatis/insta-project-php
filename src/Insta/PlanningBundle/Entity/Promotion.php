@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Promotion
  *
- * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Table
+ * @ORM\Entity(repositoryClass="PromotionRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Promotion
@@ -22,6 +22,13 @@ class Promotion
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var Grade
+     * @ORM\ManyToOne(targetEntity="Grade")
+     * @ORM\JoinColumn(name="grade_short", referencedColumnName="shortcut", nullable=true)
+     */
+    protected $grade;
 
     /**
      * @var string
@@ -46,9 +53,9 @@ class Promotion
     protected $students;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="integer", unique=true)
      */
     protected $name;
 
@@ -253,5 +260,80 @@ class Promotion
     public function getColor()
     {
         return $this->color;
+    }
+
+    /**
+     * @param \DateTime $date
+     * @return Schedule[]
+     */
+    public function getScheduleFor(\DateTime $date) {
+        $schedules = array();
+        foreach ($this->lessons as $schedule) {
+            /** @var Lesson $schedule */
+            if ($schedule->getDatetime()->format('Y-m-d') == $date->format('Y-m-d')  ) {
+                $schedules[$schedule->getDatetime()->getTimestamp()] = $schedule;
+            }
+        }
+
+        foreach ($this->students as $student) {
+            /** @var Student $student */
+            foreach ($student->getOrals() as $schedule) {
+                /** @var Oral $schedule */
+                if ($schedule->getDatetime()->format('Y-m-d') == $date->format('Y-m-d')  ) {
+                    $schedules[$schedule->getDatetime()->getTimestamp()] = $schedule;
+                }
+            }
+        }
+
+        ksort($schedules);
+
+        return $schedules;
+
+    }
+
+    /**
+     * @param Schedule $inputSchedule
+     * @return bool
+     */
+    public function isFreeFor(Schedule $inputSchedule) {
+        /** @var Schedule[] $schedules */
+        $schedules = $this->getLessons()->toArray();
+        foreach ($this->students as $student) {
+            /** @var Student $student */
+            $schedules = array_merge($schedules, $student->getOrals()->toArray());
+        }
+
+        foreach ($schedules as $schedule) {
+            if ( $schedule->getEndDatetime() > $inputSchedule->getDatetime() &&
+            $schedule->getDatetime() < $inputSchedule->getEndDatetime() ) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Set grade
+     *
+     * @param Grade $grade
+     * @return Promotion
+     */
+    public function setGrade(Grade $grade = null)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return Grade
+     */
+    public function getGrade()
+    {
+        return $this->grade;
     }
 }

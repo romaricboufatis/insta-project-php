@@ -16,6 +16,7 @@ use Insta\PlanningBundle\Entity\Teacher;
 use Insta\PlanningBundle\Entity\Tutor;
 use Insta\PlanningBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -79,9 +80,13 @@ class UserController extends Controller {
                 'data' => $type,
                 'disabled' => ($type !== 'none')
             ))
+            ->add('password', 'text', array('label'=>'user.password', 'read_only'=>true))
             ->add('add', 'submit', array('label'=>'form.add'))
+
             ->getForm()
         ;
+
+        $form->get('password')->setData(uniqid());
 
         $form->handleRequest($request);
 
@@ -111,7 +116,7 @@ class UserController extends Controller {
 
             /** @var User $user */
             $user->setFirstname($data['firstname']);
-            $user->setPassword(uniqid());
+            $user->setPassword($data['password']);
             $user->setLastname($data['lastname']);
             $user->setEmail($data['email']);
             $user->setUsername($data['username']);
@@ -437,35 +442,13 @@ class UserController extends Controller {
 
             $type = $form->get('type')->getData();
 
-            $user->setRoles(array());
-            if ($user instanceof Student) {
-                /** @var Student $user */
-                $user->setTutor(null)->setHasComputer(null)->removeOrals()->setPromotion(null);
-
-            } elseif ($user instanceof Tutor) {
-                /** @var Tutor $user */
-                $user->removeStudents();
-            } elseif ($user instanceof Teacher ) {
-                /** @var Teacher $user */
-                $user->removeCourses();
+            try {
+                $this->get('planning.users')->switchUserType($user, $type);
+                return $this->redirectToRoute('user_show', array('user'=> $user->getUsernameCanonical()));
+            } catch (\Exception $e) {
+                $form->addError(new FormError($e->getMessage()));
             }
 
-            $em->flush();
-
-            /** @var Connection $conn */
-            $conn = $this->getDoctrine()->getConnection();
-            $qb = $conn->createQueryBuilder();
-
-            $query = $qb->update('insta_user', 'u')
-                ->set('u.discr', ':type')
-                ->where('u.id = :id')
-                ->setParameter('id', $user->getId())
-                ->setParameter('type', $type);
-
-
-            $query->execute();
-
-            return $this->redirectToRoute('user_show', array('user'=> $user->getUsernameCanonical()));
 
         }
 

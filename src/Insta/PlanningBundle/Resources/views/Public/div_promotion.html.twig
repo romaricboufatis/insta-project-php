@@ -1,0 +1,103 @@
+
+
+<div class="schedule-info" id="promo-{{ promotion.id }}-{{ schedule.datetime|date('d') }}">
+    <div class="well well-sm">
+
+        <a href="#" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+
+        <h3>
+            {{ schedule.datetime|date('d/m/Y') }} : Promo {{ promotion.name }}
+        </h3>
+
+        {% set time_9 = schedule.datetime %}
+        {% set time_9 = time_9|date_modify('08:30') %}
+        {% set time_18 = schedule.datetime %}
+        {% set time_18 = time_18|date_modify('18:30') %}
+
+
+        {% set planning = promotion.scheduleFor(schedule.datetime) %}
+        {% set planning_simple = [] %}
+        {% for time, schedule_day in planning %}
+            {% if loop.first %}
+                {% set planning_simple = planning_simple|merge( [  { 'start':time_9.timestamp, 'end': time }  ] ) %}
+            {% endif %}
+            {% set planning_simple = planning_simple|merge([{ 'start':time, 'end':time+schedule_day.duration*60, 'schedule':schedule_day } ]) %}
+
+
+
+            {% if loop.last %}
+                {% set planning_simple = planning_simple|merge( [  { 'start':time+schedule_day.duration*60, 'end': time_18.timestamp }  ] ) %}
+            {% else %}
+                {% set planning_simple = planning_simple|merge( [  { 'start':time+schedule_day.duration*60, 'end': planning[ planning|keys[loop.index0 +1] ].datetime.timestamp }  ] ) %}
+            {% endif %}
+        {% endfor %}
+
+        <div class="progress-group">
+
+            <div class="progress">
+                {% set nb_schedule = 0 %}
+                {% for planning in planning_simple %}
+                    {% if planning.schedule is defined %}
+                        {% set nb_schedule = nb_schedule +1 %}
+                    {% endif %}
+                    {% if (planning.end - planning.start) > 0 %}
+                        <div class="progress-bar progress-bar-transparent {% if planning.schedule is defined %} progress-time {% endif %}" role="progressbar"
+                             style="width: {{ (planning.end - planning.start) * (100/ (time_18|date('U')-time_9|date('U')) ) }}%;"
+                                >
+                            {% if planning.schedule is defined %}
+                                <span class="pull-left text-muted hidden-xs">
+                                            &nbsp;{{ planning.schedule.datetime|date('H:i') }}
+                                        </span>
+                                <span style="color: #000000">
+                                                    {% if (planning.schedule.duration // 60) > 0  %}
+                                                        {{ (planning.schedule.duration // 60) }} h
+                                                    {% endif %}
+                                    {% if (planning.schedule.duration % 60) > 0  %}
+                                        {{ (planning.schedule.duration % 60) }} minutes
+                                    {% endif %}
+                                                </span>
+
+                                <span class="pull-right text-muted hidden-xs">
+                                            {{ planning.schedule.datetime|date_modify('+'~planning.schedule.duration*60~" seconds")|date('H:i') }}&nbsp;
+                                        </span>
+
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="progress" style="height: 22px">
+                {% set nb_schedule = 0 %}
+                {% for planning in planning_simple %}
+                    {% if planning.schedule is defined %}
+                        {% set nb_schedule = nb_schedule +1 %}
+                    {% endif %}
+                    {% if (planning.end - planning.start) > 0 %}
+                        <div class="progress-bar
+                                {% if planning.schedule is not defined %} progress-bar-transparent
+                                {% elseif nb_schedule % 2 == 0 %} progress-bar-info
+                                {% endif %}
+                                {% if planning.schedule is defined and planning.schedule.students is defined %} progress-bar-striped
+                                {% endif %}" role="progressbar"
+                             style="width: {{ (planning.end - planning.start) * (100/ (time_18|date('U')-time_9|date('U')) ) }}%;"
+                                >
+                            {% if planning.schedule is defined %}
+
+                                {% if planning.schedule.students is defined  %}
+                                    <a class="btn btn-xs btn-warning" href="#schedule-{{ planning.schedule.id }}">Oral</a>
+                                {% elseif planning.schedule.promotion is defined  %}
+                                    <a class="btn btn-xs btn-default" href="#schedule-{{ planning.schedule.id }}">{{ planning.schedule.course.name }}</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>

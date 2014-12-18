@@ -9,13 +9,17 @@ use FOS\UserBundle\Model\GroupInterface;
 /**
  * Teacher
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass = "TeacherRepository")
  */
 class Teacher extends User
 {
     /**
      * @ORM\ManyToMany(targetEntity="Course", inversedBy="teachers")
-     * @ORM\JoinTable(name="teacher_course")
+     * @ORM\JoinTable(name="teacher_course",
+     *      joinColumns={@ORM\JoinColumn(name="teacher_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")}
+     *
+     *      )
      **/
     protected $courses;
     /**
@@ -178,5 +182,41 @@ class Teacher extends User
         }
 
         return $this;
+    }
+
+    public function getRoles(){
+        return array_merge(parent::getRoles(), array('ROLE_TEACHER'));
+    }
+
+    public function getCourseNames()
+    {
+        $names=array();
+        $courses=$this->getCourses();
+        foreach($courses as $course)
+        {
+            $names[]=$course->getName();
+        }
+        return $names;
+    }
+
+    public function isFreeFor(Schedule $inputSchedule) {
+
+        /** @var Schedule[] $schedules */
+        $schedules = array();
+        foreach ($this->courses as $course) {
+            /** @var Course $course */
+            $schedules = array_merge($schedules, $course->getOrals()->toArray());
+            $schedules = array_merge($schedules, $course->getLessons()->toArray());
+        }
+
+        foreach ($schedules as $schedule) {
+            if ( $schedule->getEndDatetime() > $inputSchedule->getDatetime() &&
+                $schedule->getDatetime() < $inputSchedule->getEndDatetime() ) {
+                return false;
+            }
+        }
+
+        return true;
+
     }
 }

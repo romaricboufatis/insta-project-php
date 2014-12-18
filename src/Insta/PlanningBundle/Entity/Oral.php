@@ -49,7 +49,7 @@ class Oral extends Schedule
      * @var Course
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="orals")
-     * @ORM\JoinColumn(name="course_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $course;
 
@@ -189,6 +189,17 @@ class Oral extends Schedule
      * @var integer
      */
     protected $id;
+
+    public function getStudentNames() {
+
+        $names = array();
+
+        foreach ($this->students as $student)
+            $names[] = $student->getFullname();
+
+        return $names;
+
+    }
 
 
 }

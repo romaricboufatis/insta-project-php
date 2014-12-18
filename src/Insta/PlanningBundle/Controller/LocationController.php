@@ -124,7 +124,7 @@ class LocationController extends Controller
                 'property' => 'name',
                 'disabled' => (is_null($site)) ? false : true
             ))
-            ->add('freeComputer', 'number',array('label' => "room.freeComputer"))
+            ->add('freeComputer', 'integer' , array('label' => "room.freeComputer"))
             ->add('add', 'submit',array('label' => "form.add"))
             ->getForm();
 
@@ -195,6 +195,7 @@ class LocationController extends Controller
                 'property' => 'name',
                 'label' => "room.site"
             ))
+            ->add('freeComputer', 'integer' , array('label' => "room.freeComputer"))
             ->add('edit', 'submit',array('label' => "form.edit"))
             ->getForm();
 

@@ -9,3 +9,8 @@ planning_month:
         month: \d+
         year: \d+
 
+show_schedule:
+    path:     /schedule/{id}
+    defaults: { _controller: PlanningBundle:Public:showSchedule }
+    requirements:
+        id: \d+

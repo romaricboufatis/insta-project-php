@@ -8,14 +8,27 @@ use Insta\PlanningBundle\Entity\Student;
 use Insta\PlanningBundle\Entity\Teacher;
 use Insta\PlanningBundle\Entity\Tutor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+/**
+ * Class PublicController
+ * @package Insta\PlanningBundle\Controller
+ */
 class PublicController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction()
     {
         return $this->render('PlanningBundle:Default:index.html.twig');
     }
 
+    /**
+     * @param $month
+     * @param $year
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function planningAction($month, $year) {
 
         $doctrine = $this->getDoctrine();
@@ -25,10 +38,15 @@ class PublicController extends Controller
             $schedules = $doctrine->getRepository('PlanningBundle:Schedule')->findAll();
 
         } elseif ($user instanceof Student) {
-            $schedules = array_merge(
-                $user->getPromotion()->getLessons()->toArray() ,
-                $user->getOrals()->toArray()
-            );
+            if (!is_null($user->getPromotion())) {
+                $schedules = array_merge(
+                    $user->getPromotion()->getLessons()->toArray() ,
+                    $user->getOrals()->toArray()
+                );
+            } else {
+                $schedules = $user->getOrals()->toArray();
+            }
+
         } elseif ($user instanceof Teacher) {
             $schedules = array();
             foreach ($user->getCourses() as $course) {
@@ -39,7 +57,13 @@ class PublicController extends Controller
             $schedules = array();
             foreach ($user->getStudents() as $student) {
                 /** @var Student $student */
-                $schedules = array_merge($schedules, $student->getPromotion()->getLessons()->toArray(), $student->getOrals()->toArray() );
+
+                if (!is_null($student->getPromotion())) {
+                    $schedules = array_merge($schedules, $student->getPromotion()->getLessons()->toArray(), $student->getOrals()->toArray() );
+                } else {
+                    $schedules = $student->getOrals()->toArray();
+                }
+
             }
         } else {
 
@@ -63,6 +87,18 @@ class PublicController extends Controller
             'time' => \DateTime::createFromFormat('m-Y', $month."-".$year)->format('U')
 
         ));
+
+    }
+
+    /**
+     * @param Schedule $schedule
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("schedule", options={"mapping":{"id" : "id"}})
+     */
+    public function showScheduleAction(Schedule $schedule) {
+
+        return $this->render('PlanningBundle:Public:showSchedule.html.twig', array('schedule'=>$schedule));
 
     }
 }

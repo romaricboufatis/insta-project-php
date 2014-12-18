@@ -1,25 +1,23 @@
 {% extends 'PlanningBundle::layout.html.twig' %}
 
+{% set column_width = 100 / 7 %}
 {% block content %}
 
-    <div>
-        {% set previousmonth = time %}
-        {% set nextmonth = time %}
-        {% set previousmonth = previousmonth|date_modify("-1 month") %}
-        {% set nextmonth = nextmonth|date_modify("+1 month") %}
-
-
-    </div>
+    {% set previousmonth = time %}
+    {% set nextmonth = time %}
+    {% set previousmonth = previousmonth|date_modify("-1 month") %}
+    {% set nextmonth = nextmonth|date_modify("+1 month") %}
 
     <div>
-        <table class="table table-bordered" style="width: 100%">
+        <div class="table-responsive">
+        <table class="table table-bordered" id="planning">
             <thead>
             <tr>
                 <th class="center">
                 <span class="pull-left">
                     <a class="btn btn-default btn-xs" href="{{ path('planning_month', {
                     month : previousmonth|date('m'), year: previousmonth|date('Y')
-                    }) }}">&lsaquo; Mois précédent</a>
+                    }) }}"><span class="glyphicon glyphicon-chevron-left"></span> Mois précédent</a>
                 </span>
                 </th>
                 <th colspan="5">{{ time|date('F')|trans }} {{ time|date('Y') }}</th>
@@ -27,7 +25,7 @@
                 <span class="pull-right">
                     <a class="btn btn-default btn-xs" href="{{ path('planning_month', {
                     month : nextmonth|date('m'), year: nextmonth|date('Y')
-                    }) }}">Mois suivant &rsaquo;</a>
+                    }) }}">Mois suivant <span class="glyphicon glyphicon-chevron-right"></span></a>
                 </span>
                 </th>
             </tr>
@@ -60,11 +58,37 @@
 
                             <div class="btn-group btn-group-xs">
                                 {% if schedules[ time|date('Y-m-') ~ day ] is defined %}
+                                    {% set promoOn = [] %}
                                     {% for schedule in schedules[ time|date('Y-m-') ~ day ] %}
 
-                                        <a class="btn btn-default btn-xs schedule" style="background-color: {% if schedule.promotion is defined %}{{ schedule.promotion.color }}{% endif %}" href="#schedule-{{ schedule.id }}">
-                                            <span class="glyphicon glyphicon-resize-full"></span>
-                                        </a>
+
+                                        {% if schedule.promotion is defined and schedule.promotion.id not in promoOn %}
+
+                                            {# c'est un cours #}
+
+                                            <a data-toggle="tooltip" data-placement="left" title="Promo {{ schedule.promotion.name }}" class="btn btn-default btn-xs schedule" href="#promo-{{ schedule.promotion.id }}-{{ schedule.datetime|date('d') }}">
+                                                <span class="glyphicon glyphicon-resize-full"></span>
+                                            </a>
+                                            {% set promoOn = promoOn|merge([schedule.promotion.id]) %}
+                                        {% elseif schedule.students is defined %}
+
+                                            {# c'est un soutenance #}
+
+                                            {% for student in schedule.students %}
+                                                {% if student.promotion is not null and student.promotion.id not in promoOn %}
+                                                    <a data-toggle="tooltip" data-placement="left" title="Promo {{ student.promotion.name }}" class="btn btn-default btn-xs schedule"  href="#promo-{{ student.promotion.id }}-{{ schedule.datetime|date('d') }}">
+                                                        <span class="glyphicon glyphicon-resize-full"></span>
+                                                    </a>
+
+                                                    {% set promoOn = promoOn|merge([student.promotion.id]) %}
+
+                                                {% endif %}
+                                            {% endfor %}
+
+
+                                        {% endif %}
+
+
 
                                     {% endfor %}
                                 {% endif %}
@@ -89,20 +113,40 @@
             </tr>
             </tbody>
         </table>
-
+        </div>
         {% for schedule_one_day in schedules %}
+            {% set promoOn = [] %}
             {% for schedule in schedule_one_day %}
+                {% if schedule.promotion is defined and schedule.promotion.id not in promoOn %}
 
-            <div class="schedule-info jumbotron" id="schedule-{{ schedule.id }}">
-                <h1>{% if schedule.promotion is defined %}C'est un cours{% elseif schedule.students %}C'est un oral{% endif %}</h1>
+                    {% include 'PlanningBundle:Public:div_promotion.html.twig' with { promotion : schedule.promotion, schedule : schedule } %}
 
-                <dl>
-                    <dt>Date</dt> <dd>{{ schedule.datetime|date }}</dd>
-                    <dt>Room</dt> <dd>{{ schedule.room.name }}</dd>
-                    <dt>Course</dt> <dd>{{ schedule.course.name }}</dd>
-                </dl>
+                    {% set promoOn = promoOn|merge([schedule.promotion.id]) %}
 
-            </div>
+                {% elseif schedule.students is defined %}
+
+                    {# c'est un soutenance #}
+
+                    {% for student in schedule.students %}
+                        {% if student.promotion is not null and student.promotion.id not in promoOn %}
+
+                            {% include 'PlanningBundle:Public:div_promotion.html.twig' with { promotion : student.promotion, schedule : schedule } %}
+
+                            {% set promoOn = promoOn|merge([student.promotion.id]) %}
+
+                        {% endif %}
+                    {% endfor %}
+
+
+                {% endif %}
+
+
+                {% if schedule.promotion is defined %}
+                    {% include 'PlanningBundle:Public:div_lesson.html.twig' with { schedule : schedule} %}
+                {% elseif schedule.students %}
+                    {% include 'PlanningBundle:Public:div_oral.html.twig' with { schedule : schedule} %}
+                {% endif %}
+
 
         {% endfor %}
         {% endfor %}
@@ -118,16 +162,64 @@
     {{ parent() }}
 
     <style>
+
+        div.progress-group > div.progress {
+            margin: 0;
+            border-radius: 0;
+        }
+
+        div.progress-group > div.progress:first-child {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+
+        }
+
+        div.progress-group > div.progress:not(:last-child) {
+            box-shadow: none;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        div.progress-group > div.progress:not(:last-child) > div.progress-bar {
+            box-shadow: none;
+        }
+
+        div.progress-group > div.progress:last-child {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+
+        div.progress-bar.progress-bar-transparent {
+            background: #ffffff !important;
+        }
+
+
         div.schedule-info {
-            display: none;
+            height: 0 !important;
+            overflow: hidden;
             transition: all 500ms;
             -webkit-transition: all 500ms;
             -moz-transition: all 500ms;
             -o-transition: all 500ms;
         }
         div.schedule-info:target {
-            display: block !important;
+            height: 400px !important;
         }
+        table#planning td, table#planning th {
+            width: {{ column_width }}%;
+            max-width: {{ column_width }}%;
+            min-width: {{ column_width }}%;
+        }
+
     </style>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 {% endblock %}

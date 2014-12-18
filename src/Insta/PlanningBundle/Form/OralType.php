@@ -32,8 +32,12 @@ class OralType extends AbstractType
                 'property'=>'name',
                 'label' => 'schedule.room'
             ))
-            ->add('datetime', 'datetime', array('label' => 'schedule.datetime'))
-            ->add('duration', 'integer', array('label' => 'schedule.duration'))
+            ->add('datetime', 'datetime', array('label'=>'schedule.datetime',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy HH:mm',
+                'attr' => array('class' => 'input-append date form_datetime')))
+            ->add('duration', 'text', array('label'=>'schedule.duration',
+                'attr' => array('class' => 'input-append bootstrap-timepicker')))
             ->add('add', 'submit', array('label' => 'form.add'))
         ;
     }

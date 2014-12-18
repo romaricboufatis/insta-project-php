@@ -3,6 +3,7 @@
 namespace Insta\PlanningBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Site
@@ -34,6 +35,8 @@ class Site
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     protected $name;
 
@@ -41,6 +44,8 @@ class Site
      * @var integer
      *
      * @ORM\Column(name="zipCode", type="integer")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     protected $zipCode;
 
@@ -48,6 +53,8 @@ class Site
      * @var string
      *
      * @ORM\Column(name="street", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     protected $street;
 
@@ -55,6 +62,8 @@ class Site
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     protected $city;
 
@@ -62,6 +71,8 @@ class Site
      * @var string
      *
      * @ORM\Column(name="phoneNumber", type="string", length=12)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     protected $phoneNumber;
 
@@ -76,6 +87,8 @@ class Site
      * @var string
      *
      * @ORM\Column(name="subwayStop", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     protected $subwayStop;
 
