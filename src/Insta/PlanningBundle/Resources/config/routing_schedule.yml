@@ -9,3 +9,7 @@ new_oral:
 manage_course:
     path: /course/{course}/edit
     defaults: { _controller: PlanningBundle:Schedule:manageCourse }
+
+list_course:
+    path: /courses
+    defaults: { _controller: PlanningBundle:Schedule:listCourse }

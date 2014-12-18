@@ -3,6 +3,7 @@
 namespace Insta\PlanningBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Room
@@ -33,6 +34,8 @@ class Room
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     protected $name;
 
@@ -40,8 +43,11 @@ class Room
      * @var string
      *
      * @ORM\Column(name="computer_nb", type="integer")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
-    protected $freeComputer;
+    protected $freeComputer = 0;
 
 
     /**

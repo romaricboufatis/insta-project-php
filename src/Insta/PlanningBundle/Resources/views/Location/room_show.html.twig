@@ -13,7 +13,7 @@
         <dd>{{ room.site.street }}, {{ room.site.zipCode }} {{ room.site.city }}</dd>
         <dt>Numéro de téléphone</dt>
         <dd><a href="tel:{{ room.site.phoneNumber }}">{{ room.site.phoneNumber }}</a></dd>
-        <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_room', {id : room.name}) }}">Modifier</a></dd>
+        <dd><a class="btn btn-primary btn-xs" href="{{ path('edit_room', {id : room.id}) }}">Modifier</a></dd>
     </dl>
 {% endblock %}
 

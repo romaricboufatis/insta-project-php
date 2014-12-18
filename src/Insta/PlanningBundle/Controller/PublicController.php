@@ -10,13 +10,25 @@ use Insta\PlanningBundle\Entity\Tutor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+/**
+ * Class PublicController
+ * @package Insta\PlanningBundle\Controller
+ */
 class PublicController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction()
     {
         return $this->render('PlanningBundle:Default:index.html.twig');
     }
 
+    /**
+     * @param $month
+     * @param $year
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function planningAction($month, $year) {
 
         $doctrine = $this->getDoctrine();

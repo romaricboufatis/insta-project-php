@@ -13,10 +13,14 @@ room_list:
 site:
     path:     /site-{id}
     defaults: { _controller: PlanningBundle:Location:site }
+    requirements:
+        id: \d+
 
 room:
     path:     /room-{id}
     defaults: { _controller: PlanningBundle:Location:room }
+    requirements:
+        id: \d+
 
 add_site:
     path:     /site/new
@@ -29,15 +33,23 @@ add_room:
 edit_site:
     path:     /site-{id}/edit
     defaults: { _controller: PlanningBundle:Location:editSite }
+    requirements:
+        id: \d+
 
 edit_room:
     path:     /room-{id}/edit
     defaults: { _controller: PlanningBundle:Location:editRoom }
+    requirements:
+        id: \d+
     
 delete_room:
     path:     /room-{id}/delete
     defaults: { _controller: PlanningBundle:Location:deleteRoom }
+    requirements:
+        id: \d+
     
 delete_site:
     path:     /site-{id}/delete
     defaults: { _controller: PlanningBundle:Location:deleteSite }
+    requirements:
+        id: \d+

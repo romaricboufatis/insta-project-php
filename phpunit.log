@@ -1,0 +1,20 @@
+PHPUnit 4.4.0 by Sebastian Bergmann.
+
+Configuration read from C:\wamp\www\test-1\app\phpunit.xml.dist
+
+.......................F.F
+
+Time: 1.31 minutes, Memory: 98.00Mb
+
+There were 2 failures:
+
+1) Insta\PlanningBundle\Tests\Controller\LocationControllerTest::testEditsite with data set #0 (1, Insta\PlanningBundle\Entity\Site Object (...), true)
+Failed asserting that 500 matches expected 200.
+
+C:\wamp\www\test-1\src\Insta\PlanningBundle\Tests\Controller\LocationControllerTest.php:237
+
+2) Warning
+No tests found in class "Insta\PlanningBundle\Tests\Controller\ScheduleControllerTest".
+
+FAILURES!
+Tests: 26, Assertions: 92, Failures: 2.
