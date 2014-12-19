@@ -85,12 +85,6 @@ class StudentController extends Controller {
                 'property' => 'name',
                 'label' => 'student.promotion'
             ))
-            ->add('grade', 'entity', array(
-                'class' => 'Insta\PlanningBundle\Entity\Grade',
-                'property' => 'name',
-                'required'=>false,
-                'label' => 'course.grade'
-            ))
             ->add('Editer', 'submit',array('label'=>'form.edit'))
             ->getForm();
 
