@@ -12,7 +12,7 @@
 
         <ul class="nav nav-pills nav-stacked">
             <li {% if 'student' in route %}class="active"{% endif %}
-                    ><a href="{{ path('student_promo_list') }}">Gestion des élèves</a></li>
+                    ><a href="{{ path('student_list') }}">Gestion des élèves</a></li>
             <li {% if 'promo' in route %}class="active"{% endif %}
                     ><a href="{{ path('student_promo_list') }}">Gestion des promos</a></li>
             <li {% if 'grade' in route %}class="active"{% endif %}
