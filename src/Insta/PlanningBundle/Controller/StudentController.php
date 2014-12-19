@@ -50,7 +50,7 @@ class StudentController extends Controller {
             ))
             ->add('dateStart', 'date',array('label' => 'promo.dateStart'))
             ->add('dateEnd', 'date',array('label' => 'promo.dateEnd'))
-            ->add('form.add', 'submit')
+            ->add('Ajouter', 'submit',array('label' => 'form.add'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -91,7 +91,7 @@ class StudentController extends Controller {
                 'required'=>false,
                 'label' => 'course.grade'
             ))
-            ->add('form.edit', 'submit')
+            ->add('Editer', 'submit',array('label'=>'form.edit'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -132,7 +132,7 @@ class StudentController extends Controller {
             ))
             ->add('dateStart', 'date',array('label' => 'promo.dateStart'))
             ->add('dateEnd', 'date',array('label' => 'promo.dateEnd'))
-            ->add('form.edit', 'submit')
+            ->add('edit', 'submit',array('label' => 'form.edit'))
             ->getForm();
         $form->handleRequest($request);
         if ($form->isValid()) {
