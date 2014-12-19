@@ -142,7 +142,7 @@ class UserController extends Controller {
         $group = $gm->createGroup('');
 
         $form = $this->createForm('fos_user_group', $group)
-            ->add('add', 'submit', array('form.add'));
+            ->add('add', 'submit', array('label'=>'form.add'));
 
         $form->handleRequest($request);
 
