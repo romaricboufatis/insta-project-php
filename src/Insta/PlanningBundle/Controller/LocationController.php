@@ -144,7 +144,8 @@ class LocationController extends Controller
 
     public function editSiteAction(Request $request, Site $id)
     {
-        $id->setSubwayLines( implode(',', array_keys($id->getSubwayLines())) );
+        if(!is_null($id->getSubwayLines()))
+            $id->setSubwayLines( implode(',', array_keys($id->getSubwayLines())) );
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createFormBuilder($id)
