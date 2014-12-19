@@ -282,7 +282,7 @@ class UserController extends Controller {
                 'expanded' => false,
                 'label' => 'group.users'
             ))
-            ->add('add', 'submit', array('form.add'))
+            ->add('add', 'submit', array('label'=>'form.add'))
             ->getForm();
 
         $form->handleRequest($request);
