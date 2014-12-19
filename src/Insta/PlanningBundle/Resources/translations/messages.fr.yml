@@ -44,6 +44,8 @@ course:
     descriptionLink : Lien de la description
     teacher : Professeur
     add_link: Ajouter un lien
+    grade : Formation
+    variousLinks : Autre lien
 
 user:
     firstname : Prénom
@@ -52,6 +54,9 @@ user:
     type : Type
     email : Adresse email
     user : Utilisateur
+    password : Mot de passe
+    groups : Groupe
+    locked : Désactiver
 
 schedule:
     course: Cours
@@ -63,6 +68,12 @@ schedule:
     periodicity: Répétion hebdomadaire ?
     nb_repetition: Nombre de répétition
 
+grade:
+    name : Nom
+    shortcut : Raccourci
+
+group:
+    users : Utilisateurs
 
 form:
     add: Ajouter
@@ -70,5 +81,3 @@ form:
     remove: Retirer
     sure: Êtes-vous sûr(e) ?
 
-course:
-    add_link: Ajouter un lien

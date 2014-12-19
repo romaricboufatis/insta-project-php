@@ -6,3 +6,6 @@
 # Usercase diagram
 
 ![Alt text](http://image.noelshack.com/fichiers/2014/49/1417699756-cas-utilisation.png)
+
+# Code Coverage (Pre-Release)
+![Alt text](code_coverage.png)
