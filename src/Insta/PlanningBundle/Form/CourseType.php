@@ -15,13 +15,14 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('descriptionLink')
+            ->add('name','text',array('label'=>'course.name'))
+            ->add('description','text',array('label'=>'course.description'))
+            ->add('descriptionLink','text',array('label'=>'course.descriptionLink'))
             ->add('variousLinks', 'collection', array(
                 'type' => 'url',
                 'by_reference' => false,
-                'allow_add' => true
+                'allow_add' => true,
+                'label'=>'course.variousLinks'
             ))
             ->add('teachers')
         ;
